@@ -1,0 +1,21 @@
+# clusters refers to the remote service.
+clusters:
+  - name: name-of-remote-authn-service
+    cluster:
+      certificate-authority: /etc/kubernetes/pki/ca.crt      # CA for verifying the remote service.
+      server: https://192.168.240.58.xip.io/auth/always_deny # URL of remote service to query. Must use 'https'.
+
+# users refers to the API server's webhook configuration.
+users:
+  - name: name-of-api-server
+    user:
+      client-certificate: /etc/kubernetes/pki/ca.crt  # cert for the webhook plugin to use
+      client-key: /etc/kubernetes/pki/ca.key          # key matching the cert
+
+# kubeconfig files require a context. Provide one for the API server.
+current-context: webhook
+contexts:
+- context:
+    cluster: name-of-remote-authn-service
+    user: name-of-api-sever
+  name: webhook

@@ -1,0 +1,10 @@
+vagrant up
+vagrant ssh
+
+sudo su
+export GOPATH=/gopath
+export PATH=$PATH:$GOPATH/bin:/usr/local/bin:/usr/local/go/bin/
+export KUBERNETES_PROVIDER=local
+export KUBECONFIG=/var/run/kubernetes/admin.kubeconfig
+cd $GOPATH/src/k8s.io/kubernetes
+hack/local-up-cluster.sh

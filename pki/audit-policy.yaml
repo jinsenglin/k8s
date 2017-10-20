@@ -1,0 +1,9 @@
+# Log list node resource in core at the Request level.
+apiVersion: audit.k8s.io/v1beta1
+kind: Policy
+rules:
+- level: Request
+  verbs: ["list"]
+  resources:
+  - group: "" # core API group
+    resources: ["nodes"]
