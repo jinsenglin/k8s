@@ -48,4 +48,4 @@ spec:
     targetPort: 9000
   selector:
     app: inception-server
-  type: LoadBalancer
+  type: NodePort
