@@ -1,0 +1,17 @@
+{"level":"info","msg":"Namespace default Matched=true","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Namespace e2e-tests-containers-cqwcb Matched=true","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Namespace kube-public Matched=true","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Namespace kube-system Matched=true","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Namespace sonobuoy Matched=true","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Starting server Expected Results: [{ e2e}]","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Running (e2e) plugin","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"Listening for incoming results on 0.0.0.0:8080\n","time":"2017-10-25T08:16:43Z"}
+{"level":"info","msg":"got e2e result\n","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Creating directory /tmp/sonobuoy/4b983ee8-ff33-4b26-b13d-60d02e62021c/plugins/e2e","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"extracted results tarball into /tmp/sonobuoy/4b983ee8-ff33-4b26-b13d-60d02e62021c/plugins/e2e/results","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Running non-ns query","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Running ns query (default)","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Running ns query (e2e-tests-containers-cqwcb)","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Running ns query (kube-public)","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Running ns query (kube-system)","time":"2017-10-25T09:24:47Z"}
+{"level":"info","msg":"Running ns query (sonobuoy)","time":"2017-10-25T09:24:47Z"}
