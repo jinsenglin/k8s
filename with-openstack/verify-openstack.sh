@@ -2,6 +2,16 @@
 
 source /root/admin-openrc
 
+# https://docs.openstack.org/ocata/install-guide-ubuntu/nova-verify.html
+openstack compute service list
+openstack catalog list
+openstack image list
+nova-status upgrade check
+
+# https://docs.openstack.org/ocata/install-guide-ubuntu/neutron-verify.html
+openstack extension list --network
+openstack network agent list
+
 FLAT_NETWORK_NAME=external
 
 # Create the provider network
