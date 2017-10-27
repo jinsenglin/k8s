@@ -153,6 +153,16 @@ DATA
     sed -i "/^lock_path=/ d" /etc/nova/nova.conf
     sed -i "/^\[oslo_concurrency\]$/ a lock_path = /var/lib/nova/tmp" /etc/nova/nova.conf
 
+    # Edit the /etc/nova/nova.conf file, [placement] section
+    sed -i "s|^os_region_name = openstack|os_region_name = RegionOne|" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a project_domain_name = Default" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a project_name = service" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a auth_type = password" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a user_domain_name = Default" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a auth_url = http://os-controller:35357/v3" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a username = placement" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a password = PLACEMENT_PASS" /etc/nova/nova.conf
+
     # Edit the /etc/nova/nova.conf file, [neutron] section
     # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
     cat >> /etc/nova/nova.conf <<DATA
