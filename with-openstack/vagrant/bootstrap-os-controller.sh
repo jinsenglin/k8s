@@ -224,11 +224,9 @@ GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYS
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS';
 DATA
 
-    # TODO: verify
     # Edit the /etc/keystone/keystone.conf file, [token] section
     sed -i "s|^#provider = fernet|provider = fernet|" /etc/keystone/keystone.conf
 
-    # TODO: verify
     # Edit the /etc/keystone/keystone.conf file, [database] section
     sed -i "s|^#connection = <None>|connection = mysql+pymysql://keystone:KEYSTONE_DBPASS@os-controller/keystone|" /etc/keystone/keystone.conf
 
@@ -242,7 +240,7 @@ DATA
     # Bootstrap the Identity service
     keystone-manage bootstrap --bootstrap-password ADMIN_PASS \
                               --bootstrap-admin-url http://os-controller:35357/v3/ \
-                              --bootstrap-internal-url http://os-controller:35357/v3/ \
+                              --bootstrap-internal-url http://os-controller:5000/v3/ \
                               --bootstrap-public-url http://os-controller:5000/v3/ \
                               --bootstrap-region-id RegionOne
 
