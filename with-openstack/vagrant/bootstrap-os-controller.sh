@@ -100,7 +100,7 @@ function install_ntp() {
 
 function install_sqldb() {
     MARIADB_SERVER_VERSION=10.0.31-0ubuntu0.16.04.2
-    PYTHON_PYMSQL_VERSION=0.7.2-1ubuntu1
+    PYTHON_PYMSQL_VERSION=0.7.9-2~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     #apt-get install -y mariadb-server=$MARIADB_SERVER_VERSION python-pymysql=$PYTHON_PYMSQL_VERSION
     apt-get install -y mariadb-server python-pymysql
@@ -178,7 +178,7 @@ function install_memcached() {
 }
 
 function install_openstack_cli() {
-    PYTHON_OPENSTACKCLIENT_VERSION=3.2.0-0ubuntu2~cloud0
+    PYTHON_OPENSTACKCLIENT_VERSION=3.8.1-0ubuntu3~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     #apt install -y python-openstackclient=$PYTHON_OPENSTACKCLIENT_VERSION
     apt install -y python-openstackclient
@@ -208,7 +208,7 @@ DATA
 }
 
 function download_keystone() {
-    KEYSTONE_VERSION=2:10.0.2-0ubuntu1~cloud0
+    KEYSTONE_VERSION=2:11.0.3-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     #apt-get install -y keystone=$KEYSTONE_VERSION
     apt-get install -y keystone
@@ -277,7 +277,7 @@ DATA
 }
 
 function download_glance() {
-    GLANCE_VERSION=2:13.0.0-0ubuntu1~cloud0
+    GLANCE_VERSION=2:14.0.0-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     #apt-get install -y glance=$GLANCE_VERSION
     apt-get install -y glance
@@ -356,8 +356,8 @@ DATA
 }
 
 function download_neutron() {
-    NEUTRON_SERVER_VERSION=2:9.4.0-0ubuntu1.1~cloud0
-    NEUTRON_PLUGIN_ML2_VERSION=2:9.4.0-0ubuntu1.1~cloud0
+    NEUTRON_SERVER_VERSION=2:10.0.3-0ubuntu1~cloud0
+    NEUTRON_PLUGIN_ML2_VERSION=2:10.0.3-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
 #    apt install -y neutron-server=$NEUTRON_SERVER_VERSION \
 #                   neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION
@@ -527,11 +527,11 @@ DATA
 }
 
 function download_nova() {
-    NOVA_API_VERSION=2:14.0.7-0ubuntu2~cloud0
-    NOVA_CONDUCTOR_VERSION=2:14.0.7-0ubuntu2~cloud0
-    NOVA_CONSOLEAUTH_VERSION=2:14.0.7-0ubuntu2~cloud0
-    NOVA_NOVNCPROXY_VERSION=2:14.0.7-0ubuntu2~cloud0
-    NOVA_SCHEDULER_VERSION=2:14.0.7-0ubuntu2~cloud0
+    NOVA_API_VERSION=2:15.0.7-0ubuntu1~cloud0
+    NOVA_CONDUCTOR_VERSION=2:15.0.7-0ubuntu1~cloud0
+    NOVA_CONSOLEAUTH_VERSION=2:15.0.7-0ubuntu1~cloud0
+    NOVA_NOVNCPROXY_VERSION=2:15.0.7-0ubuntu1~cloud0
+    NOVA_SCHEDULER_VERSION=2:15.0.7-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     #apt-get install -y nova-api=$NOVA_API_VERSION nova-conductor=$NOVA_CONDUCTOR_VERSION nova-consoleauth=$NOVA_CONSOLEAUTH_VERSION nova-novncproxy=$NOVA_NOVNCPROXY_VERSION nova-scheduler=$NOVA_SCHEDULER_VERSION
     apt-get install -y nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler
