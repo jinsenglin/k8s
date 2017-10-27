@@ -88,3 +88,10 @@ sshpass -p "cubswin:)" ssh -o StrictHostKeyChecking=no cirros@$SELFSERVICE_INSTA
 # Reference https://docs.openstack.org/newton/install-guide-ubuntu/launch-instance-networks-selfservice.html
 # Reference https://docs.openstack.org/newton/install-guide-ubuntu/launch-instance.html#launch-instance
 # Reference https://docs.openstack.org/newton/install-guide-ubuntu/launch-instance-selfservice.html
+
+# Create a loadbalancer
+LB_NAME=test-lb
+neutron lbaas-loadbalancer-create --name $LB_NAME $SELFSERVICE_NETWORK_NAME
+neutron lbaas-loadbalancer-show $LB_NAME
+
+# Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
