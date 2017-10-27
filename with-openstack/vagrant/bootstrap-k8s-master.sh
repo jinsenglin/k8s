@@ -98,7 +98,7 @@ function install_k8s_dependency() {
 deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable
 EOF
     apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
-    systemctl status docker
+    # verify `systemctl status docker`
 
     # Install k8s repo
     apt-get update && apt-get install -y apt-transport-https
