@@ -7,12 +7,14 @@ ENV_MGMT_OS_CONTROLLER_IP="10.0.0.11"
 ENV_MGMT_OS_NETWORK_IP="10.0.0.21"
 ENV_MGMT_OS_COMPUTE_IP="10.0.0.31"
 ENV_MGMT_ODL_CONTROLLER_IP="10.0.0.41"
+ENV_MGMT_K8S_MASTER_IP="10.0.0.51"
 
 ENV_TUNNEL_NETWORK="10.0.1.0/24"
 ENV_TUNNEL_OS_CONTROLLER_IP="10.0.1.11"
 ENV_TUNNEL_OS_NETWORK_IP="10.0.1.21"
 ENV_TUNNEL_OS_COMPUTE_IP="10.0.1.31"
 ENV_TUNNEL_ODL_CONTROLLER_IP="10.0.1.41"
+ENV_TUNNEL_K8S_MASTER_IP="10.0.1.51"
 
 LOG=/tmp/provision.log
 date | tee $LOG            # when:  Thu Aug 10 07:48:13 UTC 2017
@@ -24,7 +26,7 @@ CACHE=/vagrant/cache
 
 function use_public_apt_server() {
     apt install -y software-properties-common
-    add-apt-repository cloud-archive:newton
+    add-apt-repository cloud-archive:ocata
     apt-get update && APT_UPDATED=true
 
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-packages.html
@@ -41,7 +43,7 @@ deb http://192.168.240.3/ubuntu xenial-updates multiverse
 deb http://192.168.240.3/ubuntu xenial-security main restricted
 deb http://192.168.240.3/ubuntu xenial-security universe
 deb http://192.168.240.3/ubuntu xenial-security multiverse
-deb http://192.168.240.3/ubuntu-cloud-archive xenial-updates/newton main
+deb http://192.168.240.3/ubuntu-cloud-archive xenial-updates/ocata main
 DATA
 }
 
@@ -51,6 +53,7 @@ $ENV_MGMT_OS_CONTROLLER_IP os-controller
 $ENV_MGMT_OS_NETWORK_IP os-network
 $ENV_MGMT_OS_COMPUTE_IP os-compute
 $ENV_MGMT_ODL_CONTROLLER_IP odl-controller
+$ENV_MGMT_K8S_MASTER_IP k8s-master
 DATA
 
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-networking.html
