@@ -63,6 +63,7 @@ function install_ntp() {
     CHRONY_VERSION=2.1.1-1
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     apt-get install -y chrony=$CHRONY_VERSION
+    #apt-get install -y chrony
 
     # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # #
 
@@ -85,22 +86,39 @@ function install_ntp() {
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-ntp-other.html
 }
 
-function install_jdk() {
-    JDK_VERSION=8
+function install_k8s_dependency() {
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y openjdk-$JDK_VERSION-jdk
+    apt-get install -y ebtables ethtool
+
+    # Install docker-ce 17.03
+    apt-get install -y docker.io
+    apt-get update && apt-get install -y curl apt-transport-https
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    cat <<EOF >/etc/apt/sources.list.d/docker.list
+deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable
+EOF
+    apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+    systemctl status docker
+
+    # Install k8s repo
+    apt-get update && apt-get install -y apt-transport-https
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+    cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+    apt-get update
 }
 
-function download_odl() {
-    ODL_VERSION=0.5.4-Boron-SR4
-    [ -f $CACHE/distribution-karaf-$ODL_VERSION.tar.gz ] || \
-    wget -q https://nexus.opendaylight.org/content/repositories/public/org/opendaylight/integration/distribution-karaf/$ODL_VERSION/distribution-karaf-$ODL_VERSION.tar.gz -O $CACHE/distribution-karaf-$ODL_VERSION.tar.gz
-
-    tar -zxf $CACHE/distribution-karaf-$ODL_VERSION.tar.gz -C /opt
-    ln -sf /opt/distribution-karaf-$ODL_VERSION /opt/odl
+function download_k8s() {
+    KUBEADM_VERSION=1.8.1-01
+    KUBECTL_VERSION=1.8.0-00
+    KUBELET_VERSION=1.8.0-00
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y kubeadm=$KUBEADM_VERSION kubectl=$KUBECTL_VERSION kubelet=$KUBELET_VERSION
+    #apt-get install -y kubeadm kubectl kubelet
 }
 
-function configure_odl() {
+function configure_k8s() {
     : 
 }
 
@@ -113,9 +131,11 @@ function main() {
                 use_public_apt_server
                 each_node_must_resolve_the_other_nodes_by_name_in_addition_to_IP_address
                 install_ntp
+                install_k8s_dependency
+                download_k8s
                 ;;
             configure)
-                configure_odl
+                configure_k8s
                 ;;
             *)
                 echo "unknown mode"
