@@ -93,7 +93,7 @@ Vagrant.configure("2") do |config|
 #    d.vm.provision "configure", type: "shell", path: "bootstrap-odl-controller.sh", args: ["configure"]
 #    d.vm.provision "update", type: "shell", path: "update-odl-controller.sh", run: "never"
 #  end
-#
+
   config.vm.define "k8s-master" do |d|
     d.vm.box = BOX
     d.vm.box_version = BOX_VERSION
@@ -111,10 +111,10 @@ Vagrant.configure("2") do |config|
       p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
       p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
     end
-#    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download", "configure"]
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download", "configure"]
     d.vm.provision "download", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download"]
-#    d.vm.provision "configure", type: "shell", path: "bootstrap-k8s-master.sh", args: ["configure"]
-#    d.vm.provision "update", type: "shell", path: "update-k8s-master.sh", run: "never"
+    d.vm.provision "configure", type: "shell", path: "bootstrap-k8s-master.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-k8s-master.sh", run: "never"
   end
 
 end
