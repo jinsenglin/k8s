@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Abstract
+#
+# apt-get install -y python-neutron-lbaas
+# Edit the /etc/neutron/neutron.conf
+# Edit the /etc/neutron/neutron_lbaas.conf
+# neutron-db-manage --subproject neutron-lbaas --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
+# service neutron-server restart 
+
+# -------------------------------------------------------------------
+
+# Addtional Resource
 # https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 # Configuring LBaaS v2 with an agent
 

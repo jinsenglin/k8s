@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Abstract
+#
+# apt-get install -y neutron-lbaasv2-agent
+# Edit the /etc/neutron/lbaas_agent.ini:
+# Edit the /etc/neutron/neutron_lbaas.conf:
+# neutron-lbaasv2-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/neutron_lbaas.conf --config-file=/etc/neutron/lbaas_agent.ini
+# service neutron-lbaasv2-agent restart
+
+# -------------------------------------------------------------------
+
+# Addtional Resource
 # https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 # Configuring LBaaS v2 with an agent
 
