@@ -4,8 +4,19 @@
 #
 # apt-get install -y neutron-lbaasv2-agent
 # Edit the /etc/neutron/lbaas_agent.ini:
+
+    # [DEFAULT]
+    # interface_driver = openvswitch
+    # ovs_use_veth = False
+    #
+    # [haproxy]
+    # user_group = haproxy
+
 # Edit the /etc/neutron/neutron_lbaas.conf:
-# neutron-lbaasv2-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/neutron_lbaas.conf --config-file=/etc/neutron/lbaas_agent.ini
+
+    # [service_providers]
+    # service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+
 # service neutron-lbaasv2-agent restart
 
 # -------------------------------------------------------------------

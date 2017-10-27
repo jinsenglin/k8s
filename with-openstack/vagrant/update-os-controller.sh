@@ -4,7 +4,32 @@
 #
 # apt-get install -y python-neutron-lbaas
 # Edit the /etc/neutron/neutron.conf
+
+    # [DEFAULT]
+    # service_plugins = router,lbaasv2
+    #
+    # [service_auth]
+    # auth_url = http://os-controller:5000/v3
+    # auth_version = 3
+    # admin_user = admin
+    # admin_password = ADMIN_PASS
+    # admin_tenant_name = admin
+    # admin_user_domain = Default
+    # admin_project_domain = Default
+
 # Edit the /etc/neutron/neutron_lbaas.conf
+
+    # [service_providers]
+    # service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
+    # [service_auth]
+    # auth_url = http://os-controller:5000/v3
+    # auth_version = 3
+    # admin_user = admin
+    # admin_password = ADMIN_PASS
+    # admin_tenant_name = admin
+    # admin_user_domain = Default
+    # admin_project_domain = Default
+
 # neutron-db-manage --subproject neutron-lbaas --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
 # service neutron-server restart 
 
