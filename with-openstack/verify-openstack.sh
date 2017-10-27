@@ -16,9 +16,8 @@ ROUTER_NAME=router
 openstack router create $ROUTER_NAME
 neutron router-gateway-set $ROUTER_NAME $PROVIDER_NETWORK_NAME
 
-# TODO fix
 # Ping this router
-ROUTER_IF_IP_PROVIDER=$( neutron router-port-list -c fixed_ips -f json $ROUTER_NAME | jq -r '.[0].fixed_ips' | jq -r '.ip_address' )
+ROUTER_IF_IP_PROVIDER=$( neutron router-port-list -c fixed_ips -f json $ROUTER_NAME | jq -r '.[0].fixed_ips' | jq -r '.[0].ip_address' )
 ping -c 1 $ROUTER_IF_IP_PROVIDER
 
 # Create a self-service network
