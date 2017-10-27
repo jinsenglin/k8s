@@ -556,7 +556,7 @@ DATA
     # Create the user
     source /root/admin-openrc
     openstack user create --domain default --password NOVA_PASS nova
-    openstack user create --domain default --password NOVA_PASS placement
+    openstack user create --domain default --password PLACEMENT_PASS placement
 
     # Associate the user with the admin role and the service project
     source /root/admin-openrc
