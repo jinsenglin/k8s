@@ -95,6 +95,11 @@ neutron lbaas-loadbalancer-create --name $LB_NAME $SELFSERVICE_NETWORK_NAME
 neutron lbaas-loadbalancer-show $LB_NAME
 neutron lbaas-loadbalancer-stats $LB_NAME
 
+LB_EXT_NAME=test-lb-ext
+neutron lbaas-loadbalancer-create --name $LB_EXT_NAME $PROVIDER_NETWORK_NAME
+neutron lbaas-loadbalancer-show $LB_EXT_NAME
+neutron lbaas-loadbalancer-stats $LB_EXT_NAME
+
 # TODO: Update the security group to allow traffic to reach the new load balancer.
 
 # TODO: Adding an HTTP listener
