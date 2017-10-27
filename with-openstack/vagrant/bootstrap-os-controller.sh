@@ -548,25 +548,34 @@ GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS';
 CREATE DATABASE nova;
 GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' IDENTIFIED BY 'NOVA_DBPASS';
 GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS';
+CREATE DATABASE nova_cell0;
+GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' IDENTIFIED BY 'NOVA_DBPASS';
+GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' IDENTIFIED BY 'NOVA_DBPASS';
 DATA
 
     # Create the user
     source /root/admin-openrc
     openstack user create --domain default --password NOVA_PASS nova
+    openstack user create --domain default --password NOVA_PASS placement
 
     # Associate the user with the admin role and the service project
     source /root/admin-openrc
     openstack role add --project service --user nova admin
+    openstack role add --project service --user placement admin
 
     # Create the service entity
     source /root/admin-openrc
     openstack service create --name nova --description "OpenStack Compute" compute
+    openstack service create --name placement --description "Placement API" placement
 
     # Create the service api endpoint
     source /root/admin-openrc
     openstack endpoint create --region RegionOne compute public http://os-controller:8774/v2.1/%\(tenant_id\)s
     openstack endpoint create --region RegionOne compute internal http://os-controller:8774/v2.1/%\(tenant_id\)s
     openstack endpoint create --region RegionOne compute admin http://os-controller:8774/v2.1/%\(tenant_id\)s
+    openstack endpoint create --region RegionOne placement public http://os-controller:8778
+    openstack endpoint create --region RegionOne placement internal http://os-controller:8778
+    openstack endpoint create --region RegionOne placement admin http://os-controller:8778
 
     # Edit the /etc/nova/nova.conf file, [api_database] section
     sed -i "/^connection=/ d" /etc/nova/nova.conf
@@ -617,6 +626,16 @@ DATA
     # Edit the /etc/nova/nova.conf file, [oslo_concurrency] section
     sed -i "/^lock_path=/ d" /etc/nova/nova.conf
     sed -i "/^\[oslo_concurrency\]$/ a lock_path = /var/lib/nova/tmp" /etc/nova/nova.conf
+
+    # Edit the /etc/nova/nova.conf file, [placement] section
+    sed -i "s|^os_region_name = openstack|os_region_name = RegionOne|" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a project_domain_name = Default" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a project_name = service" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a auth_type = password" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a user_domain_name = Default" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a auth_url = http://os-controller:35357/v3" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a username = placement" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a password = PLACEMENT_PASS" /etc/nova/nova.conf
 
     # Edit the /etc/nova/nova.conf file, [neutron] section
     # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#controller-node
