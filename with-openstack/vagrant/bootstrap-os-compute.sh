@@ -24,7 +24,7 @@ CACHE=/vagrant/cache
 
 function use_public_apt_server() {
     apt install -y software-properties-common
-    add-apt-repository cloud-archive:newton
+    add-apt-repository cloud-archive:ocata
     apt-get update && APT_UPDATED=true
 
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-packages.html
@@ -41,7 +41,7 @@ deb http://192.168.240.3/ubuntu xenial-updates multiverse
 deb http://192.168.240.3/ubuntu xenial-security main restricted
 deb http://192.168.240.3/ubuntu xenial-security universe
 deb http://192.168.240.3/ubuntu xenial-security multiverse
-deb http://192.168.240.3/ubuntu-cloud-archive xenial-updates/newton main
+deb http://192.168.240.3/ubuntu-cloud-archive xenial-updates/ocata main
 DATA
 
     rm -rf /var/lib/apt/lists/*
@@ -69,13 +69,15 @@ function install_python() {
     PYTHON_VERSION=2.7.11-1
     PYTHON_PIP_VERSION=8.1.1-2ubuntu0.4
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
+    #apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
+    apt-get install -y python python-pip
 }
 
 function install_ntp() {
     CHRONY_VERSION=2.1.1-1
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y chrony=$CHRONY_VERSION
+    #apt-get install -y chrony=$CHRONY_VERSION
+    apt-get install -y chrony
 
     # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # #
 
@@ -101,7 +103,8 @@ function install_ntp() {
 function download_nova() {
     NOVA_COMPUTE_VERSION=2:14.0.7-0ubuntu2~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y nova-compute=$NOVA_COMPUTE_VERSION
+    #apt-get install -y nova-compute=$NOVA_COMPUTE_VERSION
+    apt-get install -y nova-compute
 }
 
 function configure_nova() {
@@ -183,8 +186,10 @@ function download_neutron() {
     NEUTRON_PLUGIN_ML2_VERSION=2:9.4.0-0ubuntu1.1~cloud0
     NEUTRON_OPENVSWITCH_AGENT_VERSION=2:9.4.0-0ubuntu1.1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt install -y neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION \
-                   neutron-openvswitch-agent=$NEUTRON_OPENVSWITCH_AGENT_VERSION
+#    apt install -y neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION \
+#                   neutron-openvswitch-agent=$NEUTRON_OPENVSWITCH_AGENT_VERSION
+    apt install -y neutron-plugin-ml2 \
+                   neutron-openvswitch-agent
 }
 
 function configure_neutron() {
