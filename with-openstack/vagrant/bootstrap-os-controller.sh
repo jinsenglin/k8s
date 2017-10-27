@@ -224,11 +224,13 @@ GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' IDENTIFIED BY 'KEYS
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' IDENTIFIED BY 'KEYSTONE_DBPASS';
 DATA
 
+    # TODO: verify
     # Edit the /etc/keystone/keystone.conf file, [token] section
-    sed -i "s|^#provider = uuid|provider = fernet|" /etc/keystone/keystone.conf
+    sed -i "s|^#provider = fernet|provider = fernet|" /etc/keystone/keystone.conf
 
+    # TODO: verify
     # Edit the /etc/keystone/keystone.conf file, [database] section
-    sed -i "s|^connection = sqlite.*|connection = mysql+pymysql://keystone:KEYSTONE_DBPASS@os-controller/keystone|" /etc/keystone/keystone.conf
+    sed -i "s|^#connection = <None>|connection = mysql+pymysql://keystone:KEYSTONE_DBPASS@os-controller/keystone|" /etc/keystone/keystone.conf
 
     # Populate the database
     su -s /bin/sh -c "keystone-manage db_sync" keystone
