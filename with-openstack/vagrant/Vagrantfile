@@ -19,10 +19,10 @@ Vagrant.configure("2") do |config|
       p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
       p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
     end
-#    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-controller.sh", args: ["download", "configure"]
-#    d.vm.provision "download", type: "shell", path: "bootstrap-os-controller.sh", args: ["download"]
-#    d.vm.provision "configure", type: "shell", path: "bootstrap-os-controller.sh", args: ["configure"]
-#    d.vm.provision "update", type: "shell", path: "update-os-controller.sh", run: "never"
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-controller.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-controller.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-controller.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-controller.sh", run: "never"
   end
 
   config.vm.define "os-network" do |d|
@@ -42,10 +42,10 @@ Vagrant.configure("2") do |config|
       p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
       p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
     end
-#    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-network.sh", args: ["download", "configure"]
-#    d.vm.provision "download", type: "shell", path: "bootstrap-os-network.sh", args: ["download"]
-#    d.vm.provision "configure", type: "shell", path: "bootstrap-os-network.sh", args: ["configure"]
-#    d.vm.provision "update", type: "shell", path: "update-os-network.sh", run: "never"
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-network.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-network.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-network.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-network.sh", run: "never"
   end
 
   config.vm.define "os-compute" do |d|
@@ -65,10 +65,10 @@ Vagrant.configure("2") do |config|
       p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
       p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
     end
-#    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-compute.sh", args: ["download", "configure"]
-#    d.vm.provision "download", type: "shell", path: "bootstrap-os-compute.sh", args: ["download"]
-#    d.vm.provision "configure", type: "shell", path: "bootstrap-os-compute.sh", args: ["configure"]
-#    d.vm.provision "update", type: "shell", path: "update-os-compute.sh", run: "never"
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-os-compute.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-os-compute.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-os-compute.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-os-compute.sh", run: "never"
   end
 
 #  config.vm.define "odl-controller" do |d|
@@ -111,10 +111,10 @@ Vagrant.configure("2") do |config|
       p.customize ["modifyvm", :id, "--nicpromisc4", "allow-all"]
       p.customize ["modifyvm", :id, "--nicpromisc5", "allow-all"]
     end
-#    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download", "configure"]
-#    d.vm.provision "download", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download"]
-#    d.vm.provision "configure", type: "shell", path: "bootstrap-k8s-master.sh", args: ["configure"]
-#    d.vm.provision "update", type: "shell", path: "update-k8s-master.sh", run: "never"
+    d.vm.provision "bootstrap", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download", "configure"]
+    d.vm.provision "download", type: "shell", path: "bootstrap-k8s-master.sh", args: ["download"]
+    d.vm.provision "configure", type: "shell", path: "bootstrap-k8s-master.sh", args: ["configure"]
+    d.vm.provision "update", type: "shell", path: "update-k8s-master.sh", run: "never"
   end
 
 end
