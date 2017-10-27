@@ -532,9 +532,10 @@ function download_nova() {
     NOVA_CONSOLEAUTH_VERSION=2:15.0.7-0ubuntu1~cloud0
     NOVA_NOVNCPROXY_VERSION=2:15.0.7-0ubuntu1~cloud0
     NOVA_SCHEDULER_VERSION=2:15.0.7-0ubuntu1~cloud0
+    NOVA_PLACEMENT_API_VERSION=2:15.0.7-0ubuntu1~cloud0
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y nova-api=$NOVA_API_VERSION nova-conductor=$NOVA_CONDUCTOR_VERSION nova-consoleauth=$NOVA_CONSOLEAUTH_VERSION nova-novncproxy=$NOVA_NOVNCPROXY_VERSION nova-scheduler=$NOVA_SCHEDULER_VERSION
-    #apt-get install -y nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler
+    apt-get install -y nova-api=$NOVA_API_VERSION nova-conductor=$NOVA_CONDUCTOR_VERSION nova-consoleauth=$NOVA_CONSOLEAUTH_VERSION nova-novncproxy=$NOVA_NOVNCPROXY_VERSION nova-scheduler=$NOVA_SCHEDULER_VERSION nova-placement-api=$NOVA_PLACEMENT_API_VERSION
+    #apt-get install -y nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler nova-placement-api
 }
 
 function configure_nova() {
