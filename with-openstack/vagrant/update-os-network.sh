@@ -21,6 +21,15 @@
 
 # -------------------------------------------------------------------
 
+# Verify
+#
+# neutron lbaas-loadbalancer-list
+# neutron lbaas-listener-list
+# neutron lbaas-pool-list
+# neutron lbaas-member-list default/demo:TCP:80
+
+# -------------------------------------------------------------------
+
 # Addtional Resource
 # https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
 # Configuring LBaaS v2 with an agent
