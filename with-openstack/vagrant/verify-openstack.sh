@@ -49,10 +49,11 @@ neutron router-interface-add $ROUTER_NAME $SELFSERVICE_NETWORK_NAME
 openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
 
 # Permit ICMP (ping) in default security group
-openstack security group rule create --proto icmp default
+DEFAULT_SG_ID=$(openstack security group list --project admin -c ID -f value)
+openstack security group rule create --proto icmp $DEFAULT_SG_ID
 
 # Permit secure shell (SSH) access in default security group
-openstack security group rule create --proto tcp --dst-port 22 default
+openstack security group rule create --proto tcp --dst-port 22 $DEFAULT_SG_ID
 
 # Launch an instance
 SELFSERVICE_INSTANCE_NAME=selfservice-instance
