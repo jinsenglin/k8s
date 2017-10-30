@@ -20,8 +20,7 @@ KURYR_SVC_ID=$(openstack service create kuryr-kubernetes --name kuryr-kubernetes
 
 # # 3. 建立 'shared-default-subnetpool' subnet pool
 # create subnet pool 'shared-default-subnetpool'
-openstack subnet pool create shared-default-subnetpool --default-prefix-length 26 --pool-prefix "10.1.0.0/22" --share --default
-SUBNETPOOL_V4_ID=$(openstack subnet pool show shared-default-subnetpool -f value -c id)
+SUBNETPOOL_V4_ID=$(openstack subnet pool create shared-default-subnetpool --default-prefix-length 26 --pool-prefix "10.1.0.0/22" --share --default -f value -c id)
 
 # # 4. 建立 'demo' network
 # set network 'demo'
@@ -36,7 +35,7 @@ DEMO_SUBNET_ID=$(openstack subnet create --project demo --ip-version 4 --subnet-
 SERVICE_SUBNET_ID=$(openstack subnet create --project demo --ip-version 4 --no-dhcp --gateway none --subnet-pool $SUBNETPOOL_V4_ID --network $DEMO_NET_ID -c id -f value k8s-service-subnet)
 SERVICE_CIDR=$(openstack subnet show -c cidr -f value $SERVICE_SUBNET_ID)
 KURYR_K8S_CLUSTER_IP_RANGE=$SERVICE_CIDR
-GATEWAY_IP=$(openstack subnet show -c cidr -f value $SERVICE_SUBNET_ID | awk -F '-' '{print $2}')
+GATEWAY_IP=$(openstack subnet show -c allocation_pools -f value $SERVICE_SUBNET_ID | awk -F '-' '{print $2}')
 
 # set gateway
 openstack subnet set --gateway $GATEWAY_IP --no-allocation-pool $SERVICE_SUBNET_ID
