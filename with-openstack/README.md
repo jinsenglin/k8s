@@ -35,6 +35,7 @@ OpenStack version used is this deployment is ocata.
 * provider network type: flat
 * tenant_network_types: vxlan
 * mechanism_drivers: openvswitch,l2population
+* Kuryr: 0.1.0
 
 ---
 
