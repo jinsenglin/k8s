@@ -229,6 +229,35 @@ function configure_neutron() {
     # https://www.centos.bz/2012/04/linux-sysctl-conf/
 }
 
+function download_lbaas() {
+    NEUTRON_LBAAS_AGENT_VERSION=2:10.0.1-0ubuntu1~cloud0
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt install -y neutron-lbaasv2-agent=$NEUTRON_LBAAS_AGENT_VERSION
+    #apt install -y python-neutron-lbaas=
+
+    # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
+}
+
+function configure_lbaas() {
+    # Edit the /etc/neutron/lbaas_agent.ini file, [DEFAULT] section
+    sed -i "/^\[DEFAULT\]$/ a interface_driver = openvswitch" /etc/neutron/lbaas_agent.ini
+    sed -i "/^\[DEFAULT\]$/ a ovs_use_veth = False" /etc/neutron/lbaas_agent.ini
+
+    # Edit the /etc/neutron/lbaas_agent.ini file, [haproxy] section
+    cat >> /etc/neutron/lbaas_agent.ini <<DATA
+[haproxy]
+user_group = haproxy
+DATA
+
+    # Edit the /etc/neutron/neutron_lbaas.conf file, [service_providers] section
+    sed -i "/^\[service_providers\]$/ a service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default" /etc/neutron/neutron_lbaas.conf
+
+    # Restart the Networking services
+    service neutron-lbaasv2-agent restart
+
+    # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -241,9 +270,11 @@ function main() {
                 install_python
                 install_ntp
                 download_neutron
+                download_lbaas
                 ;;
             configure)
                 configure_neutron
+                configure_lbaas
                 ;;
             *)
                 echo "unknown mode"
