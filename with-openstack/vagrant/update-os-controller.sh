@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# PART I
+# ----------------------------------------------------------------------------- #
+
 # # 1. 建立 kuryr user
 # create user 'kuryr'
 KURYR_USER_ID=$(openstack user create kuryr --password password --domain=Default --or-show -c id -f value)
@@ -53,6 +56,7 @@ openstack router add subnet $DEMO_ROUTER_ID $SERVICE_SUBNET_ID
 # get security group 'default'
 DEMO_SECGROUP_ID=$(openstack security group list --project demo -c ID -f value)
 
+# PART II
 # ----------------------------------------------------------------------------- #
 
 # # 1. 下載 kuryr-kubernetes project
