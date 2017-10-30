@@ -143,7 +143,7 @@ docker run --name devstack-k8s-setup-files --detach \
            /setup-files.sh \
            "IP:10.0.0.11,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local"
 
-# # 7. 運行 Hyperkube’s Kubernetes API Server ( < - - - - - - - - - FAILED !!! )
+# # 7. 運行 Hyperkube’s Kubernetes API Server
 KURYR_ETCD_ADVERTISE_CLIENT_URL=http://10.0.0.11:2379
 docker run --name kubernetes-api --detach \
            --net host \
