@@ -203,17 +203,6 @@ cp /opt/kuryr-kubernetes/devstack/kubectl $(dirname /usr/local/bin/hyperkube)/ku
 
 # # 11. 運行 kubelet + kuryr-cni
 mkdir -p /opt/data/hyperkube/{kubelet,kubelet.cert}
-/usr/local/bin/hyperkube kubelet\
-    --allow-privileged=true \
-    --api-servers=http://10.0.0.11:8080 \
-    --v=2 \
-    --address=0.0.0.0 \
-    --enable-server \
-    --network-plugin=cni \
-    --cni-bin-dir=/opt/cni/bin \
-    --cni-conf-dir=/opt/cni/conf \
-    --cert-dir=/opt/data/hyperkube/kubelet.cert \
-    --root-dir=/opt/data/hyperkube/kubelet
 cat > /etc/systemd/system/kubelet.service <<DATA
 [Unit]
 Description=Kubernetes Kubelet Server
@@ -244,6 +233,7 @@ RestartSec=10s
 [Install]
 WantedBy=multi-user.target
 DATA
+systemctl start kubelet.service
 
 # # 12. 運行 kuryr-kubernetes controller
 source /opt/kuryr-kubernetes/env/bin/activate
