@@ -18,6 +18,7 @@ vagrant up --provision-with bootstrap k8s-master
 vagrant ssh os-controller
 sudo su
 source ~/admin-openrc
+bash /vagrant/update-os-controller.sh
 
 # Terminal 2
 vagrant ssh k8s-master
