@@ -76,6 +76,7 @@ cp /opt/kuryr-kubernetes/env/bin/kuryr-k8s-controller /usr/local/bin/kuryr-k8s-c
 
 # # 3. 設定 Kuryr 環境與相關配置
 ./tools/generate_config_file_samples.sh
+mkdir /etc/kuryr
 cp etc/kuryr.conf.sample /etc/kuryr/kuryr.conf
 mkdir -p /var/cache/kuryr
 mkdir -p /etc/kuryr
