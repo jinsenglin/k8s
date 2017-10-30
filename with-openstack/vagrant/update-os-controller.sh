@@ -1,9 +1,5 @@
 #!/bin/bash
 
-<<NOTE
-
-[ os-controller ]
-
 # # 1. 建立 kuryr user
 # create user 'kuryr'
 KURYR_USER_ID=$(openstack user create kuryr --password password --domain=Default --or-show -c id -f value)
@@ -56,5 +52,3 @@ openstack router add subnet $DEMO_ROUTER_ID $SERVICE_SUBNET_ID
 # # 10. 取得 'demo' project 的 'default' security group
 # get security group 'default'
 DEMO_SECGROUP_ID=$(openstack security group list --project demo -c ID -f value)
-
-NOTE
