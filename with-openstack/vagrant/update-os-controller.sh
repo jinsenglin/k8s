@@ -237,3 +237,39 @@ systemctl start kubelet.service
 # # 12. 運行 kuryr-kubernetes controller
 source /opt/kuryr-kubernetes/env/bin/activate
 nohup /opt/kuryr-kubernetes/env/bin/python /opt/kuryr-kubernetes/scripts/run_server.py --config-file /etc/kuryr/kuryr.conf &
+deactivate
+
+# PART III
+# ----------------------------------------------------------------------------- #
+
+# Make a 'demo' working dir
+mkdir demo
+cat > demo/Dockerfile <<DATA
+FROM alpine
+RUN apk add --no-cache python bash openssh-client curl
+COPY server.py /server.py
+ENTRYPOINT ["python", "/server.py"]
+DATA
+cat > demo/server.py <<DATA
+import BaseHTTPServer as http
+import platform
+
+class Handler(http.BaseHTTPRequestHandler):
+  def do_GET(self):
+    self.send_response(200)
+    self.send_header('Content-Type', 'text/plain')
+    self.end_headers()
+    self.wfile.write("%s\n" % platform.node())
+
+if __name__ == '__main__':
+  httpd = http.HTTPServer(('', 8080), Handler)
+  httpd.serve_forever()
+DATA
+docker build -t demo:demo demo
+docker images
+
+# Create a vm
+source ~/demo-openrc
+nova boot --flavor m1.nano --image cirros --nic net-id=$DEMO_NET_ID --config-drive=true testvm
+
+# Next? 
