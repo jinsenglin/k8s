@@ -138,7 +138,7 @@ docker run --name etcd --detach \
 mkdir -p /opt/data/hyperkube
 docker pull gcr.io/google_containers/hyperkube-amd64:v1.4.6
 
-# # 7. 運行 Hyperkube’s Kubernetes API Server
+# # 7. 運行 Hyperkube’s Kubernetes API Server ( < - - - - - - - - - FAILED !!! )
 KURYR_ETCD_ADVERTISE_CLIENT_URL=http://10.0.0.11:2379
 docker run --name kubernetes-api --detach \
            --net host \
