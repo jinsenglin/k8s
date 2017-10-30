@@ -1,5 +1,34 @@
 # Goal
 
+OpenStack + Kubernetes with Kuryr
+
+---
+
+# Usage
+
+```
+git clone https://github.com/jinsenglin/k8s.git
+cd k8s/with-openstack/vagrant
+vagrant up --provision-with bootstrap os-controller
+vagrant up --provision-with bootstrap os-network
+vagrant up --provision-with bootstrap os-compute
+vagrant up --provision-with bootstrap k8s-master
+
+# Terminal 1
+vagrant ssh os-controller
+sudo su
+source ~/admin-openrc
+
+# Terminal 2
+vagrant ssh k8s-master
+```
+
+---
+
+# Note on OpenStack
+
+OpenStack version used is this deployment is ocata.
+
 * type_drivers: flat,vlan,vxlan
 * provider network type: flat
 * tenant_network_types: vxlan
@@ -7,13 +36,15 @@
 
 ---
 
-# Note
+# Note on Kubernetes
 
-OpenStack version used is this deployment is ocata.
+Kubernetes version used is this deployment is 1.4.6.
+
+* Docker: v1.12
 
 ---
 
-# Note
+# Note on VirtualBox
 
 Each VirtualBox VM created by Vagrant has a NIC named "enp0s3" by default, which means that the first network interface (eth0 or enp0s3) is always managed by Vagrant and must be connected to a NAT network.
 
