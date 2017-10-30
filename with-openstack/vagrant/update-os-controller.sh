@@ -137,6 +137,11 @@ docker run --name etcd --detach \
 # # 6. 建立 hyperkube 1.4.6 環境
 mkdir -p /opt/data/hyperkube
 docker pull gcr.io/google_containers/hyperkube-amd64:v1.4.6
+docker run --name devstack-k8s-setup-files --detach \
+           --volume "/opt/data/hyperkube:/srv/kubernetes:rw" \
+           gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
+           /setup-files.sh \
+           "IP:10.0.0.11,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local"
 
 # # 7. 運行 Hyperkube’s Kubernetes API Server ( < - - - - - - - - - FAILED !!! )
 KURYR_ETCD_ADVERTISE_CLIENT_URL=http://10.0.0.11:2379
