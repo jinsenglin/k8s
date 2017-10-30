@@ -187,7 +187,6 @@ docker run --name kubernetes-scheduler --detach \
 
 # # 10. 設定 kuryr-cni 與 hyperkube 環境
 KURYR_CNI_BIN=$(which kuryr-cni)
-KURYR_CNI_BIN=/usr/local/bin/kuryr-cni
 mkdir -p /opt/cni/bin /opt/cni/conf
 cp /usr/local/bin/kuryr-cni /opt/cni/bin/kuryr-cni
 cp /opt/kuryr-kubernetes/etc/cni/net.d/10-kuryr.conf /opt/cni/conf/10-kuryr.conf
@@ -199,7 +198,7 @@ docker cp ${CONTAINER_ID}:/usr/bin/nsenter /tmp/nsenter
 cp /tmp/hyperkube /usr/local/bin/hyperkube
 cp /tmp/loopback /opt/cni/bin/loopback
 cp /tmp/nsenter /usr/local/bin/nsenter
-/opt/kuryr-kubernetes/devstack/kubectl version
+/opt/kuryr-kubernetes/devstack/kubectl version # exit code != 0 due to no kubeconfig file found
 cp /opt/kuryr-kubernetes/devstack/kubectl $(dirname /usr/local/bin/hyperkube)/kubectl
 
 # # 11. 運行 kubelet + kuryr-cni
