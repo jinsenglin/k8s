@@ -24,6 +24,7 @@ SUBNETPOOL_V4_ID=$(openstack subnet pool create shared-default-subnetpool --defa
 
 # # 4. 建立 'demo' network
 # set network 'demo'
+DEMO_PROJECT_ID=$(openstack project show -c id -f value demo)
 DEMO_NET_ID=$(openstack network create --project demo -c id -f value demo)
 
 # # 5. 建立 'demo' subnet
@@ -74,7 +75,7 @@ python setup.py install
 cp /opt/kuryr-kubernetes/env/bin/kuryr-cni /usr/local/bin/kuryr-cni
 cp /opt/kuryr-kubernetes/env/bin/kuryr-k8s-controller /usr/local/bin/kuryr-k8s-controller
 
-# # 3. 設定 Kuryr 環境與相關配置 TODO: replace variables
+# # 3. 設定 Kuryr 環境與相關配置
 ./tools/generate_config_file_samples.sh
 cp etc/kuryr.conf.sample /etc/kuryr/kuryr.conf
 mkdir -p /var/cache/kuryr
@@ -85,12 +86,12 @@ cat > /etc/kuryr/kuryr.conf <<DATA
 use_stderr = true
 
 [kubernetes]
-api_root = $KURYR_K8S_API_URL
+api_root = http://10.0.0.11:8080
 
 [neutron]
-auth_uri = $KEYSTONE_API_URI
-auth_url = $KEYSTONE_API_URL
-memcached_servers = $MEMCACHED_SERVERS
+auth_uri = http://10.0.0.11:5000
+auth_url = http://10.0.0.11:35357
+memcached_servers = 10.0.0.11:11211
 auth_type = password
 username = kuryr
 password = password
@@ -103,7 +104,7 @@ cafile = /opt/stack/data/ca-bundle.pem
 
 [neutron_defaults]
 ovs_bridge = br-int
-project = $PROJECT_DEMO_ID
+project = $DEMO_PROJECT_ID
 service_subnet = $SERVICE_SUBNET_ID
 pod_subnet = $DEMO_SUBNET_ID
 pod_security_groups = $DEMO_SECGROUP_ID
@@ -117,7 +118,7 @@ apt-get update
 apt-cache madison docker-engine
 apt-get -y install docker-engine=1.12.6~cs13-0~ubuntu-xenial
 
-# # 5. 下載 quay.io/coreos/etcd 3.0.8 鏡像與運行 etcd 容器 TODO: replace 192.168.123.141
+# # 5. 下載 quay.io/coreos/etcd 3.0.8 鏡像與運行 etcd 容器
 docker pull quay.io/coreos/etcd:v3.0.8
 docker run --name etcd --detach \
            --net host \
@@ -125,30 +126,29 @@ docker run --name etcd --detach \
            quay.io/coreos/etcd:v3.0.8 /usr/local/bin/etcd \
            --name devstack \
            --data-dir /var/etcd/data \
-           --initial-advertise-peer-urls http://192.168.123.141:2380 \
+           --initial-advertise-peer-urls http://10.0.0.11:2380 \
            --listen-peer-urls http://0.0.0.0:2380 \
            --listen-client-urls http://0.0.0.0:2379 \
-           --advertise-client-urls http://192.168.123.141:2379 \
+           --advertise-client-urls http://10.0.0.11:2379 \
            --initial-cluster-token etcd-cluster-1 \
-           --initial-cluster devstack=http://192.168.123.141:2380 \
+           --initial-cluster devstack=http://10.0.0.11:2380 \
            --initial-cluster-state new
 
 # # 6. 建立 hyperkube 1.4.6 環境
 mkdir -p /opt/data/hyperkube
 docker pull gcr.io/google_containers/hyperkube-amd64:v1.4.6
 
-# # 7. 運行 Hyperkube’s Kubernetes API Server TODO: replace both 192.168.123.141 and 10.0.0.64/26
-KURYR_K8S_CLUSTER_IP_RANGE=10.0.0.64/26
-KURYR_ETCD_ADVERTISE_CLIENT_URL=http://192.168.123.141:2379
+# # 7. 運行 Hyperkube’s Kubernetes API Server
+KURYR_ETCD_ADVERTISE_CLIENT_URL=http://10.0.0.11:2379
 docker run --name kubernetes-api --detach \
            --net host \
            --volume="/opt/data/hyperkube:/srv/kubernetes:rw" \
            gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
            /hyperkube apiserver \
-           --service-cluster-ip-range=10.0.0.64/26 \
+           --service-cluster-ip-range=$KURYR_K8S_CLUSTER_IP_RANGE \
            --insecure-bind-address=0.0.0.0 \
            --insecure-port=8080 \
-           --etcd-servers=http://192.168.123.141:2379 \
+           --etcd-servers=http://10.0.0.11:2379 \
            --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota \
            --client-ca-file=/srv/kubernetes/ca.crt \
            --basic-auth-file=/srv/kubernetes/basic_auth.csv \
@@ -159,7 +159,7 @@ docker run --name kubernetes-api --detach \
            --allow-privileged=true \
            --v=2 --logtostderr=true
 
-# # 8. 運行 Hyperkube’s Kubernetes controller manager TODO: replace 192.168.123.141
+# # 8. 運行 Hyperkube’s Kubernetes controller manager
 docker run --name kubernetes-controller-manager --detach \
            --net host \
            --volume="/opt/data/hyperkube:/srv/kubernetes:rw" \
@@ -168,16 +168,16 @@ docker run --name kubernetes-controller-manager --detach \
            --service-account-private-key-file=/srv/kubernetes/server.key \
            --root-ca-file=/srv/kubernetes/ca.crt \
            --min-resync-period=3m \
-           --master="http://192.168.123.141:8080" \
+           --master="http://10.0.0.11:8080" \
            --v=2 --logtostderr=true
 
-# # 9. 運行 Hyperkube’s Kubernetes scheduler TODO: replace 192.168.123.141
+# # 9. 運行 Hyperkube’s Kubernetes scheduler
 docker run --name kubernetes-scheduler --detach \
            --net host \
            --volume="/opt/data/hyperkube:/srv/kubernetes:rw" \
            gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
            /hyperkube scheduler \
-           --master=http://192.168.123.141:8080 \
+           --master=http://10.0.0.11:8080 \
            --v=2 --logtostderr=true
 
 # # 10. 設定 kuryr-cni 與 hyperkube 環境
@@ -197,11 +197,11 @@ cp /tmp/nsenter /usr/local/bin/nsenter
 /opt/kuryr-kubernetes/devstack/kubectl version
 cp /opt/kuryr-kubernetes/devstack/kubectl $(dirname /usr/local/bin/hyperkube)/kubectl
 
-# # 11. 運行 kubelet + kuryr-cni TODO: replace 192.168.123.141
+# # 11. 運行 kubelet + kuryr-cni
 mkdir -p /opt/data/hyperkube/{kubelet,kubelet.cert}
 /usr/local/bin/hyperkube kubelet\
     --allow-privileged=true \
-    --api-servers=http://192.168.123.141:8080 \
+    --api-servers=http://10.0.0.11:8080 \
     --v=2 \
     --address=0.0.0.0 \
     --enable-server \
@@ -220,7 +220,7 @@ Wants=docker.socket
 [Service]
 Environment="KUBE_ALLOW_PRIV=--allow-privileged=true"
 Environment="KUBE_LOGTOSTDERR=--logtostderr=true --v=2"
-Environment="KUBELET_API_SERVER=--api-servers=http://192.168.123.141:8080"
+Environment="KUBELET_API_SERVER=--api-servers=http://10.0.0.11:8080"
 Environment="KUBELET_ADDRESS=--address=0.0.0.0 --enable-server"
 Environment="KUBELET_NETWORK_PLUGIN=--network-plugin=cni --cni-bin-dir=/opt/cni/bin --cni-conf-dir=/opt/cni/conf"
 Environment="KUBELET_DIR=--cert-dir=/opt/data/hyperkube/kubelet.cert --root-dir=/opt/data/hyperkube/kubelet"
