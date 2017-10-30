@@ -66,7 +66,6 @@ cd /opt/kuryr-kubernetes
 git checkout -b 0.1.0
 
 # # 2. 安裝 pip, virtualenv and kuryr-kubernetes==0.1.0
-apt-get install -y python-setuptools build-essential python-dev
 pip install virtualenv
 virtualenv env
 source /opt/kuryr-kubernetes/env/bin/activate
