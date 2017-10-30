@@ -1,87 +1,60 @@
 #!/bin/bash
 
-# Abstract
-#
-# apt-get install -y python-neutron-lbaas
-# Edit the /etc/neutron/neutron.conf
+<<NOTE
 
-    # [DEFAULT]
-    # service_plugins = router,lbaasv2
-    #
-    # [service_auth]
-    # auth_url = http://os-controller:5000/v3
-    # auth_version = 3
-    # admin_user = admin
-    # admin_password = ADMIN_PASS
-    # admin_tenant_name = admin
-    # admin_user_domain = Default
-    # admin_project_domain = Default
+[ os-controller ]
 
-# Edit the /etc/neutron/neutron_lbaas.conf
+# # 1. 建立 kuryr user
+# create user 'kuryr'
+KURYR_USER_ID=$(openstack user create kuryr --password password --domain=Default --or-show -c id -f value)
 
-    # [service_providers]
-    # service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
-    # [service_auth]
-    # auth_url = http://os-controller:5000/v3
-    # auth_version = 3
-    # admin_user = admin
-    # admin_password = ADMIN_PASS
-    # admin_tenant_name = admin
-    # admin_user_domain = Default
-    # admin_project_domain = Default
+# create role 'service'
+SERVICE_ROLE_ID=$(openstack role create service --or-show -c id -f value)
 
-# neutron-db-manage --subproject neutron-lbaas --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
-# service neutron-server restart 
+# link user, role, and project
+openstack role add service --user kuryr --project service --user-domain Default --project-domain Default
+openstack role add admin --user kuryr --project service --user-domain Default --project-domain Default
 
-# -------------------------------------------------------------------
+# # 2. 建立 'kuryr-kubernetes' service
+# create service 'kuryr-kubernetes'
+KURYR_SVC_ID=$(openstack service create kuryr-kubernetes --name kuryr-kubernetes --description="Kuryr-Kubernetes Service" -f value -c id)
 
-# Addtional Resource
-# https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
-# Configuring LBaaS v2 with an agent
+# # 3. 建立 'shared-default-subnetpool' subnet pool
+# create subnet pool 'shared-default-subnetpool'
+SUBNETPOOL_V4_ID=$(openstack subnet pool create shared-default-subnetpool --default-prefix-length 26 --pool-prefix "10.1.0.0/22" --share --default -f value -c id)
 
-# Step 1: Add the LBaaS v2 service plug-in to the service_plugins configuration directive in /etc/neutron/neutron.conf.
+# # 4. 建立 'demo' network
+# set network 'demo'
+DEMO_NET_ID=(openstack network create --project demo -c id -f value demo)
 
-#
-# service_plugins = [existing service plugins],neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2
-#
+# # 5. 建立 'demo' subnet
+# create subnet 'demo'
+DEMO_SUBNET_ID=$(openstack subnet create --project demo --ip-version 4 --subnet-pool $SUBNETPOOL_V4_ID --network $DEMO_NET_ID -c id -f value demo)
 
-# ---
+# # 6. 建立 'k8s-service-subnet' subnet
+# create subnet 'k8s-service-subnet'
+SERVICE_SUBNET_ID=$(openstack subnet create --project demo --ip-version 4 --no-dhcp --gateway none --subnet-pool $SUBNETPOOL_V4_ID --network $DEMO_NET_ID -c id -f value k8s-service-subnet)
+SERVICE_CIDR=$(openstack subnet show -c cidr -f value $SERVICE_SUBNET_ID)
+KURYR_K8S_CLUSTER_IP_RANGE=$SERVICE_CIDR
+GATEWAY_IP=$(openstack subnet show -c allocation_pools -f value $SERVICE_SUBNET_ID | awk -F '-' '{print $2}')
 
-# Step 2: Add the LBaaS v2 service provider to the service_provider configuration directive within the [service_providers] section in /etc/neutron/neutron_lbaas.conf.
+# set gateway
+openstack subnet set --gateway $GATEWAY_IP --no-allocation-pool $SERVICE_SUBNET_ID
 
-#
-# service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
-#
+# # 7. 建立 'demo' router
+# create router 'demo'
+DEMO_ROUTER_ID=$(openstack router create --project demo -c id -f value demo)
 
-# ---
+# # 8. 將 'demo' subnet 加入 'demo' router
+# link subnet and router
+openstack router add subnet $DEMO_ROUTER_ID $DEMO_SUBNET_ID
 
-# Step 3: Select the driver that manages virtual interfaces in /etc/neutron/lbaas_agent.ini.
+# # 9. 將 'k8s-service-subnet' subnet 加入 'demo' router
+# link subnet and router
+openstack router add subnet $DEMO_ROUTER_ID $SERVICE_SUBNET_ID
 
-#
-# [DEFAULT]
-# interface_driver = openvswitch
-#
+# # 10. 取得 'demo' project 的 'default' security group
+# get security group 'default'
+DEMO_SECGROUP_ID=$(openstack security group list --project demo -c ID -f value)
 
-# ---
-
-# Step 4: Run the neutron-lbaas database migration
-
-#
-# `neutron-db-manage --subproject neutron-lbaas upgrade head`
-#
-
-# ---
-
-# Step 5: Start the LBaaS v2 agent
-
-#
-# neutron-lbaasv2-agent --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/lbaas_agent.ini
-#
-
-# ---
-
-# Step 6: Restart the Network service to activate the new configuration. You are now ready to create load balancers with the LBaaS v2 agent.
-
-#
-# ?
-#
+NOTE
