@@ -21,7 +21,7 @@ SUBNETPOOL_V4_ID=$(openstack subnet pool create shared-default-subnetpool --defa
 
 # # 4. 建立 'demo' network
 # set network 'demo'
-DEMO_NET_ID=(openstack network create --project demo -c id -f value demo)
+DEMO_NET_ID=$(openstack network create --project demo -c id -f value demo)
 
 # # 5. 建立 'demo' subnet
 # create subnet 'demo'
