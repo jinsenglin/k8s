@@ -687,6 +687,53 @@ DATA
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/nova.html
 }
 
+function download_lbaas() {
+    NEUTRON_LBAAS_VERSION=2:10.0.1-0ubuntu1~cloud0
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt install -y python-neutron-lbaas=$NEUTRON_LBAAS_VERSION
+    #apt install -y python-neutron-lbaas=
+
+    # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
+}
+
+function configure_lbaas() {
+    # Edit the /etc/neutron/neutron.conf file, [DEFAULT] section
+    sed -i "s|^service_plugins = router|service_plugins = router,lbaasv2|" /etc/neutron/neutron.conf
+
+    # Edit the /etc/neutron/neutron.conf file, [service_auth] section
+    cat >> /etc/neutron/neutron.conf <<DATA
+
+[service_auth]
+auth_url = http://os-controller:5000/v3
+auth_version = 3
+admin_user = admin
+admin_password = ADMIN_PASS
+admin_tenant_name = admin
+admin_user_domain = Default
+admin_project_domain = Default
+DATA
+
+    # Edit the /etc/neutron/neutron_lbaas.conf, [service_providers] section
+    sed -i "/^\[service_providers\]$/ a service_provider = LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default" /etc/neutron/neutron_lbaas.conf
+
+    # Edit the /etc/neutron/neutron_lbaas.conf, [service_auth] section
+    sed -i "/^\[service_auth\]$/ a auth_url = http://os-controller:5000/v3" /etc/neutron/neutron_lbaas.conf
+    sed -i "/^\[service_auth\]$/ a auth_version = 3" /etc/neutron/neutron_lbaas.conf
+    sed -i "/^\[service_auth\]$/ a admin_user = admin" /etc/neutron/neutron_lbaas.conf
+    sed -i "/^\[service_auth\]$/ a admin_password = ADMIN_PASS" /etc/neutron/neutron_lbaas.conf
+    sed -i "/^\[service_auth\]$/ a admin_tenant_name = admin" /etc/neutron/neutron_lbaas.conf
+    sed -i "/^\[service_auth\]$/ a admin_user_domain = Default" /etc/neutron/neutron_lbaas.conf
+    sed -i "/^\[service_auth\]$/ a admin_project_domain = Default" /etc/neutron/neutron_lbaas.conf
+
+    # Populate the database
+    neutron-db-manage --subproject neutron-lbaas --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
+
+    # Restart the Networking services
+    service neutron-server restart
+
+    # Reference https://docs.openstack.org/ocata/networking-guide/config-lbaas.html
+}
+
 function main() {
     while [ $# -gt 0 ];
     do
@@ -706,12 +753,14 @@ function main() {
                 download_glance
                 download_nova
                 download_neutron
+                download_lbaas
                 ;;
             configure)
                 configure_keystone
                 configure_glance
                 configure_nova
                 configure_neutron
+                configure_lbaas
                 ;;
             *)
                 echo "unknown mode"
