@@ -43,7 +43,8 @@ OpenStack version used is this deployment is ocata.
 
 Kubernetes version used is this deployment is 1.4.6.
 
-* Docker: v1.12
+* Docker: 1.12
+* etcd: v3.0.8
 
 ---
 
