@@ -218,7 +218,6 @@ Environment="KUBELET_ADDRESS=--address=0.0.0.0 --enable-server"
 Environment="KUBELET_NETWORK_PLUGIN=--network-plugin=cni --cni-bin-dir=/opt/cni/bin --cni-conf-dir=/opt/cni/conf"
 Environment="KUBELET_DIR=--cert-dir=/opt/data/hyperkube/kubelet.cert --root-dir=/opt/data/hyperkube/kubelet"
 
-#ExecStart=/usr/local/bin/kubelet \
 ExecStart=/usr/local/bin/hyperkube kubelet \
                 $KUBE_ALLOW_PRIV \
                 $KUBE_LOGTOSTDERR \
