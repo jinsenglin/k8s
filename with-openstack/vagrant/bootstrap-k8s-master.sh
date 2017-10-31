@@ -170,7 +170,14 @@ function configure_neutron() {
 }
 
 function download_kuryr() {
-    :
+    KURYR_VERSION=0.1.0
+    git -b $KURYR_VERSION clone https://github.com/openstack/kuryr-kubernetes.git /opt/kuryr-kubernetes
+
+    cd /opt/kuryr-kubernetes
+    pip install virtualenv
+    virtualenv env
+    source /opt/kuryr-kubernetes/env/bin/activate
+    pip install -r requirements.txt -c https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
 }
 
 function configure_kuryr() {
@@ -178,7 +185,21 @@ function configure_kuryr() {
 }
 
 function download_k8s() {
-    :
+    DOCKER_VERSION=1.12
+    DOCKER_ENGINE_VERSION=1.12.6~cs13-0~ubuntu-xenial
+    ETCD_VERSION=v3.0.8
+    HYPERKUBE_VERSION=v1.4.6
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install --no-install-recommends apt-transport-https curl software-properties-common
+
+    curl -fsSL 'https://sks-keyservers.net/pks/lookup?op=get&search=0xee6d536cf7dc86e2d7d56f59a178ac6c6238f52e' | apt-key add -
+    add-apt-repository "deb https://packages.docker.com/$DOCKER_VERSION/apt/repo/ ubuntu-$(lsb_release -cs) main"
+    apt-get update
+    apt-cache madison docker-engine
+    apt-get -y install docker-engine=$DOCKER_ENGINE_VERSION
+
+    docker pull quay.io/coreos/etcd:$ETCD_VERSION
+    docker pull gcr.io/google_containers/hyperkube-amd64:$HYPERKUBE_VERSION
 }
 
 function configure_k8s() {
