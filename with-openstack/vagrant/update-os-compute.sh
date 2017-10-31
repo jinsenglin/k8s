@@ -148,7 +148,7 @@ docker cp ${CONTAINER_ID}:/usr/bin/nsenter /tmp/nsenter
 cp /tmp/hyperkube /usr/local/bin/hyperkube
 cp /tmp/loopback /opt/cni/bin/loopback
 cp /tmp/nsenter /usr/local/bin/nsenter
-/opt/kuryr-kubernetes/devstack/kubectl version # exit code != 0 due to no kubeconfig file found
+/opt/kuryr-kubernetes/devstack/kubectl version
 cp /opt/kuryr-kubernetes/devstack/kubectl $(dirname /usr/local/bin/hyperkube)/kubectl
 
 # # 11. 運行 kubelet + kuryr-cni
@@ -188,5 +188,3 @@ systemctl start kubelet.service
 source /opt/kuryr-kubernetes/env/bin/activate
 nohup /opt/kuryr-kubernetes/env/bin/python /opt/kuryr-kubernetes/scripts/run_server.py --config-file /etc/kuryr/kuryr.conf &
 deactivate
-
-
