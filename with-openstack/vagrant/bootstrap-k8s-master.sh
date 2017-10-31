@@ -217,6 +217,7 @@ function configure_kuryr_part1() {
     FLAT_NETWORK_NAME=external
     PROVIDER_NETWORK_NAME=provider
     openstack network create  --share --external --provider-physical-network $FLAT_NETWORK_NAME --provider-network-type flat $PROVIDER_NETWORK_NAME
+    echo "# $(date)" | tee -a $CACHE/env.rc
     echo "export FLAT_NETWORK_NAME=$FLAT_NETWORK_NAME" | tee -a $CACHE/env.rc
     echo "export PROVIDER_NETWORK_NAME=$PROVIDER_NETWORK_NAME" | tee -a $CACHE/env.rc
 
