@@ -25,3 +25,26 @@ echo "K8S_POD1_NAME = $K8S_POD1_NAME"
 # check network traffic between openstack server and k8s pod
 kubectl get services demo
 kubectl get endpoints demo
+
+kubectl exec -it $DEMO_POD_NAME -- bash
+
+<<SOP
+export PS1='POD # '
+curl http://127.0.0.1:8080   # local server
+curl http://10.1.0.3:8080    # remote server using Pod IP
+curl http://10.1.0.4:8080    # local server using Pod IP
+curl http://10.1.0.110       # service
+curl http://10.1.0.110       # service
+
+ssh cirros@10.1.0.8          # password: cubswin:)
+
+export PS1='VM # '
+hostname
+curl http://10.1.0.3:8080
+curl http://10.1.0.4:8080
+curl http://10.1.0.110
+curl http://10.1.0.110
+exit # logout vm
+
+exit # logout pod
+SOP
