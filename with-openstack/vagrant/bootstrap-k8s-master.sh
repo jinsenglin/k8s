@@ -208,6 +208,7 @@ function download_kuryr() {
     virtualenv env
     source /opt/kuryr-kubernetes/env/bin/activate
     pip install -r requirements.txt -c https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
+    deactivate
 }
 
 function configure_kuryr_part1() {
@@ -339,7 +340,7 @@ DATA
 function configure_kuryr_part3() {
     # bring up kuryr-kubernetes controller
     source /opt/kuryr-kubernetes/env/bin/activate
-    nohup /opt/kuryr-kubernetes/env/bin/python /opt/kuryr-kubernetes/scripts/run_server.py --config-file /etc/kuryr/kuryr.conf &
+    screen -dmS kuryr-kubernetes-controller /opt/kuryr-kubernetes/env/bin/python /opt/kuryr-kubernetes/scripts/run_server.py --config-file /etc/kuryr/kuryr.conf 
     deactivate
 }
 
