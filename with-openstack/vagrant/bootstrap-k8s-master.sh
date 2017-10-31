@@ -332,6 +332,8 @@ function main() {
                 ;;
             configure)
                 configure_neutron
+                ;;
+            upgrade)
                 configure_kuryr
                 configure_k8s
                 ;;
