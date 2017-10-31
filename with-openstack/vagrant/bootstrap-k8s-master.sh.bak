@@ -169,19 +169,66 @@ function configure_neutron() {
     # https://www.centos.bz/2012/04/linux-sysctl-conf/
 }
 
-function download_kuryr() {
+function install_k8s_dependency_v1() {
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y ebtables ethtool
+
+    # Install docker-ce 17.03
+    apt-get install -y docker.io
+    apt-get update && apt-get install -y curl apt-transport-https
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    cat <<EOF >/etc/apt/sources.list.d/docker.list
+deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable
+EOF
+    apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+    # verify `systemctl status docker`
+
+    # Install k8s repo
+    apt-get update && apt-get install -y apt-transport-https
+    curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+    cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+deb http://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+    apt-get update
+}
+
+function install_k8s_dependency_v2() {
     :
+}
+
+function download_k8s_v1() {
+    KUBEADM_VERSION=1.8.1-01
+    KUBECTL_VERSION=1.8.0-00
+    KUBELET_VERSION=1.8.0-00
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y kubeadm=$KUBEADM_VERSION kubectl=$KUBECTL_VERSION kubelet=$KUBELET_VERSION
+    #apt-get install -y kubeadm kubectl kubelet
+}
+
+function download_k8s_v2() {
+    :
+}
+
+function configure_k8s_v1() {
+    : 
+}
+
+function configure_k8s_v2() {
+    : 
+}
+
+function download_kuryr() {
+    git clone -b 0.1.0 https://github.com/openstack/kuryr-kubernetes.git /opt/kuryr-kubernetes
+    cd /opt/kuryr-kubernetes
+
+    pip install virtualenv
+    virtualenv env
+    source /opt/kuryr-kubernetes/env/bin/activate
+    pip install -r requirements.txt -c https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
+    python setup.py install
 }
 
 function configure_kuryr() {
-    :
-}
-
-function download_k8s() {
-    :
-}
-
-function configure_k8s() {
     :
 }
 
@@ -196,14 +243,15 @@ function main() {
                 install_utilities
                 install_python
                 install_ntp
+                install_k8s_dependency_v2
                 download_neutron
                 download_kuryr
-                download_k8s
+                download_k8s_v2
                 ;;
             configure)
                 configure_neutron
                 configure_kuryr
-                configure_k8s
+                configure_k8s_v2
                 ;;
             *)
                 echo "unknown mode"
