@@ -1,5 +1,11 @@
 #!/bin/bash
 
+DEMO_PROJECT_ID=7d5488d7275a40a28ea906a56e8e160d
+SERVICE_SUBNET_ID=2c1a3234-6b4c-4267-aba1-3276bd5712a4
+DEMO_SUBNET_ID=bd07d41a-ba55-48fa-846b-74858aefcb8f
+DEMO_SECGROUP_ID=0cc41768-383d-4a7a-803f-b7cc8e0f469f
+KURYR_K8S_CLUSTER_IP_RANGE=10.1.0.64/26
+
 # PART II
 # ----------------------------------------------------------------------------- #
 
