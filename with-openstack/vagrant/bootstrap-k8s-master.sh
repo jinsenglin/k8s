@@ -211,7 +211,7 @@ function download_kuryr() {
 }
 
 function configure_kuryr_part1() {
-    source ~/admin-openrc
+    source /root/admin-openrc
 
     # create provider network 'provider'
     FLAT_NETWORK_NAME=external
@@ -379,7 +379,7 @@ function configure_k8s() {
            --initial-cluster devstack=http://$ENV_MGMT_K8S_MASTER_IP:2380 \
            --initial-cluster-state new
 
-    # bring up hyperkube
+    # bring up hyperkube::devstack-setup-files
     mkdir -p /opt/data/hyperkube
     docker run --name devstack-k8s-setup-files --detach \
            --volume "/opt/data/hyperkube:/srv/kubernetes:rw" \
@@ -387,7 +387,7 @@ function configure_k8s() {
            /setup-files.sh \
            "IP:$ENV_MGMT_K8S_MASTER_IP,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local"
 
-    echo "wait for 5 seconds"
+    echo "wait 5 seconds for hyperkube::devstack-setup-files"
     sleep 5
 
     # bring up hyperkube::apiserver
@@ -495,7 +495,7 @@ function main() {
                 download_k8s
                 ;;
             configure)
-                configure_neutron
+#                configure_neutron
                 configure_kuryr_part1
                 configure_kuryr_part2
                 configure_k8s
