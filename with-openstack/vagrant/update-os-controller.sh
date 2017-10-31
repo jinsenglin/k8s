@@ -272,4 +272,55 @@ docker images
 source ~/demo-openrc
 nova boot --flavor m1.nano --image cirros --nic net-id=$DEMO_NET_ID --config-drive=true testvm
 
-# Next? 
+# Update security group
+openstack security group rule create --protocol icmp --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+openstack security group rule create --protocol tcp --dst-port 22 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+openstack security group rule create --protocol tcp --dst-port 80 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+
+# Create a pod
+kubectl run demo --image=demo:demo
+
+# Check pod IP
+openstack port list --device-owner kuryr:container -c Name
+kubectl get pods -l run=demo
+K8S_POD1_NAME=$(kubectl get pods -l run=demo -o jsonpath='{.items[].metadata.name}')
+kubectl get pod $K8S_POD1_NAME -o jsonpath='{.status.podIP}'
+
+# Expose deployment 
+kubectl expose deployment demo --port=80 --target-port=8080
+
+# Check service and endpoint
+kubectl get service demo
+kubectl get endpoints demo
+
+# Check loadbalancer
+neutron lbaas-loadbalancer-list -c id -c name -c vip_address -c provider
+
+# Scale deployment
+kubectl scale deployment demo --replicas=2
+
+# Check deployment again
+kubectl get pod
+kubectl get deploy demo
+kubectl get endpoints demo
+
+# Check network connection between pod < -- > vm
+DEMO_POD_NAME=demo-2945424114-4zw0d
+kubectl exec -it $DEMO_POD_NAME -- bash
+
+export PS1='POD # '
+curl http://127.0.0.1:8080   # local server
+curl http://10.1.0.3:8080    # remote server using Pod IP
+curl http://10.1.0.4:8080    # local server using Pod IP
+curl http://10.1.0.110       # service
+curl http://10.1.0.110       # service
+ssh cirros@10.1.0.8          # password: cubswin:)
+
+export PS1='VM # '
+hostname
+curl http://10.1.0.3:8080
+curl http://10.1.0.4:8080
+curl http://10.1.0.110
+curl http://10.1.0.110
+exit # logout vm
+exit # logout pod
