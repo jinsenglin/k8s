@@ -292,6 +292,11 @@ function configure_kuryr_part1() {
     # get security group 'default' of project 'demo'
     DEMO_SECGROUP_ID=$(openstack security group list --project demo -c ID -f value)
     echo "export DEMO_SECGROUP_ID=$DEMO_SECGROUP_ID" | tee -a $CACHE/env.rc
+
+    # update security group 'default'
+    openstack security group rule create --protocol icmp --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+    openstack security group rule create --protocol tcp --dst-port 22 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+    openstack security group rule create --protocol tcp --dst-port 80 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
 }
 
 function configure_kuryr_part2() {
@@ -345,14 +350,6 @@ function configure_kuryr_part3() {
 }
 
 function configure_kuryr_part4() {
-    source /root/admin-openrc
-    source $CACHE/env.rc
-
-    # update security group
-    openstack security group rule create --protocol icmp --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
-    openstack security group rule create --protocol tcp --dst-port 22 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
-    openstack security group rule create --protocol tcp --dst-port 80 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
-
     # create 'demo' docker image
     mkdir demo
     cat > demo/Dockerfile <<DATA
