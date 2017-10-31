@@ -346,7 +346,7 @@ function configure_kuryr_part3() {
 
 function configure_kuryr_part4() {
     source /root/admin-openrc
-    $CACHE/env.rc
+    source $CACHE/env.rc
 
     # update security group
     openstack security group rule create --protocol icmp --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
@@ -529,7 +529,7 @@ function main() {
                 download_k8s
                 ;;
             configure)
-#                configure_neutron
+                configure_neutron
                 configure_kuryr_part1
                 configure_kuryr_part2
                 configure_k8s
