@@ -386,6 +386,9 @@ function configure_k8s() {
            /setup-files.sh \
            "IP:$ENV_MGMT_K8S_MASTER_IP,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local"
 
+    echo "wait for 5 seconds"
+    sleep 5
+
     # bring up hyperkube::apiserver
     KURYR_ETCD_ADVERTISE_CLIENT_URL=http://$ENV_MGMT_K8S_MASTER_IP:2379
     docker run --name kubernetes-api --detach \
@@ -492,12 +495,12 @@ function main() {
                 ;;
             configure)
                 configure_neutron
+                configure_kuryr_part1
+                configure_kuryr_part2
+                configure_k8s
+                configure_kuryr_part3
                 ;;
             upgrade)
-#                configure_kuryr_part1
-                configure_kuryr_part2
-#                configure_k8s
-#                configure_kuryr_part3
                 ;;
             *)
                 echo "unknown mode"
