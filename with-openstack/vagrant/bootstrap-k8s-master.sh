@@ -210,7 +210,7 @@ function download_kuryr() {
     pip install -r requirements.txt -c https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
 }
 
-function configure_kuryr() {
+function configure_kuryr_part1() {
     source ~/admin-openrc
 
     # create provider network 'provider'
@@ -289,7 +289,57 @@ function configure_kuryr() {
 
     # get security group 'default' of project 'demo'
     DEMO_SECGROUP_ID=$(openstack security group list --project demo -c ID -f value)
-    echo "export DEMO_SECGROUP_ID=$DEMO_SECGROUP_ID" | tee -a $CACHE/env.rc 
+    echo "export DEMO_SECGROUP_ID=$DEMO_SECGROUP_ID" | tee -a $CACHE/env.rc
+}
+
+function configure_kuryr_part2() {
+    source $CACHE/env.rc
+
+    # install kuryr-kubernetes
+    cd /opt/kuryr-kubernetes
+    source /opt/kuryr-kubernetes/env/bin/activate
+    python setup.py install
+    cp /opt/kuryr-kubernetes/env/bin/kuryr-cni /usr/local/bin/kuryr-cni
+    cp /opt/kuryr-kubernetes/env/bin/kuryr-k8s-controller /usr/local/bin/kuryr-k8s-controller
+
+    # make /etc/kuryr/kuryr.conf
+    ./tools/generate_config_file_samples.sh
+    mkdir /etc/kuryr
+    cp etc/kuryr.conf.sample /etc/kuryr/kuryr.conf
+    mkdir -p /var/cache/kuryr
+    mkdir -p /etc/kuryr
+    mkdir -p /opt/data/etcd
+    cat > /etc/kuryr/kuryr.conf <<DATA
+[DEFAULT]
+use_stderr = true
+[kubernetes]
+api_root = http://$ENV_MGMT_K8S_MASTER_IP:8080
+[neutron]
+auth_uri = http://$ENV_MGMT_OS_CONTROLLER_IP:5000
+auth_url = http://$ENV_MGMT_OS_CONTROLLER_IP:35357
+memcached_servers = $ENV_MGMT_OS_CONTROLLER_IP:11211
+auth_type = password
+username = kuryr
+password = password
+project_name = service
+project_domain_name = Default
+user_domain_name = Default
+signing_dir = /var/cache/kuryr
+cafile = /opt/stack/data/ca-bundle.pem
+[neutron_defaults]
+ovs_bridge = br-int
+project = $DEMO_PROJECT_ID
+service_subnet = $SERVICE_SUBNET_ID
+pod_subnet = $DEMO_SUBNET_ID
+pod_security_groups = $DEMO_SECGROUP_ID
+DATA
+}
+
+function configure_kuryr_part3() {
+    # bring up kuryr-kubernetes controller
+    source /opt/kuryr-kubernetes/env/bin/activate
+    nohup /opt/kuryr-kubernetes/env/bin/python /opt/kuryr-kubernetes/scripts/run_server.py --config-file /etc/kuryr/kuryr.conf &
+    deactivate
 }
 
 function download_k8s() {
@@ -311,7 +361,117 @@ function download_k8s() {
 }
 
 function configure_k8s() {
-    :
+    source $CACHE/env.rc
+
+    # bring up etcd
+    docker run --name etcd --detach \
+           --net host \
+           --volume="/opt/data/etcd:/var/etcd:rw" \
+           quay.io/coreos/etcd:v3.0.8 /usr/local/bin/etcd \
+           --name devstack \
+           --data-dir /var/etcd/data \
+           --initial-advertise-peer-urls http://$ENV_MGMT_K8S_MASTER_IP:2380 \
+           --listen-peer-urls http://0.0.0.0:2380 \
+           --listen-client-urls http://0.0.0.0:2379 \
+           --advertise-client-urls http://$ENV_MGMT_K8S_MASTER_IP:2379 \
+           --initial-cluster-token etcd-cluster-1 \
+           --initial-cluster devstack=http://$ENV_MGMT_K8S_MASTER_IP:2380 \
+           --initial-cluster-state new
+
+    # bring up hyperkube
+    mkdir -p /opt/data/hyperkube
+    docker run --name devstack-k8s-setup-files --detach \
+           --volume "/opt/data/hyperkube:/srv/kubernetes:rw" \
+           gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
+           /setup-files.sh \
+           "IP:$ENV_MGMT_K8S_MASTER_IP,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local"
+
+    # bring up hyperkube::apiserver
+    KURYR_ETCD_ADVERTISE_CLIENT_URL=http://$ENV_MGMT_K8S_MASTER_IP:2379
+    docker run --name kubernetes-api --detach \
+           --net host \
+           --volume="/opt/data/hyperkube:/srv/kubernetes:rw" \
+           gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
+           /hyperkube apiserver \
+           --service-cluster-ip-range=$KURYR_K8S_CLUSTER_IP_RANGE \
+           --insecure-bind-address=0.0.0.0 \
+           --insecure-port=8080 \
+           --etcd-servers=http://$ENV_MGMT_K8S_MASTER_IP:2379 \
+           --admission-control=NamespaceLifecycle,LimitRanger,ServiceAccount,ResourceQuota \
+           --client-ca-file=/srv/kubernetes/ca.crt \
+           --basic-auth-file=/srv/kubernetes/basic_auth.csv \
+           --min-request-timeout=300 \
+           --tls-cert-file=/srv/kubernetes/server.cert \
+           --tls-private-key-file=/srv/kubernetes/server.key \
+           --token-auth-file=/srv/kubernetes/known_tokens.csv \
+           --allow-privileged=true \
+           --v=2 --logtostderr=true
+
+    # bring up hyperkube::controller-manager
+    docker run --name kubernetes-controller-manager --detach \
+           --net host \
+           --volume="/opt/data/hyperkube:/srv/kubernetes:rw" \
+           gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
+           /hyperkube controller-manager \
+           --service-account-private-key-file=/srv/kubernetes/server.key \
+           --root-ca-file=/srv/kubernetes/ca.crt \
+           --min-resync-period=3m \
+           --master="http://$ENV_MGMT_K8S_MASTER_IP:8080" \
+           --v=2 --logtostderr=true
+
+    # bring up hyperkube::scheduler
+    docker run --name kubernetes-scheduler --detach \
+           --net host \
+           --volume="/opt/data/hyperkube:/srv/kubernetes:rw" \
+           gcr.io/google_containers/hyperkube-amd64:v1.4.6 \
+           /hyperkube scheduler \
+           --master=http://$ENV_MGMT_K8S_MASTER_IP:8080 \
+           --v=2 --logtostderr=true
+
+    # ?
+    KURYR_CNI_BIN=$(which kuryr-cni)
+    mkdir -p /opt/cni/bin /opt/cni/conf
+    cp /usr/local/bin/kuryr-cni /opt/cni/bin/kuryr-cni
+    cp /opt/kuryr-kubernetes/etc/cni/net.d/10-kuryr.conf /opt/cni/conf/10-kuryr.conf
+    cp /opt/kuryr-kubernetes/etc/cni/net.d/99-loopback.conf /opt/cni/conf/99-loopback.conf
+    CONTAINER_ID="$(docker ps -aq -f ancestor=gcr.io/google_containers/hyperkube-amd64:v1.4.6 | head -1)"
+    docker cp ${CONTAINER_ID}:/hyperkube /tmp/hyperkube
+    docker cp ${CONTAINER_ID}:/opt/cni/bin/loopback /tmp/loopback
+    docker cp ${CONTAINER_ID}:/usr/bin/nsenter /tmp/nsenter
+    cp /tmp/hyperkube /usr/local/bin/hyperkube
+    cp /tmp/loopback /opt/cni/bin/loopback
+    cp /tmp/nsenter /usr/local/bin/nsenter
+    /opt/kuryr-kubernetes/devstack/kubectl version
+    cp /opt/kuryr-kubernetes/devstack/kubectl $(dirname /usr/local/bin/hyperkube)/kubectl
+
+    # bring up kubelet
+    mkdir -p /opt/data/hyperkube/{kubelet,kubelet.cert}
+cat > /etc/systemd/system/kubelet.service <<DATA
+[Unit]
+Description=Kubernetes Kubelet Server
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+After=docker.service
+Wants=docker.socket
+[Service]
+Environment="KUBE_ALLOW_PRIV=--allow-privileged=true"
+Environment="KUBE_LOGTOSTDERR=--logtostderr=true --v=2"
+Environment="KUBELET_API_SERVER=--api-servers=http://$ENV_MGMT_K8S_MASTER_IP:8080"
+Environment="KUBELET_ADDRESS=--address=0.0.0.0 --enable-server"
+Environment="KUBELET_NETWORK_PLUGIN=--network-plugin=cni --cni-bin-dir=/opt/cni/bin --cni-conf-dir=/opt/cni/conf"
+Environment="KUBELET_DIR=--cert-dir=/opt/data/hyperkube/kubelet.cert --root-dir=/opt/data/hyperkube/kubelet"
+ExecStart=/usr/local/bin/hyperkube kubelet \
+                \$KUBE_ALLOW_PRIV \
+                \$KUBE_LOGTOSTDERR \
+                \$KUBELET_API_SERVER \
+                \$KUBELET_ADDRESS \
+                \$KUBELET_NETWORK_PLUGIN \
+                \$KUBELET_DIR
+Restart=always
+RestartSec=10s
+[Install]
+WantedBy=multi-user.target
+DATA
+    systemctl start kubelet.service
 }
 
 function main() {
@@ -334,8 +494,10 @@ function main() {
                 configure_neutron
                 ;;
             upgrade)
-                configure_kuryr
-                configure_k8s
+#                configure_kuryr_part1
+                configure_kuryr_part2
+#                configure_k8s
+#                configure_kuryr_part3
                 ;;
             *)
                 echo "unknown mode"
