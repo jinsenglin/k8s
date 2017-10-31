@@ -344,6 +344,39 @@ function configure_kuryr_part3() {
     deactivate
 }
 
+function configure_kuryr_part4() {
+    source /root/admin-openrc
+    $CACHE/env.rc
+
+    # update security group
+    openstack security group rule create --protocol icmp --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+    openstack security group rule create --protocol tcp --dst-port 22 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+    openstack security group rule create --protocol tcp --dst-port 80 --remote-ip 0.0.0.0/0 $DEMO_SECGROUP_ID
+
+    # create 'demo' docker image
+    mkdir demo
+    cat > demo/Dockerfile <<DATA
+FROM alpine
+RUN apk add --no-cache python bash openssh-client curl
+COPY server.py /server.py
+ENTRYPOINT ["python", "/server.py"]
+DATA
+    cat > demo/server.py <<DATA
+import BaseHTTPServer as http
+import platform
+class Handler(http.BaseHTTPRequestHandler):
+  def do_GET(self):
+    self.send_response(200)
+    self.send_header('Content-Type', 'text/plain')
+    self.end_headers()
+    self.wfile.write("%s\n" % platform.node())
+if __name__ == '__main__':
+  httpd = http.HTTPServer(('', 8080), Handler)
+  httpd.serve_forever()
+DATA
+    docker build -t demo:demo demo
+}
+
 function download_k8s() {
     DOCKER_VERSION=1.12
     DOCKER_ENGINE_VERSION=1.12.6~cs13-0~ubuntu-xenial
@@ -501,6 +534,7 @@ function main() {
                 configure_kuryr_part2
                 configure_k8s
                 configure_kuryr_part3
+                configure_kuryr_part4
                 ;;
             upgrade)
                 ;;
