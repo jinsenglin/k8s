@@ -242,7 +242,7 @@ deactivate
 # PART III
 # ----------------------------------------------------------------------------- #
 
-# Make a 'demo' working dir
+# Make a 'demo' working dir to make a 'demo' docker image
 mkdir demo
 cat > demo/Dockerfile <<DATA
 FROM alpine
