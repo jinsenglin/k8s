@@ -45,6 +45,10 @@ deb http://192.168.240.3/ubuntu xenial-security universe
 deb http://192.168.240.3/ubuntu xenial-security multiverse
 deb http://192.168.240.3/ubuntu-cloud-archive xenial-updates/ocata main
 DATA
+
+    rm -rf /var/lib/apt/lists/*
+    echo 'APT::Get::AllowUnauthenticated "true";' > /etc/apt/apt.conf.d/99-use-local-apt-server
+    apt-get update && APT_UPDATED=true
 }
 
 function each_node_must_resolve_the_other_nodes_by_name_in_addition_to_IP_address() {
@@ -57,6 +61,19 @@ $ENV_MGMT_K8S_MASTER_IP k8s-master
 DATA
 
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-networking.html
+}
+
+function install_utilities() {
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y crudini
+}
+
+function install_python() {
+    PYTHON_VERSION=2.7.11-1
+    PYTHON_PIP_VERSION=8.1.1-2ubuntu0.4
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y python=$PYTHON_VERSION python-pip=$PYTHON_PIP_VERSION
+    #apt-get install -y python python-pip
 }
 
 function install_ntp() {
@@ -86,7 +103,73 @@ function install_ntp() {
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-ntp-other.html
 }
 
-function install_k8s_dependency() {
+function download_neutron() {
+    NEUTRON_PLUGIN_ML2_VERSION=2:10.0.3-0ubuntu1~cloud0
+    NEUTRON_OPENVSWITCH_AGENT_VERSION=2:10.0.3-0ubuntu1~cloud0
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt install -y neutron-plugin-ml2=$NEUTRON_PLUGIN_ML2_VERSION \
+                   neutron-openvswitch-agent=$NEUTRON_OPENVSWITCH_AGENT_VERSION
+#    apt install -y neutron-plugin-ml2 \
+#                   neutron-openvswitch-agent
+}
+
+function configure_neutron() {
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    # Edit the /etc/sysctl.conf
+    # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    sed -i "$ a net.ipv4.conf.all.rp_filter = 0" /etc/sysctl.conf
+    sed -i "$ a net.ipv4.conf.default.rp_filter = 0" /etc/sysctl.conf
+    sed -i "$ a net.bridge.bridge-nf-call-iptables = 1" /etc/sysctl.conf
+    sed -i "$ a net.bridge.bridge-nf-call-ip6tables = 1" /etc/sysctl.conf
+    sysctl -p
+
+    # Edit the /etc/neutron/neutron.conf file, [database] section
+    # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    sed -i "s|^connection = |#connection = |" /etc/neutron/neutron.conf
+
+    # Edit the /etc/neutron/neutron.conf file, [DEFAULT] section
+    sed -i "/^\[DEFAULT\]$/ a service_plugins = router" /etc/neutron/neutron.conf
+    sed -i "/^\[DEFAULT\]$/ a allow_overlapping_ips = True" /etc/neutron/neutron.conf
+    sed -i "/^\[DEFAULT\]$/ a transport_url = rabbit://openstack:RABBIT_PASS@os-controller" /etc/neutron/neutron.conf
+    sed -i "/^\[DEFAULT\]$/ a auth_strategy = keystone" /etc/neutron/neutron.conf
+
+    # Edit the /etc/neutron/neutron.conf file, [keystone_authtoken] section
+    echo -e "auth_uri = http://os-controller:5000\nauth_url = http://os-controller:35357\nmemcached_servers = os-controller:11211\nauth_type = password\nproject_domain_name = Default\nuser_domain_name = Default\nproject_name = service\nusername = neutron\npassword = NEUTRON_PASS\n" | sed -i "/^\[keystone_authtoken\]/ r /dev/stdin" /etc/neutron/neutron.conf
+
+    # Edit the /etc/neutron/plugins/ml2/openvswitch_agent.ini file, [ovs] section
+    # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    sed -i "/^\[ovs\]$/ a local_ip = $ENV_TUNNEL_K8S_MASTER_IP" /etc/neutron/plugins/ml2/openvswitch_agent.ini 
+
+    # Edit the /etc/neutron/plugins/ml2/openvswitch_agent.ini file, [agent] section
+    # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    sed -i "/^\[agent\]$/ a tunnel_types = vxlan" /etc/neutron/plugins/ml2/openvswitch_agent.ini 
+    sed -i "/^\[agent\]$/ a l2_population = True" /etc/neutron/plugins/ml2/openvswitch_agent.ini 
+    sed -i "/^\[agent\]$/ a prevent_arp_spoofing = True" /etc/neutron/plugins/ml2/openvswitch_agent.ini 
+
+    # Edit the /etc/neutron/plugins/ml2/openvswitch_agent.ini file, [securitygroup] section
+    # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    sed -i "/^\[securitygroup\]$/ a enable_security_group = True" /etc/neutron/plugins/ml2/openvswitch_agent.ini 
+    sed -i "/^\[securitygroup\]$/ a firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver" /etc/neutron/plugins/ml2/openvswitch_agent.ini 
+
+    # Restart the Networking services
+    service openvswitch-switch restart
+    service neutron-openvswitch-agent restart
+
+    # Log files
+    # /var/log/neutron/neutron-openvswitch-agent.log
+    # /var/log/neutron/neutron-ovs-cleanup.log
+    # /var/log/openvswitch/ovsdb-server.log
+    # /var/log/openvswitch/ovs-vswitchd.log
+
+    # References
+    # https://docs.openstack.org/newton/install-guide-ubuntu/neutron-compute-install.html
+    # https://docs.openstack.org/newton/install-guide-ubuntu/neutron-compute-install-option2.html
+    # https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    # https://www.centos.bz/2012/04/linux-sysctl-conf/
+}
+
+function install_k8s_dependency_v1() {
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
     apt-get install -y ebtables ethtool
 
@@ -109,7 +192,11 @@ EOF
     apt-get update
 }
 
-function download_k8s() {
+function install_k8s_dependency_v2() {
+    :
+}
+
+function download_k8s_v1() {
     KUBEADM_VERSION=1.8.1-01
     KUBECTL_VERSION=1.8.0-00
     KUBELET_VERSION=1.8.0-00
@@ -118,8 +205,31 @@ function download_k8s() {
     #apt-get install -y kubeadm kubectl kubelet
 }
 
-function configure_k8s() {
+function download_k8s_v2() {
+    :
+}
+
+function configure_k8s_v1() {
     : 
+}
+
+function configure_k8s_v2() {
+    : 
+}
+
+function download_kuryr() {
+    git clone -b 0.1.0 https://github.com/openstack/kuryr-kubernetes.git /opt/kuryr-kubernetes
+    cd /opt/kuryr-kubernetes
+
+    pip install virtualenv
+    virtualenv env
+    source /opt/kuryr-kubernetes/env/bin/activate
+    pip install -r requirements.txt -c https://raw.githubusercontent.com/openstack/requirements/stable/ocata/upper-constraints.txt
+    python setup.py install
+}
+
+function configure_kuryr() {
+    :
 }
 
 function main() {
@@ -130,12 +240,18 @@ function main() {
                 #use_local_apt_server
                 use_public_apt_server
                 each_node_must_resolve_the_other_nodes_by_name_in_addition_to_IP_address
+                install_utilities
+                install_python
                 install_ntp
-                install_k8s_dependency
-                download_k8s
+                install_k8s_dependency_v2
+                download_neutron
+                download_kuryr
+                download_k8s_v2
                 ;;
             configure)
-                configure_k8s
+                configure_neutron
+                configure_kuryr
+                configure_k8s_v2
                 ;;
             *)
                 echo "unknown mode"
