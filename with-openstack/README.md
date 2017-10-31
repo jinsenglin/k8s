@@ -14,15 +14,11 @@ vagrant up --provision-with bootstrap os-network
 vagrant up --provision-with bootstrap os-compute
 vagrant up --provision-with bootstrap k8s-master
 
-# Terminal 1
-vagrant ssh os-controller
-sudo su
-source ~/admin-openrc
-bash /vagrant/verify-openstack.sh
-bash /vagrant/update-os-controller.sh
-
-# Terminal 2
-vagrant ssh k8s-master
+# RUN verify-openstack
+# RUN update-os-controller PART1
+# RUN update-os-compute PART2
+# RUN update-os-controller PART3
+# RUN update-os-compute PART4
 ```
 
 ---
