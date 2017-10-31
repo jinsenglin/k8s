@@ -103,6 +103,36 @@ function install_ntp() {
     # Reference https://docs.openstack.org/newton/install-guide-ubuntu/environment-ntp-other.html
 }
 
+function install_openstack_cli() {
+    PYTHON_OPENSTACKCLIENT_VERSION=3.8.1-0ubuntu3~cloud0
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt install -y python-openstackclient=$PYTHON_OPENSTACKCLIENT_VERSION
+    #apt install -y python-openstackclient
+
+    cat > /root/admin-openrc <<DATA
+export OS_USERNAME=admin
+export OS_PASSWORD=ADMIN_PASS
+export OS_PROJECT_NAME=admin
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://os-controller:35357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+DATA
+
+    cat > /root/demo-openrc <<DATA
+export OS_USERNAME=demo
+export OS_PASSWORD=DEMO_PASS
+export OS_PROJECT_NAME=demo
+export OS_USER_DOMAIN_NAME=Default
+export OS_PROJECT_DOMAIN_NAME=Default
+export OS_AUTH_URL=http://os-controller:5000/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+DATA
+
+}
+
 function download_neutron() {
     NEUTRON_PLUGIN_ML2_VERSION=2:10.0.3-0ubuntu1~cloud0
     NEUTRON_OPENVSWITCH_AGENT_VERSION=2:10.0.3-0ubuntu1~cloud0
@@ -171,7 +201,7 @@ function configure_neutron() {
 
 function download_kuryr() {
     KURYR_VERSION=0.1.0
-    git -b $KURYR_VERSION clone https://github.com/openstack/kuryr-kubernetes.git /opt/kuryr-kubernetes
+    git clone -b $KURYR_VERSION https://github.com/openstack/kuryr-kubernetes.git /opt/kuryr-kubernetes
 
     cd /opt/kuryr-kubernetes
     pip install virtualenv
@@ -217,6 +247,7 @@ function main() {
                 install_utilities
                 install_python
                 install_ntp
+                install_openstack_cli
                 download_neutron
                 download_kuryr
                 download_k8s
