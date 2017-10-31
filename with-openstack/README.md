@@ -14,10 +14,10 @@ vagrant up --provision-with download os-network
 vagrant up --provision-with download os-compute
 vagrant up --provision-with download k8s-master
 
-vagrant ssh os-controller "bash /vagrant/bootstrap-os-controller.sh configure"
-vagrant ssh os-network "bash /vagrant/bootstrap-os-network.sh configure"
-vagrant ssh os-compute "bash /vagrant/bootstrap-os-compute.sh configure"
-vagrant ssh k8s-master "bash /vagrant/bootstrap-k8s-master.sh configure"
+vagrant ssh os-controller -c "sudo /vagrant/bootstrap-os-controller.sh configure"
+vagrant ssh os-network -c "sudo /vagrant/bootstrap-os-network.sh configure"
+vagrant ssh os-compute -c "sudo /vagrant/bootstrap-os-compute.sh configure"
+vagrant ssh k8s-master -c "sudo /vagrant/bootstrap-k8s-master.sh configure"
 ```
 
 ---
