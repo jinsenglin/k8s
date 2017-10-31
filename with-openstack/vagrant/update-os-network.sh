@@ -6,7 +6,7 @@
 # # 1. 下載 kuryr-kubernetes project
 git clone https://github.com/openstack/kuryr-kubernetes.git /opt/kuryr-kubernetes
 cd /opt/kuryr-kubernetes
-git checkout -b 0.1.0
+git checkout 0.1.0
 
 # # 2. 安裝 pip, virtualenv and kuryr-kubernetes==0.1.0
 pip install virtualenv
