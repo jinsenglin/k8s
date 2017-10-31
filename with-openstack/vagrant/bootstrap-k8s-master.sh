@@ -211,7 +211,85 @@ function download_kuryr() {
 }
 
 function configure_kuryr() {
-    :
+    source ~/admin-openrc
+
+    # create provider network 'provider'
+    FLAT_NETWORK_NAME=external
+    PROVIDER_NETWORK_NAME=provider
+    openstack network create  --share --external --provider-physical-network $FLAT_NETWORK_NAME --provider-network-type flat $PROVIDER_NETWORK_NAME
+    echo "export FLAT_NETWORK_NAME=$FLAT_NETWORK_NAME" | tee -a $CACHE/env.rc
+    echo "export PROVIDER_NETWORK_NAME=$PROVIDER_NETWORK_NAME" | tee -a $CACHE/env.rc
+
+    # create subnet 'provider'
+    openstack subnet create --network $PROVIDER_NETWORK_NAME --allocation-pool start=10.0.3.230,end=10.0.3.250 --dns-nameserver 8.8.8.8 --gateway 10.0.3.1 --subnet-range 10.0.3.0/24 --no-dhcp $PROVIDER_NETWORK_NAME
+
+    # create flavor 'm1.nano'
+    openstack flavor create --id 0 --vcpus 1 --ram 64 --disk 1 m1.nano
+
+    # create user 'kuryr'
+    KURYR_USER_ID=$(openstack user create kuryr --password password --domain=Default --or-show -c id -f value)
+    echo "export KURYR_USER_ID=$KURYR_USER_ID" | tee -a $CACHE/env.rc
+
+    # create role 'service'
+    SERVICE_ROLE_ID=$(openstack role create service --or-show -c id -f value)
+    echo "export SERVICE_ROLE_ID=$SERVICE_ROLE_ID" | tee -a $CACHE/env.rc
+
+    # assign 'admin' role to 'kuryr' user in 'admin' project
+    openstack role add service --user kuryr --project service --user-domain Default --project-domain Default
+
+    # assign 'service' role to 'kuryr' user in 'service' project
+    openstack role add admin --user kuryr --project service --user-domain Default --project-domain Default
+
+    # create service 'kuryr-kubernetes'
+    KURYR_SVC_ID=$(openstack service create kuryr-kubernetes --name kuryr-kubernetes --description="Kuryr-Kubernetes Service" -f value -c id)
+    echo "export KURYR_SVC_ID=$KURYR_SVC_ID" | tee -a $CACHE/env.rc
+    
+    # create subnet pool 'shared-default-subnetpool'
+    SUBNETPOOL_V4_ID=$(openstack subnet pool create shared-default-subnetpool --default-prefix-length 26 --pool-prefix "10.1.0.0/22" --share --default -f value -c id)
+    echo "export SUBNETPOOL_V4_ID=$SUBNETPOOL_V4_ID" | tee -a $CACHE/env.rc
+    
+    # get id of project 'demo'
+    DEMO_PROJECT_ID=$(openstack project show -c id -f value demo)
+    echo "export DEMO_PROJECT_ID=$DEMO_PROJECT_ID" | tee -a $CACHE/env.rc 
+
+    # create network 'demo'
+    DEMO_NET_ID=$(openstack network create --project demo -c id -f value demo)
+    echo "export DEMO_NET_ID=$DEMO_NET_ID" | tee -a $CACHE/env.rc 
+
+    # create subnet 'demo'
+    DEMO_SUBNET_ID=$(openstack subnet create --project demo --ip-version 4 --subnet-pool $SUBNETPOOL_V4_ID --network $DEMO_NET_ID -c id -f value demo)
+    echo "export DEMO_SUBNET_ID=$DEMO_SUBNET_ID" | tee -a $CACHE/env.rc 
+
+    # create subnet 'k8s-service-subnet'
+    SERVICE_SUBNET_ID=$(openstack subnet create --project demo --ip-version 4 --no-dhcp --gateway none --subnet-pool $SUBNETPOOL_V4_ID --network $DEMO_NET_ID -c id -f value k8s-service-subnet)
+    echo "export SERVICE_SUBNET_ID=$SERVICE_SUBNET_ID" | tee -a $CACHE/env.rc 
+
+    # get cidr of subnet 'k8s-service-subnet'
+    SERVICE_CIDR=$(openstack subnet show -c cidr -f value $SERVICE_SUBNET_ID)
+    KURYR_K8S_CLUSTER_IP_RANGE=$SERVICE_CIDR
+    echo "export SERVICE_CIDR=$SERVICE_CIDR" | tee -a $CACHE/env.rc 
+    echo "export KURYR_K8S_CLUSTER_IP_RANGE=$KURYR_K8S_CLUSTER_IP_RANGE" | tee -a $CACHE/env.rc 
+
+    # parse allocation_pools of subnet 'k8s-service-subnet'
+    GATEWAY_IP=$(openstack subnet show -c allocation_pools -f value $SERVICE_SUBNET_ID | awk -F '-' '{print $2}')
+    echo "export GATEWAY_IP=$GATEWAY_IP" | tee -a $CACHE/env.rc 
+
+    # update gateway of subnet 'k8s-service-subnet'
+    openstack subnet set --gateway $GATEWAY_IP --no-allocation-pool $SERVICE_SUBNET_ID
+
+    # create router 'demo'
+    DEMO_ROUTER_ID=$(openstack router create --project demo -c id -f value demo)
+    echo "export DEMO_ROUTER_ID=$DEMO_ROUTER_ID" | tee -a $CACHE/env.rc 
+
+    # link router 'demo' and subnet 'demo'
+    openstack router add subnet $DEMO_ROUTER_ID $DEMO_SUBNET_ID
+
+    # link router 'demo' and subnet 'k8s-service-subnet'
+    openstack router add subnet $DEMO_ROUTER_ID $SERVICE_SUBNET_ID
+
+    # get security group 'default' of project 'demo'
+    DEMO_SECGROUP_ID=$(openstack security group list --project demo -c ID -f value)
+    echo "export DEMO_SECGROUP_ID=$DEMO_SECGROUP_ID" | tee -a $CACHE/env.rc 
 }
 
 function download_k8s() {
