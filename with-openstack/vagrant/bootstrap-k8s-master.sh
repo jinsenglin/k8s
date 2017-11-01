@@ -411,8 +411,10 @@ function configure_kuryr_part2() {
     cat > /etc/kuryr/kuryr.conf <<DATA
 [DEFAULT]
 use_stderr = true
+
 [kubernetes]
 api_root = http://$ENV_MGMT_K8S_MASTER_IP:8080
+
 [neutron]
 auth_uri = http://$ENV_MGMT_OS_CONTROLLER_IP:5000
 auth_url = http://$ENV_MGMT_OS_CONTROLLER_IP:35357
@@ -425,6 +427,7 @@ project_domain_name = Default
 user_domain_name = Default
 signing_dir = /var/cache/kuryr
 cafile = /opt/stack/data/ca-bundle.pem
+
 [neutron_defaults]
 ovs_bridge = br-int
 project = $DEMO_PROJECT_ID
@@ -580,6 +583,7 @@ Description=Kubernetes Kubelet Server
 Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 After=docker.service
 Wants=docker.socket
+
 [Service]
 Environment="KUBE_ALLOW_PRIV=--allow-privileged=true"
 Environment="KUBE_LOGTOSTDERR=--logtostderr=true --v=2"
@@ -596,6 +600,7 @@ ExecStart=/usr/local/bin/hyperkube kubelet \
                 \$KUBELET_DIR
 Restart=always
 RestartSec=10s
+
 [Install]
 WantedBy=multi-user.target
 DATA
