@@ -106,5 +106,23 @@ M3=k8s-master3
 M4=k8s-node1
 M5=k8s-node2
 
+function reserve_Ms() {
+    source rc
+    M1_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP1 -f value -c id $M1)
+    echo "export M1_ID=$M1_ID" | tee -a rc
+
+    M2_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP2 -f value -c id $M2)
+    echo "export M2_ID=$M2_ID" | tee -a rc
+
+    M3_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP3 -f value -c id $M3)
+    echo "export M3_ID=$M3_ID" | tee -a rc
+
+    M4_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP4 -f value -c id $M4)
+    echo "export M4_ID=$M4_ID" | tee -a rc
+
+    M5_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP5 -f value -c id $M5)
+    echo "export M5_ID=$M5_ID" | tee -a rc
+}
+#reserve_Ms
+    
 source rc
-#openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP2 --wait $M1
