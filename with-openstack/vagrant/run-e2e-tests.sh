@@ -88,6 +88,69 @@ Events:
 2017-11-01 02:05:58.142 28546 ERROR kuryr_kubernetes.handlers.logging     raise k_exc.ResourceNotReady(vif)
 2017-11-01 02:05:58.142 28546 ERROR kuryr_kubernetes.handlers.logging ResourceNotReady: Resource not ready: VIFBridge(active=False,address=fa:16:3e:98:7b:3f,bridge_name='qbra0818066-aa',has_traffic_filtering=True,id=a0818066-aacc-4e7c-b270-55a072ac28eb,network=Network(78f13a6a-586e-43f8-be56-70c5c04239a5),plugin='ovs',port_profile=VIFPortProfileBase,preserve_on_delete=False,vif_name='tapa0818066-aa')
 
+# ovs-vsctl show k8-masetr
+65eb446b-39fc-40f7-880e-d4d2710e28ed
+    Manager "ptcp:6640:127.0.0.1"
+        is_connected: true
+    Bridge br-int
+        Controller "tcp:127.0.0.1:6633"
+            is_connected: true
+        fail_mode: secure
+        Port patch-tun
+            Interface patch-tun
+                type: patch
+                options: {peer=patch-int}
+        Port br-int
+            Interface br-int
+                type: internal
+    Bridge br-tun
+        Controller "tcp:127.0.0.1:6633"
+            is_connected: true
+        fail_mode: secure
+        Port br-tun
+            Interface br-tun
+                type: internal
+        Port patch-int
+            Interface patch-int
+                type: patch
+                options: {peer=patch-tun}
+    ovs_version: "2.6.1"
+
+# ovs-vsctl show os-compute
+f303722f-f95d-44cd-9340-982ba8525719
+    Manager "ptcp:6640:127.0.0.1"
+        is_connected: true
+    Bridge br-tun
+        Controller "tcp:127.0.0.1:6633"
+            is_connected: true
+        fail_mode: secure
+        Port "vxlan-0a000115"
+            Interface "vxlan-0a000115"
+                type: vxlan
+                options: {df_default="true", in_key=flow, local_ip="10.0.1.31", out_key=flow, remote_ip="10.0.1.21"}
+        Port patch-int
+            Interface patch-int
+                type: patch
+                options: {peer=patch-tun}
+        Port br-tun
+            Interface br-tun
+                type: internal
+    Bridge br-int
+        Controller "tcp:127.0.0.1:6633"
+            is_connected: true
+        fail_mode: secure
+        Port patch-tun
+            Interface patch-tun
+                type: patch
+                options: {peer=patch-int}
+        Port "qvo835f7fd0-b9"
+            tag: 1
+            Interface "qvo835f7fd0-b9"
+        Port br-int
+            Interface br-int
+                type: internal
+    ovs_version: "2.6.1"
+
 LOG
 
 #K8S_POD1_NAME=$(kubectl get pods -l run=demo -o jsonpath='{.items[].metadata.name}')
