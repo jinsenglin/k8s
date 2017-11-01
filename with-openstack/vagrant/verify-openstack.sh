@@ -2,15 +2,35 @@
 
 source /root/admin-openrc
 
-# https://docs.openstack.org/ocata/install-guide-ubuntu/nova-verify.html
-openstack compute service list
+#---------------------------------------------------#
+#               Start checking                      #
+# --------------------------------------------------#
+
 openstack catalog list
-openstack image list
+openstack service list
+
+# https://docs.openstack.org/ocata/install-guide-ubuntu/nova-verify.html
 nova-status upgrade check
+openstack hypervisor list
+openstack compute service list
+openstack server list
 
 # https://docs.openstack.org/ocata/install-guide-ubuntu/neutron-verify.html
 openstack extension list --network
 openstack network agent list
+openstack subnet pool list
+openstack network list
+openstack subnet list
+openstack port list
+openstack router list
+
+openstack image list
+
+openstack project list
+
+#---------------------------------------------------#
+#               Start creating resources            #
+# --------------------------------------------------#
 
 FLAT_NETWORK_NAME=external
 

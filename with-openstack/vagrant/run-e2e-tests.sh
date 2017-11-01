@@ -6,31 +6,6 @@ source /root/admin-openrc
 source /vagrant/cache/env.rc
 
 # check
-#nova-status upgrade check # RUN ON OS-CONTROLLER
-openstack network agent list
-openstack image list
-openstack catalog list
-openstack hypervisor list
-openstack role assignment list --user kuryr --project service --user-domain Default --project-domain Default
-openstack service list
-
-openstack subnet pool list
-openstack subnet pool show shared-default-subnetpool
-
-openstack project list
-openstack project show demo
-
-openstack network list
-openstack network show demo
-
-openstack subnet list
-openstack subnet show demo
-openstack subnet show k8s-service-subnet
-
-openstack router list
-openstack router show demo
-
-openstack port list
 
 docker ps
 # if kubernetes-controller-manager and kubernetes-scheduler are not running, start them by:
