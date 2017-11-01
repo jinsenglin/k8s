@@ -7,7 +7,7 @@ OpenStack + Kubernetes with Kuryr
 # Usage
 
 ```
-git clone https://github.com/jinsenglin/k8s.git
+git clone -b 1.0.0 https://github.com/jinsenglin/k8s.git
 cd k8s/with-openstack/vagrant
 vagrant up --provision-with download os-controller
 vagrant up --provision-with download os-network
