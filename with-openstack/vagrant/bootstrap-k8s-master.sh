@@ -538,6 +538,9 @@ function configure_k8s() {
            --allow-privileged=true \
            --v=2 --logtostderr=true
 
+    echo "wait 5 seconds for hyperkube::apiserver"
+    sleep 5
+
     # bring up hyperkube::controller-manager
     docker run --name kubernetes-controller-manager --detach \
            --net host \
@@ -549,6 +552,9 @@ function configure_k8s() {
            --min-resync-period=3m \
            --master="http://$ENV_MGMT_K8S_MASTER_IP:8080" \
            --v=2 --logtostderr=true
+
+    echo "wait 5 seconds for hyperkube::controller-manager"
+    sleep 5
 
     # bring up hyperkube::scheduler
     docker run --name kubernetes-scheduler --detach \
