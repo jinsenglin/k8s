@@ -133,6 +133,98 @@ DATA
 
 }
 
+function download_nova() {
+    NOVA_COMPUTE_VERSION=2:15.0.7-0ubuntu1~cloud0
+    [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
+    apt-get install -y nova-compute=$NOVA_COMPUTE_VERSION
+    #apt-get install -y nova-compute
+}
+
+function configure_nova() {
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+    # Edit the /etc/nova/nova.conf file, [DEFAULT] section
+    sed -i "/^\[DEFAULT\]$/ a transport_url = rabbit://openstack:RABBIT_PASS@os-controller" /etc/nova/nova.conf
+    sed -i "/^\[DEFAULT\]$/ a auth_strategy = keystone" /etc/nova/nova.conf
+    sed -i "/^\[DEFAULT\]$/ a my_ip = $ENV_MGMT_K8S_MASTER_IP" /etc/nova/nova.conf
+    sed -i "/^\[DEFAULT\]$/ a use_neutron = True" /etc/nova/nova.conf
+    sed -i "/^\[DEFAULT\]$/ a firewall_driver = nova.virt.firewall.NoopFirewallDriver" /etc/nova/nova.conf
+
+    # Edit the /etc/nova/nova.conf file, [keystone_authtoken] section
+    cat >> /etc/nova/nova.conf <<DATA
+
+[keystone_authtoken]
+auth_uri = http://os-controller:5000
+auth_url = http://os-controller:35357
+memcached_servers = os-controller:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = nova
+password = NOVA_PASS
+DATA
+
+    # Edit the /etc/nova/nova.conf file, [vnc] section
+    cat >> /etc/nova/nova.conf <<DATA
+
+[vnc]
+enabled = True
+vncserver_listen = 0.0.0.0
+vncserver_proxyclient_address = $ENV_MGMT_K8S_MASTER_IP
+novncproxy_base_url = http://os-controller:6080/vnc_auto.html
+DATA
+
+    # Edit the /etc/nova/nova.conf file, [glance] section
+    cat >> /etc/nova/nova.conf <<DATA
+
+[glance]
+api_servers = http://os-controller:9292
+DATA
+
+    # Edit the /etc/nova/nova.conf file, [oslo_concurrency] section
+    sed -i "/^lock_path=/ d" /etc/nova/nova.conf
+    sed -i "/^\[oslo_concurrency\]$/ a lock_path = /var/lib/nova/tmp" /etc/nova/nova.conf
+
+    # Edit the /etc/nova/nova.conf file, [placement] section
+    sed -i "s|^os_region_name = openstack|os_region_name = RegionOne|" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a project_domain_name = Default" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a project_name = service" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a auth_type = password" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a user_domain_name = Default" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a auth_url = http://os-controller:35357/v3" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a username = placement" /etc/nova/nova.conf
+    sed -i "/^\[placement\]$/ a password = PLACEMENT_PASS" /etc/nova/nova.conf
+
+    # Edit the /etc/nova/nova.conf file, [neutron] section
+    # See https://kairen.gitbooks.io/openstack-ubuntu-newton/content/ubuntu-binary/neutron/#compute-node
+    cat >> /etc/nova/nova.conf <<DATA
+
+[neutron]
+url = http://os-controller:9696
+auth_url = http://os-controller:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = RegionOne
+project_name = service
+username = neutron
+password = NEUTRON_PASS
+DATA
+
+    # Edit the /etc/nova/nova-compute.conf file, [libvirt] section
+    sed -i "/^virt_type=/ d" /etc/nova/nova-compute.conf
+    sed -i "/^\[libvirt\]$/ a virt_type = qemu" /etc/nova/nova-compute.conf
+
+    # Restart the Compute service
+    service nova-compute restart
+
+    # Log files
+    # /var/log/nova/nova-compute.log
+
+    # Reference https://docs.openstack.org/newton/install-guide-ubuntu/nova-compute-install.html
+}
+
 function download_neutron() {
     NEUTRON_PLUGIN_ML2_VERSION=2:10.0.3-0ubuntu1~cloud0
     NEUTRON_OPENVSWITCH_AGENT_VERSION=2:10.0.3-0ubuntu1~cloud0
@@ -521,11 +613,13 @@ function main() {
                 install_python
                 install_ntp
                 install_openstack_cli
+#                download_nova
                 download_neutron
                 download_kuryr
                 download_k8s
                 ;;
             configure)
+#                configure_nova
                 configure_neutron
                 configure_kuryr_part1
                 configure_kuryr_part2
