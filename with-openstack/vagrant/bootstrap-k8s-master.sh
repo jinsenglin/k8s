@@ -613,21 +613,21 @@ function main() {
                 install_python
                 install_ntp
                 install_openstack_cli
-#                download_nova
+                download_nova
                 download_neutron
                 download_kuryr
                 download_k8s
                 ;;
             configure)
-#                configure_nova
+                configure_nova
                 configure_neutron
+                ;;
+            upgrade)
                 configure_kuryr_part1
                 configure_kuryr_part2
                 configure_k8s
                 configure_kuryr_part3
                 configure_kuryr_part4
-                ;;
-            upgrade)
                 ;;
             *)
                 echo "unknown mode"
