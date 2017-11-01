@@ -5,6 +5,7 @@ set -e
 # Check if kubernetes-controller-manager and kubernetes-scheduler are running
 docker ps
 
+# Bring up them if not running
 # docker start kubernetes-controller-manager
 # docker start kubernetes-scheduler
 
@@ -17,13 +18,13 @@ source /root/demo-openrc
 source /vagrant/cache/env.rc
 
 # Create openstack server 'testvm'
-#nova boot --flavor m1.nano --image cirros --nic net-id=$DEMO_NET_ID --config-drive=true testvm
-#openstack server show testvm
+nova boot --flavor m1.nano --image cirros --nic net-id=$DEMO_NET_ID --config-drive=true testvm
+openstack server show testvm
 
 # Create k8s deployment 'demo'
-#kubectl run demo --image=demo:demo
-#K8S_POD1_NAME=$(kubectl get pods -l run=demo -o jsonpath='{.items[].metadata.name}')
-#kubectl get po $K8S_POD1_NAME
+kubectl run demo --image=demo:demo
+K8S_POD1_NAME=$(kubectl get pods -l run=demo -o jsonpath='{.items[].metadata.name}')
+kubectl get po $K8S_POD1_NAME
 
 <<LOG
 # openstack port list --device-owner kuryr:container
@@ -34,17 +35,17 @@ source /vagrant/cache/env.rc
 LOG
 
 # Create k8s service 'demo'
-#kubectl expose deployment demo --port=80 --target-port=8080
+kubectl expose deployment demo --port=80 --target-port=8080
 
 # Scale k8s deployment 'demo'
-#kubectl scale deployment demo --replicas=2
+kubectl scale deployment demo --replicas=2
 
 # Check endpoints
-#kubectl get services demo
-#kubectl get endpoints demo
+kubectl get services demo
+kubectl get endpoints demo
 
 # check network traffic between openstack server and k8s pod
-#kubectl exec -it $DEMO_POD_NAME -- bash
+kubectl exec -it $DEMO_POD_NAME -- bash
 
 <<SOP
 export PS1='POD # '
