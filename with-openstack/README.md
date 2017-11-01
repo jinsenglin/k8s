@@ -19,7 +19,9 @@ vagrant ssh os-network -c "sudo /vagrant/bootstrap-os-network.sh configure"
 vagrant ssh os-compute -c "sudo /vagrant/bootstrap-os-compute.sh configure"
 vagrant ssh k8s-master -c "sudo /vagrant/bootstrap-k8s-master.sh configure"
 
-vagrant ssh k8s-master -c "sudo /vagrant/run-e2e-tests.sh"
+vagrant ssh k8s-master
+
+# FOLLOW the steps described in the file /vagrant/run-e2e-tests.sh with root privilege
 ```
 
 ---
