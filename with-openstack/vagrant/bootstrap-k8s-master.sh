@@ -65,7 +65,7 @@ DATA
 
 function install_utilities() {
     [ "$APT_UPDATED" == "true" ] || apt-get update && APT_UPDATED=true
-    apt-get install -y crudini
+    apt-get install -y jq crudini
 }
 
 function install_python() {
