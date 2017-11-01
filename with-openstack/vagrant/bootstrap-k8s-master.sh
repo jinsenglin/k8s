@@ -482,6 +482,7 @@ function download_k8s() {
 
     docker pull quay.io/coreos/etcd:$ETCD_VERSION
     docker pull gcr.io/google_containers/hyperkube-amd64:$HYPERKUBE_VERSION
+    docker pull alpine
 }
 
 function configure_k8s() {
