@@ -625,12 +625,12 @@ function main() {
                 install_python
                 install_ntp
                 install_openstack_cli
+                download_nova
                 download_neutron
                 download_kuryr
                 download_k8s
                 ;;
             configure)
-                download_nova
                 configure_nova
                 configure_neutron
                 configure_kuryr_part1

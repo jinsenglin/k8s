@@ -33,6 +33,9 @@ openstack router show demo
 openstack port list
 
 docker ps
+# if kubernetes-controller-manager and kubernetes-scheduler are not running, start them by:
+# docker start kubernetes-controller-manager
+# docker start kubernetes-scheduler
 netstat -plnt
 ps aux | grep python
 
