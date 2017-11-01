@@ -538,8 +538,8 @@ function configure_k8s() {
            --allow-privileged=true \
            --v=2 --logtostderr=true
 
-    echo "wait 5 seconds for hyperkube::apiserver"
-    sleep 5
+    echo "wait 10 seconds for hyperkube::apiserver"
+    sleep 10
 
     # bring up hyperkube::controller-manager
     docker run --name kubernetes-controller-manager --detach \
@@ -553,8 +553,8 @@ function configure_k8s() {
            --master="http://$ENV_MGMT_K8S_MASTER_IP:8080" \
            --v=2 --logtostderr=true
 
-    echo "wait 5 seconds for hyperkube::controller-manager"
-    sleep 5
+    echo "wait 10 seconds for hyperkube::controller-manager"
+    sleep 10
 
     # bring up hyperkube::scheduler
     docker run --name kubernetes-scheduler --detach \
