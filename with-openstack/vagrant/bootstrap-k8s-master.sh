@@ -633,13 +633,13 @@ function main() {
                 download_nova
                 configure_nova
                 configure_neutron
-                ;;
-            upgrade)
                 configure_kuryr_part1
                 configure_kuryr_part2
                 configure_k8s
                 configure_kuryr_part3
                 configure_kuryr_part4
+                ;;
+            upgrade)
                 ;;
             *)
                 echo "unknown mode"
