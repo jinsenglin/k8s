@@ -16,4 +16,4 @@ apiServerCertSANs:
 - 192.168.202.102
 - 192.168.202.103
 - 192.168.202.100
-tokenTTL: 0
+tokenTTL: 86400
