@@ -123,10 +123,10 @@ function bring_up_etcd_cluster() {
             --data-dir=/var/lib/etcd
             ;;
         $M4)
-            echo "M4 has nothing to do in step 'configure-machine.sh'"
+            echo "M4 has nothing to do in step 'bring_up_etcd_cluster'"
             ;;
         $M5)
-            echo "M5 has nothing to do in step 'configure-machine.sh'"
+            echo "M5 has nothing to do in step 'bring_up_etcd_cluster'"
             ;;
         *)
             echo "unknown hostname"
@@ -135,8 +135,42 @@ function bring_up_etcd_cluster() {
     :
 }
 
+function check_etcd_cluster() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            docker exec etcd etcdctl member list
+            docker exec etcd etcdctl cluster-health
+            ;;
+        $M2)
+            echo "M2"
+            docker exec etcd etcdctl member list
+            docker exec etcd etcdctl cluster-health
+            ;;
+        $M3)
+            echo "M3"
+            docker exec etcd etcdctl member list
+            docker exec etcd etcdctl cluster-health
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'check_etcd_cluster'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'check_etcd_cluster'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+    :
+}
+
+
 #update_etc_sysctl_conf
-bring_up_etcd_cluster
+#bring_up_etcd_cluster
+check_etcd_cluster
 #run_kubeadm_init
 #install_flannel
 #setup_ha_master
