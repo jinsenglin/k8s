@@ -307,9 +307,9 @@ function install_flannel() {
 #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
 #check_etcd_cluster
-run_kubeadm_init
+#run_kubeadm_init
 #update_kube_apiserver
-#check_k8s_cluster
+check_k8s_cluster
 #install_flannel
 #setup_ha_master
 #setup_keepalived
