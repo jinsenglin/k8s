@@ -260,13 +260,49 @@ function check_k8s_cluster() {
     esac
 }
 
+function install_flannel() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f kubeadm-ha/kube-flannel/kube-flannel.yml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f kubeadm-ha/kube-flannel/kube-flannel-rbac.yml
+
+            echo "wait 3 minutes for pods up and running"
+            i=300; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'install_flannel'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'install_flannel'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'install_flannel'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'install_flannel'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
+
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 #check_etcd_cluster
 #run_kubeadm_init
 #update_kube_apiserver
-check_k8s_cluster
-#install_flannel
+#check_k8s_cluster
+install_flannel
 #setup_ha_master
 #setup_keepalived
 #setup_nginx_lb
