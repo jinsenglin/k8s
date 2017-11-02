@@ -210,20 +210,20 @@ function update_kube_apiserver() {
             mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
             admissions=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
             sed -i "s|^\(    - --admission-control=\).*|\1$admissions|" /tmp/kube-apiserver.yaml
-            mv /tmp/kube-apiserver.yaml
+            mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests
 
             ;;
         $M2)
-            echo "M2 has nothing to do in step 'run_kubeadm_init'"
+            echo "M2 has nothing to do in step 'update_kube_apiserver'"
             ;;
         $M3)
-            echo "M3 has nothing to do in step 'run_kubeadm_init'"
+            echo "M3 has nothing to do in step 'update_kube_apiserver'"
             ;;
         $M4)
-            echo "M4 has nothing to do in step 'run_kubeadm_init'"
+            echo "M4 has nothing to do in step 'update_kube_apiserver'"
             ;;
         $M5)
-            echo "M5 has nothing to do in step 'run_kubeadm_init'"
+            echo "M5 has nothing to do in step 'update_kube_apiserver'"
             ;;
         *)
             echo "unknown hostname"
@@ -231,13 +231,41 @@ function update_kube_apiserver() {
     esac
 }
 
+function check_k8s_cluster() {
+    source rc
 
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'check_k8s_cluster'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'check_k8s_cluster'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'check_k8s_cluster'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'check_k8s_cluster'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
 
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 #check_etcd_cluster
-run_kubeadm_init
-update_kube_apiserver
+#run_kubeadm_init
+#update_kube_apiserver
+check_k8s_cluster
 #install_flannel
 #setup_ha_master
 #setup_keepalived
