@@ -36,10 +36,10 @@ function bring_up_etcd_cluster() {
             docker ps --filter "name=etcd" | wc -l
             ;;
         $M4)
-            echo "M4"
+            echo "M4 has nothing to do in step 'configure-machine.sh'"
             ;;
         $M5)
-            echo "M5"
+            echo "M5 has nothing to do in step 'configure-machine.sh'"
             ;;
         *)
             echo "unknown hostname"
