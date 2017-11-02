@@ -14,6 +14,10 @@ $PIP5  $M5
 DATA
 }
 
+function download_utilities() {
+apt-get update && apt-get install -y tree jq
+}
+
 function download_k8s_packages() {
 # install k8s package dependency
 apt-get update && apt-get install -y ebtables ethtool
@@ -58,6 +62,7 @@ function donwload_keepalived() {
 }
 
 update_etc_hosts
+download_utilities
 download_k8s_packages
 download_docker_images
 donwload_keepalived
