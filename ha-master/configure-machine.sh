@@ -309,8 +309,8 @@ function install_flannel() {
 #check_etcd_cluster
 #run_kubeadm_init
 #update_kube_apiserver
-check_k8s_cluster
-#install_flannel
+#check_k8s_cluster
+install_flannel
 #setup_ha_master
 #setup_keepalived
 #setup_nginx_lb
