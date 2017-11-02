@@ -132,7 +132,6 @@ function bring_up_etcd_cluster() {
             echo "unknown hostname"
             ;;
     esac
-    :
 }
 
 function check_etcd_cluster() {
@@ -164,14 +163,38 @@ function check_etcd_cluster() {
             echo "unknown hostname"
             ;;
     esac
-    :
 }
 
+function run_kubeadm_init() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
+            ;;
+        $M2)
+            echo "M2"
+            ;;
+        $M3)
+            echo "M3"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'check_etcd_cluster'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'check_etcd_cluster'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
 
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
-check_etcd_cluster
-#run_kubeadm_init
+#check_etcd_cluster
+run_kubeadm_init
 #install_flannel
 #setup_ha_master
 #setup_keepalived
