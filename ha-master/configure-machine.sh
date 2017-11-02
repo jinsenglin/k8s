@@ -308,11 +308,15 @@ function setup_ha_master() {
             ;;
         $M2)
             echo "M2"
-            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+#            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | RUN IT
+#            kubeadm join --token 62c99d.c8de9d195fda2f32 192.168.202.101:6443 --discovery-token-ca-cert-hash sha256:63d3f8c78b1691afd4ab14cb2ca76341bb48d519ca89b15baf720d85d4d8e2af
+#            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
             ;;
         $M3)
             echo "M3"
-            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+#            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | RUN IT
+#            kubeadm join --token 62c99d.c8de9d195fda2f32 192.168.202.101:6443 --discovery-token-ca-cert-hash sha256:63d3f8c78b1691afd4ab14cb2ca76341bb48d519ca89b15baf720d85d4d8e2af
+#            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
             ;;
         $M4)
             echo "M4 has nothing to do in step 'setup_ha_master'"
