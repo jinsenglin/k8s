@@ -173,6 +173,8 @@ function run_kubeadm_init() {
             echo "M1"
 
             if [ -d /var/lib/kubelet ]; then
+                kubectl drain $M1 --delete-local-data --force --ignore-daemonsets
+                kubectl delete node $M1
                 kubeadm reset
                 rm -rf /var/lib/kubelet
             fi
