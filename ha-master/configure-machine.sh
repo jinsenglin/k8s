@@ -177,14 +177,7 @@ function run_kubeadm_init() {
                 rm -rf /var/lib/kubelet
             fi
 
-            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
-
-            # TODO /etc/kubernetes/manifests/kube-apiserver.yaml
-            #
-            # edit kube-apiserver.yaml file's admission-control settings, 
-            # v1.7.0 use NodeRestriction admission control will prevent other master join the cluster, 
-            # please reset it to v1.6.x recommended config.
-            #
+            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml | tee kubeadm-init.log
             ;;
         $M2)
             echo "M2 has nothing to do in step 'run_kubeadm_init'"
@@ -204,10 +197,47 @@ function run_kubeadm_init() {
     esac
 }
 
+function update_kube_apiserver() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            # edit kube-apiserver.yaml file's admission-control settings, 
+            # v1.7.0 use NodeRestriction admission control will prevent other master join the cluster, 
+            # please reset it to v1.6.x recommended config.
+            mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
+            admissions=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
+            sed -i "s|^\(    - --admission-control=\).*|\1$admissions|" /tmp/kube-apiserver.yaml
+            mv /tmp/kube-apiserver.yaml
+
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'run_kubeadm_init'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'run_kubeadm_init'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'run_kubeadm_init'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'run_kubeadm_init'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
+
+
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 #check_etcd_cluster
 run_kubeadm_init
+update_kube_apiserver
 #install_flannel
 #setup_ha_master
 #setup_keepalived
