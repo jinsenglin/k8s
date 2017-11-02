@@ -172,7 +172,11 @@ function run_kubeadm_init() {
         $M1)
             echo "M1"
 
-            [ -d /var/lib/kubelet ] && rm -rf /var/lib/kubelet
+            if [ -d /var/lib/kubelet ]; then
+                kubeadm reset
+                rm -rf /var/lib/kubelet
+            fi
+
             kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
 
             # TODO /etc/kubernetes/manifests/kube-apiserver.yaml
