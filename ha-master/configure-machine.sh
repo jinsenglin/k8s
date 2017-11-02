@@ -20,7 +20,31 @@ sysctl net.bridge.bridge-nf-call-arptables
 }
 
 function bring_up_etcd_cluster() {
-    docker ps --filter "name=etcd" | wc -l
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            docker ps --filter "name=etcd" | wc -l
+            ;;
+        $M2)
+            echo "M2"
+            docker ps --filter "name=etcd" | wc -l
+            ;;
+        $M3)
+            echo "M3"
+            docker ps --filter "name=etcd" | wc -l
+            ;;
+        $M4)
+            echo "M4"
+            ;;
+        $M5)
+            echo "M5"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
     :
 }
 
