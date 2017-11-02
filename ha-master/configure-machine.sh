@@ -274,8 +274,8 @@ function install_flannel() {
             kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f kubeadm-ha/kube-flannel/kube-flannel.yml
             kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f kubeadm-ha/kube-flannel/kube-flannel-rbac.yml
 
-            echo "wait 3 minutes for pods up and running"
-            i=300; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+            echo "wait 1 minutes for pods up and running"
+            i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
@@ -308,9 +308,9 @@ function install_flannel() {
 
 #check_etcd_cluster
 #run_kubeadm_init
-#update_kube_apiserver
 #check_k8s_cluster
-install_flannel
+#install_flannel
+update_kube_apiserver
 #setup_ha_master
 #setup_keepalived
 #setup_nginx_lb
