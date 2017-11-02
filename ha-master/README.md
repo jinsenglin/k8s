@@ -1,3 +1,13 @@
+# Usage
+
+Step 1: bring-up-5-machines-1-vip.sh
+
+Step 2: remote-runner-wrapper.sh git_clone
+
+Step 3: remote-runner-wrapper.sh copy_pkgs
+
+Step 4: remote-runner-wrapper.sh configure
+
 # Diff Info
 
 Linux version: CentOS 7.3.1611 vs. 16.04.2 LTS (Xenial Xerus)
