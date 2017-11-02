@@ -171,19 +171,26 @@ function run_kubeadm_init() {
     case $HOSTNAME in
         $M1)
             echo "M1"
-            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
+            kubeadm init --token-ttl 0 --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
+
+            # TODO /etc/kubernetes/manifests/kube-apiserver.yaml
+            #
+            # edit kube-apiserver.yaml file's admission-control settings, 
+            # v1.7.0 use NodeRestriction admission control will prevent other master join the cluster, 
+            # please reset it to v1.6.x recommended config.
+            #
             ;;
         $M2)
-            echo "M2"
+            echo "M2 has nothing to do in step 'run_kubeadm_init'"
             ;;
         $M3)
-            echo "M3"
+            echo "M3 has nothing to do in step 'run_kubeadm_init'"
             ;;
         $M4)
-            echo "M4 has nothing to do in step 'check_etcd_cluster'"
+            echo "M4 has nothing to do in step 'run_kubeadm_init'"
             ;;
         $M5)
-            echo "M5 has nothing to do in step 'check_etcd_cluster'"
+            echo "M5 has nothing to do in step 'run_kubeadm_init'"
             ;;
         *)
             echo "unknown hostname"
