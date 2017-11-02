@@ -14,18 +14,9 @@ $PIP5  $M5
 DATA
 }
 
-function install_k8s_packages() {
+function download_k8s_packages() {
 # install k8s package dependency
 apt-get update && apt-get install -y ebtables ethtool
-
-# install docker-ce 17.03
-apt-get install -y docker.io
-apt-get update && apt-get install -y curl apt-transport-https
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-cat <<EOF >/etc/apt/sources.list.d/docker.list
-deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable
-EOF
-apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
 
 # install k8s apt repository
 apt-get update && apt-get install -y apt-transport-https
@@ -40,6 +31,15 @@ apt-get install -y kubeadm=1.8.0-00 kubectl=1.8.0-00 kubelet=1.8.0-00
 }
 
 function download_docker_images() {
+# install docker-ce 17.03
+apt-get install -y docker.io
+apt-get update && apt-get install -y curl apt-transport-https
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+cat <<EOF >/etc/apt/sources.list.d/docker.list
+deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lower:]') $(lsb_release -cs) stable
+EOF
+apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
+
     docker pull gcr.io/google_containers/kube-proxy-amd64:v1.8.2
     docker pull gcr.io/google_containers/kube-apiserver-amd64:v1.8.2
     docker pull gcr.io/google_containers/kube-controller-manager-amd64:v1.8.2
@@ -53,6 +53,11 @@ function download_docker_images() {
     docker pull gcr.io/google_containers/pause-amd64:3.0
 }
 
+function donwload_keepalived() {
+    apt-get update && apt install -y keepalived
+}
+
 update_etc_hosts
-install_k8s_packages
+download_k8s_packages
 download_docker_images
+donwload_keepalived
