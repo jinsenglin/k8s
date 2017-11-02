@@ -28,6 +28,21 @@ PIP3=192.168.202.103
 PIP4=192.168.202.104
 PIP5=192.168.202.105
 
+function export_PIPs() {
+    echo "export PIP0=$PIP0" | tee -a rc
+
+    echo "export PIP1=$PIP1" | tee -a rc
+
+    echo "export PIP2=$PIP2" | tee -a rc
+
+    echo "export PIP3=$PIP3" | tee -a rc
+
+    echo "export PIP4=$PIP4" | tee -a rc
+
+    echo "export PIP5=$PIP5" | tee -a rc
+}
+#export_PIPs
+
 # Reserve resources
 function reserve_PIPs() {
     PIP0_PORT_ID=$(openstack port create --network $PN --fixed-ip subnet=$PSN,ip-address=$PIP0 -f value -c id $PIP0)
@@ -105,6 +120,19 @@ M2=k8s-master2
 M3=k8s-master3
 M4=k8s-node1
 M5=k8s-node2
+
+function export_Ms() {
+    echo "export M1=$M1" | tee -a rc
+
+    echo "export M2=$M2" | tee -a rc
+
+    echo "export M3=$M3" | tee -a rc
+
+    echo "export M4=$M4" | tee -a rc
+
+    echo "export M5=$M5" | tee -a rc
+}
+#export_Ms
 
 function reserve_Ms() {
     source rc
