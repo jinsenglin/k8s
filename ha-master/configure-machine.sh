@@ -171,7 +171,9 @@ function run_kubeadm_init() {
     case $HOSTNAME in
         $M1)
             echo "M1"
-            kubeadm init --token-ttl 0 --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
+
+            [ -d /var/lib/kubelet ] && rm -rf /var/lib/kubelet
+            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml
 
             # TODO /etc/kubernetes/manifests/kube-apiserver.yaml
             #
