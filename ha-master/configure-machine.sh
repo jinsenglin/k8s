@@ -20,7 +20,6 @@ sysctl net.bridge.bridge-nf-call-arptables
 }
 
 function bring_up_etcd_cluster() {
-    
     docker ps --filter "name=etcd" | wc -l
     :
 }
