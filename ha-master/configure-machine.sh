@@ -330,6 +330,46 @@ function setup_ha_master() {
     esac
 }
 
+function check_k8s_cluster_ha() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
+
+            ;;
+        $M2)
+            echo "M2"
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
+
+            ;;
+        $M3)
+            echo "M3"
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
+
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'check_k8s_cluster_ha'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'check_k8s_cluster_ha'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 
@@ -341,7 +381,8 @@ function setup_ha_master() {
 #check_k8s_cluster
 #install_flannel
 #update_kube_apiserver
-setup_ha_master
+#setup_ha_master
+check_k8s_cluster_ha
 #setup_keepalived
 #setup_nginx_lb
 #update_kube_proxy
