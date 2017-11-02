@@ -208,6 +208,7 @@ function check_k8s_cluster() {
         $M1)
             echo "M1"
 
+            kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
 
@@ -337,6 +338,7 @@ function check_k8s_cluster_ha() {
         $M1)
             echo "M1"
 
+            kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
@@ -345,6 +347,7 @@ function check_k8s_cluster_ha() {
         $M2)
             echo "M2"
 
+            kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
@@ -353,6 +356,7 @@ function check_k8s_cluster_ha() {
         $M3)
             echo "M3"
 
+            kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
