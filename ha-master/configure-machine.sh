@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+function update_etc_sysctl_conf() {
+# Enable iptables Filtering on Bridge Devices
+cat >>  /etc/sysctl.conf <<DATA
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-arptables = 1
+DATA
+
+# Apply settings immediately and verify that the value is 1.
+sysctl -p
+sysctl net.bridge.bridge-nf-call-iptables
+sysctl net.bridge.bridge-nf-call-ip6tables
+sysctl net.bridge.bridge-nf-call-arptables
+}
+
+update_etc_sysctl_conf
