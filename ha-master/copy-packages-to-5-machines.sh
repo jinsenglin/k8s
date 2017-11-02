@@ -1,8 +1,10 @@
 #!/bin/bsash
 
-source rc
+set -e
 
+function update_etc_hosts() {
 # update '/etc/hosts' file
+source rc
 cat >> /etc/hosts <<DATA
 $PIP1  $M1
 $PIP2  $M2
@@ -10,7 +12,9 @@ $PIP3  $M3
 $PIP4  $M4
 $PIP5  $M5
 DATA
+}
 
+function install_k8s_packages() {
 # install k8s package dependency
 apt-get update && apt-get install -y ebtables ethtool
 
@@ -33,3 +37,22 @@ apt-get update
 
 # install kubeadm, kubelete, kubectl of version 1.8.0
 apt-get install -y kubeadm=1.8.0-00 kubectl=1.8.0-00 kubelet=1.8.0-00
+}
+
+function download_docker_images() {
+    docker pull gcr.io/google_containers/kube-proxy-amd64:v1.8.2
+    docker pull gcr.io/google_containers/kube-apiserver-amd64:v1.8.2
+    docker pull gcr.io/google_containers/kube-controller-manager-amd64:v1.8.2
+    docker pull gcr.io/google_containers/kube-scheduler-amd64:v1.8.2
+    docker pull gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.5
+    docker pull gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.5
+    docker pull gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.5
+    docker pull nginx:latest
+    docker pull quay.io/coreos/flannel:v0.8.0-amd64
+    docker pull gcr.io/google_containers/etcd-amd64:3.0.17
+    docker pull gcr.io/google_containers/pause-amd64:3.0
+}
+
+update_etc_hosts
+install_k8s_packages
+download_docker_images
