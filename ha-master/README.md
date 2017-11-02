@@ -2,11 +2,13 @@
 
 Step 1: bring-up-5-machines-1-vip.sh
 
-Step 2: remote-runner-wrapper.sh git_clone
+Step 2: push 'rc' file to git server
 
-Step 3: remote-runner-wrapper.sh copy_pkgs
+Step 3: remote-runner-wrapper.sh git_clone
 
-Step 4: remote-runner-wrapper.sh configure
+Step 4: remote-runner-wrapper.sh copy_pkgs
+
+Step 5: remote-runner-wrapper.sh configure
 
 # Diff Info
 

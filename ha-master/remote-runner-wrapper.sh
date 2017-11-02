@@ -5,6 +5,8 @@
 # Usage 3: bash remote-runner-wrapper.sh copy_pkgs
 # Usage 4: bash remote-runner-wrapper.sh configure
 
+set -e
+
 CMD=$1
 shift
 
