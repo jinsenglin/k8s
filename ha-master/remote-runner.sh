@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Usage 1: bash remote-runner.sh $FIP1 ls /
-# Usage 2: bash remote-runner.sh $FIP1 "cd k8s/ha-master; ls"
+# Usage 2: bash remote-runner.sh $FIP1 "cd k8s; git pull"
 # Usage 3: bash remote-runner.sh $FIP1 "cd k8s/ha-master; bash copy-packages-to-machine.sh"
 
 IP=$1
