@@ -50,3 +50,10 @@ function bring_up_etcd_cluster() {
 
 #update_etc_sysctl_conf
 bring_up_etcd_cluster
+#run_kubeadm_init
+#install_flannel
+#setup_ha_master
+#setup_keepalived
+#setup_nginx_lb
+#update_kube_proxy
+#run_kubeadm_join
