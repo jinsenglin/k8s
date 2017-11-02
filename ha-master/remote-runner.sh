@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# Usage: bash remote-runner.sh $FIP1 ls /
+# Usage 1: bash remote-runner.sh $FIP1 ls /
+# Usage 2: bash remote-runner.sh $FIP1 "cd k8s/ha-master; ls"
 
 IP=$1
 shift
