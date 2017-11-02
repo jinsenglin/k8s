@@ -3,6 +3,8 @@
 set -e
 
 function update_etc_sysctl_conf() {
+# update '/etc/sysctl.conf' file
+
 # Enable iptables Filtering on Bridge Devices
 cat >>  /etc/sysctl.conf <<DATA
 net.bridge.bridge-nf-call-iptables = 1
@@ -17,4 +19,9 @@ sysctl net.bridge.bridge-nf-call-ip6tables
 sysctl net.bridge.bridge-nf-call-arptables
 }
 
-update_etc_sysctl_conf
+function bring_up_etcd_cluster() {
+    :
+}
+
+#update_etc_sysctl_conf
+bring_up_etcd_cluster
