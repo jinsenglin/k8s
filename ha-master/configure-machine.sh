@@ -201,40 +201,6 @@ function run_kubeadm_init() {
     esac
 }
 
-function update_kube_apiserver() {
-    source rc
-
-    case $HOSTNAME in
-        $M1)
-            echo "M1"
-
-            # edit kube-apiserver.yaml file's admission-control settings, 
-            # v1.7.0 use NodeRestriction admission control will prevent other master join the cluster, 
-            # please reset it to v1.6.x recommended config.
-            mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
-            admissions=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
-            sed -i "s|^\(    - --admission-control=\).*|\1$admissions|" /tmp/kube-apiserver.yaml
-            mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests
-
-            ;;
-        $M2)
-            echo "M2 has nothing to do in step 'update_kube_apiserver'"
-            ;;
-        $M3)
-            echo "M3 has nothing to do in step 'update_kube_apiserver'"
-            ;;
-        $M4)
-            echo "M4 has nothing to do in step 'update_kube_apiserver'"
-            ;;
-        $M5)
-            echo "M5 has nothing to do in step 'update_kube_apiserver'"
-            ;;
-        *)
-            echo "unknown hostname"
-            ;;
-    esac
-}
-
 function check_k8s_cluster() {
     source rc
 
@@ -299,6 +265,66 @@ function install_flannel() {
     esac
 }
 
+function update_kube_apiserver() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            # edit kube-apiserver.yaml file's admission-control settings, 
+            # v1.7.0 use NodeRestriction admission control will prevent other master join the cluster, 
+            # please reset it to v1.6.x recommended config.
+            mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
+            admissions=NamespaceLifecycle,LimitRanger,ServiceAccount,PersistentVolumeLabel,DefaultStorageClass,ResourceQuota,DefaultTolerationSeconds
+            sed -i "s|^\(    - --admission-control=\).*|\1$admissions|" /tmp/kube-apiserver.yaml
+            mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests
+
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'update_kube_apiserver'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'update_kube_apiserver'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'update_kube_apiserver'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'update_kube_apiserver'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
+function setup_ha_master() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1 has nothing to do in step 'setup_ha_master'"
+            ;;
+        $M2)
+            echo "M2"
+            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+            ;;
+        $M3)
+            echo "M3"
+            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'setup_ha_master'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'setup_ha_master'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
 
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
@@ -310,8 +336,8 @@ function install_flannel() {
 #run_kubeadm_init
 #check_k8s_cluster
 #install_flannel
-update_kube_apiserver
-#setup_ha_master
+#update_kube_apiserver
+setup_ha_master
 #setup_keepalived
 #setup_nginx_lb
 #update_kube_proxy

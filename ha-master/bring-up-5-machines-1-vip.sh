@@ -152,5 +152,18 @@ function reserve_Ms() {
     echo "export M5_ID=$M5_ID" | tee -a rc
 }
 #reserve_Ms
-    
+
+# private key file used to ssh login virtual machines
+PK=~/.ssh/id_rsa_devops
+
+function copy_PK() {
+    source rc
+    scp -i $PK $PK root@$FIP1:~/.ssh/id_rsa
+    scp -i $PK $PK root@$FIP2:~/.ssh/id_rsa
+    scp -i $PK $PK root@$FIP3:~/.ssh/id_rsa
+    scp -i $PK $PK root@$FIP4:~/.ssh/id_rsa
+    scp -i $PK $PK root@$FIP5:~/.ssh/id_rsa
+}
+#copy_PK
+
 source rc
