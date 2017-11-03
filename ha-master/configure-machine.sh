@@ -476,8 +476,8 @@ function scale_kube_dns() {
 #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
 #check_k8s_cluster_ha
-scale_kube_dns
-#check_k8s_cluster_ha
+#scale_kube_dns
+check_k8s_cluster_ha
 #setup_keepalived
 #setup_nginx_lb
 #update_kube_proxy
