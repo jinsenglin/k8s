@@ -657,15 +657,15 @@ function add_node() {
             ;;
         $M4)
             echo "M4"
-#            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | sed "s/$PIP1/$PIP0/" | bash
-#
-#            echo "wait 10 seconds for file '/etc/kubernetes/kubelet.conf' created"
-#            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
-#
-#            # TODO update kubelet
-#            sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
-#            systemctl restart kubelet
-#
+            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | sed "s/$PIP1/$PIP0/" | bash
+
+            echo "wait 10 seconds for file '/etc/kubernetes/kubelet.conf' created"
+            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+
+            # TODO update kubelet
+            sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
+            systemctl restart kubelet
+
             ;;
         $M5)
             echo "M5"
@@ -720,8 +720,8 @@ function main() {
 
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
-    add_node                # 6:05
-    #check_k8s_cluster_ha
+    #add_node                # 6:05
+    check_k8s_cluster_ha    # 6:11
 }
 
 main $@
