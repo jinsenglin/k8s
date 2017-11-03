@@ -676,8 +676,8 @@ function main() {
     #            echo "wait 10 seconds for k8s pods up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
     
-    check_k8s_cluster
-    #install_flannel
+    #check_k8s_cluster
+    install_flannel
     #update_kube_apiserver
     #check_k8s_cluster
     #setup_ha_master
