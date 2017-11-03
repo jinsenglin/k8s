@@ -627,6 +627,36 @@ function check_kube_proxy() {
     esac
 }
 
+function add_node() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M1 -p '{"spec":{"unschedulable":true}}'
+            ;;
+        $M2)
+            echo "M2"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M2 -p '{"spec":{"unschedulable":true}}'
+            ;;
+        $M3)
+            echo "M3"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M3 -p '{"spec":{"unschedulable":true}}'
+            ;;
+        $M4)
+            echo "M4"
+            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | sed "s/$PIP1/$PIP0/" | bash
+            ;;
+        $M5)
+            echo "M5"
+            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | sed "s/$PIP1/$PIP0/" | bash
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 function main() {
     #update_etc_sysctl_conf
     #bring_up_etcd_cluster
@@ -661,8 +691,9 @@ function main() {
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
     #check_kube_proxy
-    check_k8s_cluster_ha
-    #run_kubeadm_join
+    #check_k8s_cluster_ha
+    add_node
+    #check_k8s_cluster_ha
 }
 
 main $@
