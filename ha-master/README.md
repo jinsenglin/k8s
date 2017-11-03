@@ -10,6 +10,8 @@ Step 4: remote-runner-wrapper.sh copy_pkgs
 
 Step 5: remote-runner-wrapper.sh configure
 
+Step 6: copy kubeconfig file from worker node instead of from master node to k8s client node
+
 # Diff Info
 
 Linux version: CentOS 7.3.1611 vs. 16.04.2 LTS (Xenial Xerus)
