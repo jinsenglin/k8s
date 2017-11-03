@@ -53,10 +53,10 @@ kubectl get po -o wide
 ```
 openstack server suspend $M1
 
-kubectl get node # FAILED. STILL READY
+kubectl get node # $M1 -> NotReady
 
 kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
-kubectl get po -o wide # FAILED. NOT FOUND
+kubectl get po -o wide
 
 kubectl delete deployment hello-nginx
 kubectl get po -o wide
@@ -65,23 +65,9 @@ openstack server resume $M1
 ```
 
 ```
-openstack server stop $M1
+openstack server suspend $M2
 
-kubectl get node
-
-kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
-kubectl get po -o wide # FAILED. PENDING
-
-kubectl delete deployment hello-nginx
-kubectl get po -o wide
-
-openstack server start $M1
-```
-
-```
-openstack server stop $M2
-
-kubectl get node # FAILED. BOTH M2 AND M3 NOT READY
+kubectl get node # $M2 -> NotReady
 
 kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
 kubectl get po -o wide
@@ -89,13 +75,13 @@ kubectl get po -o wide
 kubectl delete deployment hello-nginx
 kubectl get po -o wide
 
-openstack server start $M2
+openstack server resume $M2
 ```
 
 ```
-openstack server stop $M3
+openstack server suspend $M3
 
-kubectl get node
+kubectl get node # $M3 -> NotReady
 
 kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
 kubectl get po -o wide
@@ -103,5 +89,33 @@ kubectl get po -o wide
 kubectl delete deployment hello-nginx
 kubectl get po -o wide
 
-openstack server start $M3
+openstack server resume $M3
+```
+
+```
+openstack server suspend $M4
+
+kubectl get node # $M4 -> NotReady
+
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+
+openstack server resume $M4
+```
+
+```
+openstack server suspend $M5
+
+kubectl get node # $M5 -> NotReady
+
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+
+openstack server resume $M5
 ```
