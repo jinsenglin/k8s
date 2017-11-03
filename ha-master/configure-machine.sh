@@ -692,8 +692,8 @@ function main() {
 
     #check_kube_proxy
     #check_k8s_cluster_ha
-    add_node
-    #check_k8s_cluster_ha
+    #add_node
+    check_k8s_cluster_ha
 }
 
 main $@
