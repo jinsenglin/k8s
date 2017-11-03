@@ -696,12 +696,12 @@ function main() {
     #install_flannel         # 5:52
     #update_kube_apiserver   # 5:54
     #check_k8s_cluster       # 5:54
-    setup_ha_master         # 5:55
+    #setup_ha_master         # 5:55
     
     #            echo "wait 10 seconds for k8s pods up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
     
-    #check_k8s_cluster_ha
+    check_k8s_cluster_ha    # 5:58
     #scale_kube_dns
     #check_k8s_cluster_ha
     #setup_keepalived   # TODO replace hard-coded IP in config files
