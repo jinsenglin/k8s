@@ -433,8 +433,8 @@ function check_k8s_cluster_ha() {
 #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
 #check_etcd_cluster
-run_kubeadm_init
-#check_k8s_cluster
+#run_kubeadm_init
+check_k8s_cluster
 #install_flannel
 #update_kube_apiserver
 #setup_ha_master
