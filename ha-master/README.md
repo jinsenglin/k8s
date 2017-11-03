@@ -75,3 +75,31 @@ kubectl get po -o wide
 
 openstack server start $M1
 ```
+
+```
+openstack server stop $M2
+
+kubectl get node # FAILED. BOTH M2 AND M3 NOT READY
+
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+
+openstack server start $M2
+```
+
+```
+openstack server stop $M3
+
+kubectl get node
+
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+
+openstack server start $M3
+```
