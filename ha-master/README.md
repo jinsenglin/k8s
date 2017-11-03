@@ -51,11 +51,27 @@ kubectl get po -o wide
 ```
 openstack server suspend $M1
 
+kubectl get node # FAILED. STILL READY
+
 kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
-kubectl get po -o wide # NOT FOUND
+kubectl get po -o wide # FAILED. NOT FOUND
 
 kubectl delete deployment hello-nginx
 kubectl get po -o wide
 
 openstack server resume $M1
+```
+
+```
+openstack server stop $M1
+
+kubectl get node
+
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide # FAILED. PENDING
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+
+openstack server start $M1
 ```
