@@ -454,6 +454,37 @@ function scale_kube_dns() {
     esac
 }
 
+function setup_keepalived() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            cp kubeadm-ha/$M1-keepalived.conf  /etc/keepalived/keepalived.conf
+            systemctl restart keepalived
+            ;;
+        $M2)
+            echo "M2"
+            cp kubeadm-ha/$M2-keepalived.conf  /etc/keepalived/keepalived.conf
+            systemctl restart keepalived
+            ;;
+        $M3)
+            echo "M3"
+            cp kubeadm-ha/$M3-keepalived.conf  /etc/keepalived/keepalived.conf
+            systemctl restart keepalived
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 
@@ -477,8 +508,8 @@ function scale_kube_dns() {
 
 #check_k8s_cluster_ha
 #scale_kube_dns
-check_k8s_cluster_ha
-#setup_keepalived
+#check_k8s_cluster_ha
+setup_keepalived
 #setup_nginx_lb
 #update_kube_proxy
 #run_kubeadm_join
