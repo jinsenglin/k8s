@@ -693,8 +693,8 @@ function main() {
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
     
     #check_k8s_cluster       # 5:51
-    install_flannel         # 5:52
-    #update_kube_apiserver
+    #install_flannel         # 5:52
+    update_kube_apiserver   # 5:54
     #check_k8s_cluster
     #setup_ha_master
     
