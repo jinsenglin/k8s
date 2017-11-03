@@ -697,12 +697,12 @@ function main() {
     #setup_keepalived   # TODO replace hard-coded IP in config files
     #setup_nginx_lb     # TODO replace hard-coded IP in config files
     #check_nginx_lb
-    update_kube_proxy
+    #update_kube_proxy
 
     #            echo "wait 10 seconds for k8s pods up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
-    #check_kube_proxy
+    check_kube_proxy
     #check_k8s_cluster_ha
     #add_node
     #check_k8s_cluster_ha
