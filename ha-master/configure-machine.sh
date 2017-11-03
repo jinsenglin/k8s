@@ -660,7 +660,8 @@ function main() {
     #            echo "wait 10 seconds for k8s pods up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
-    check_kube_proxy
+    #check_kube_proxy
+    check_k8s_cluster_ha
     #run_kubeadm_join
 }
 
