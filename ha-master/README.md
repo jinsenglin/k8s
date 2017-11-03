@@ -37,3 +37,25 @@ gcr.io/google_containers/kubernetes-dashboard-amd64 v1.6.1 vs. ?
 gcr.io/google_containers/heapster-amd64 v1.3.0 vs. ?
 gcr.io/google_containers/heapster-grafana-amd64 v4.0.2 vs. ?
 gcr.io/google_containers/heapster-influxdb-amd64 v1.1.1 vs. ?
+
+# e2e Tests
+
+```
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+```
+
+```
+openstack server suspend $M1
+
+kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
+kubectl get po -o wide # NOT FOUND
+
+kubectl delete deployment hello-nginx
+kubectl get po -o wide
+
+openstack server resume $M1
+```
