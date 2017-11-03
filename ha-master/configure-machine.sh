@@ -435,7 +435,7 @@ function check_k8s_cluster_ha() {
 #check_etcd_cluster
 #run_kubeadm_init
 
-#            echo "wait 10 seconds for k8s pods up and running"i
+#            echo "wait 10 seconds for k8s pods up and running"
 #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
 #check_k8s_cluster
@@ -443,6 +443,10 @@ function check_k8s_cluster_ha() {
 #update_kube_apiserver
 #check_k8s_cluster
 #setup_ha_master
+
+#            echo "wait 10 seconds for k8s pods up and running"
+#            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+
 check_k8s_cluster_ha
 #setup_keepalived
 #setup_nginx_lb
