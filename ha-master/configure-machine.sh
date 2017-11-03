@@ -595,6 +595,38 @@ function update_kube_proxy() {
     esac
 }
 
+function check_kube_proxy() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            # check configmap
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get -n kube-system configmap/kube-proxy -o yaml
+
+            # check pods
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get pods -n kube-system -l k8s-app=kube-proxy -o wide
+
+            ;;
+        $M2)
+            echo "M2"
+            ;;
+        $M3)
+            echo "M3"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'update_kube_proxy'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'update_kube_proxy'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 function main() {
     #update_etc_sysctl_conf
     #bring_up_etcd_cluster
@@ -623,7 +655,12 @@ function main() {
     #setup_keepalived   # TODO replace hard-coded IP in config files
     #setup_nginx_lb     # TODO replace hard-coded IP in config files
     #check_nginx_lb
-    update_kube_proxy
+    #update_kube_proxy
+
+    #            echo "wait 10 seconds for k8s pods up and running"
+    #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+
+    check_kube_proxy
     #run_kubeadm_join
 }
 
