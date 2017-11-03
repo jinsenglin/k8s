@@ -474,10 +474,10 @@ function setup_keepalived() {
             systemctl restart keepalived
             ;;
         $M4)
-            echo "M4 has nothing to do in step 'scale_kube_dns'"
+            echo "M4 has nothing to do in step 'setup_keepalived'"
             ;;
         $M5)
-            echo "M5 has nothing to do in step 'scale_kube_dns'"
+            echo "M5 has nothing to do in step 'setup_keepalived'"
             ;;
         *)
             echo "unknown hostname"
@@ -502,10 +502,53 @@ function setup_nginx_lb() {
             docker run -d -p 8443:8443 --name nginx-lb --restart always -v $PWD/kubeadm-ha/nginx-default.conf:/etc/nginx/nginx.conf nginx
             ;;
         $M4)
-            echo "M4 has nothing to do in step 'scale_kube_dns'"
+            echo "M4 has nothing to do in step 'setup_nginx_lb'"
             ;;
         $M5)
-            echo "M5 has nothing to do in step 'scale_kube_dns'"
+            echo "M5 has nothing to do in step 'setup_nginx_lb'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
+function check_nginx_lb() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            curl -v -L $PIP0:8443
+            curl -v -L $PIP1:8443
+
+            ;;
+        $M2)
+            echo "M2"
+
+            curl -v -L $PIP0:8443
+            curl -v -L $PIP1:8443
+
+            ;;
+        $M3)
+            echo "M3"
+
+            curl -v -L $PIP0:8443
+            curl -v -L $PIP1:8443
+
+            ;;
+        $M4)
+            echo "M4"
+
+            curl -v -L $PIP0:8443
+
+            ;;
+        $M5)
+            echo "M5"
+
+            curl -v -L $PIP0:8443
+
             ;;
         *)
             echo "unknown hostname"
@@ -538,6 +581,7 @@ function setup_nginx_lb() {
 #scale_kube_dns
 #check_k8s_cluster_ha
 #setup_keepalived
-setup_nginx_lb
+#setup_nginx_lb
+check_nginx_lb
 #update_kube_proxy
 #run_kubeadm_join
