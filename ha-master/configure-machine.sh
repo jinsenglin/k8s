@@ -520,34 +520,34 @@ function check_nginx_lb() {
         $M1)
             echo "M1"
 
-            curl -v -L $PIP0:8443
-            curl -v -L $PIP1:8443
+            curl -L $PIP0:8443 | wc -l
+            curl -L $PIP1:8443 | wc -l
 
             ;;
         $M2)
             echo "M2"
 
-            curl -v -L $PIP0:8443
-            curl -v -L $PIP1:8443
+            curl -L $PIP0:8443 | wc -l
+            curl -L $PIP1:8443 | wc -l
 
             ;;
         $M3)
             echo "M3"
 
-            curl -v -L $PIP0:8443
-            curl -v -L $PIP1:8443
+            curl -L $PIP0:8443 | wc -l
+            curl -L $PIP1:8443 | wc -l
 
             ;;
         $M4)
             echo "M4"
 
-            curl -v -L $PIP0:8443
+            curl -L $PIP0:8443 | wc -l
 
             ;;
         $M5)
             echo "M5"
 
-            curl -v -L $PIP0:8443
+            curl -L $PIP0:8443 | wc -l
 
             ;;
         *)
