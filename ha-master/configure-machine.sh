@@ -339,6 +339,9 @@ function setup_ha_master() {
             # update kubeconfig file
             sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/admin.conf
 
+            # label as master
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf label nodes $M2 node-role.kubernetes.io/master=
+
             ;;
         $M3)
             echo "M3"
@@ -351,25 +354,28 @@ function setup_ha_master() {
 
             # update kube-apiserver
             mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
-            sed -i "s|^\(    - --advertise-address=\).*|\1$PIP2|" /tmp/kube-apiserver.yaml
+            sed -i "s|^\(    - --advertise-address=\).*|\1$PIP3|" /tmp/kube-apiserver.yaml
             mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests
            
             # update kube-controller-manager
             mv /etc/kubernetes/manifests/kube-controller-manager.yaml /tmp
-            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/controller-manager.conf
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP3\2|" /etc/kubernetes/controller-manager.conf
             mv /tmp/kube-controller-manager.yaml /etc/kubernetes/manifests
 
             # update kube-scheduler
             mv /etc/kubernetes/manifests/kube-scheduler.yaml /tmp
-            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/scheduler.conf
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP3\2|" /etc/kubernetes/scheduler.conf
             mv /tmp/kube-scheduler.yaml /etc/kubernetes/manifests
 
             # update kubelet
-            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/kubelet.conf
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP3\2|" /etc/kubernetes/kubelet.conf
             systemctl restart kubelet
             
             # update kubeconfig file
-            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/admin.conf
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP3\2|" /etc/kubernetes/admin.conf
+
+            # label as master
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf label nodes $M3 node-role.kubernetes.io/master=
 
             ;;
         $M4)
