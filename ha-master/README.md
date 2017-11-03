@@ -10,7 +10,7 @@ Step 4: remote-runner-wrapper.sh copy_pkgs
 
 Step 5: remote-runner-wrapper.sh configure
 
-Step 6: copy kubeconfig file from worker node instead of from master node to k8s client node
+Step 6: copy kubeconfig file from k8s-master1 then change server IP "$PIP1:6443" with "$PIP0:8443"
 
 # Diff Info
 

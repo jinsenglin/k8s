@@ -580,7 +580,7 @@ function update_kube_proxy() {
             echo "M1"
 
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get -n kube-system configmap/kube-proxy -o yaml | tee /tmp/configmap-kube-proxy.yaml
-            sed -i "s|^\(        server: https:\/\/\).*\(:6443\)|\1$PIP0\2|" /tmp/configmap-kube-proxy.yaml # TODO 6443->8443
+            sed -i "s|^\(        server: https:\/\/\).*|\1$PIP0:8443|" /tmp/configmap-kube-proxy.yaml # TODO fix 6443->8443
             kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f /tmp/configmap-kube-proxy.yaml            
 
             for pod in $(kubectl --kubeconfig=/etc/kubernetes/admin.conf get pods -n kube-system -l k8s-app=kube-proxy -o json | jq -r '.items[].metadata.name')
@@ -658,12 +658,20 @@ function add_node() {
         $M4)
             echo "M4"
             ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | sed "s/$PIP1/$PIP0/" | bash
-            # TODO change IP and Port in /etc/kubernetes/kubelet.conf 
+
+            # TODO update kubelet
+            sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
+            systemctl restart kubelet
+
             ;;
         $M5)
             echo "M5"
             ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | sed "s/$PIP1/$PIP0/" | bash
-            # TODO change IP and Port in /etc/kubernetes/kubelet.conf 
+
+            # TODO update kubelet
+            sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
+            systemctl restart kubelet
+
             ;;
         *)
             echo "unknown hostname"
@@ -673,7 +681,7 @@ function add_node() {
 
 function main() {
     #update_etc_sysctl_conf
-    #bring_up_etcd_cluster
+    bring_up_etcd_cluster   # 5:48
     
     #            echo "wait 10 seconds for etcd nodes up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
@@ -707,7 +715,7 @@ function main() {
     #check_kube_proxy
     #check_k8s_cluster_ha
     #add_node
-    check_k8s_cluster_ha
+    #check_k8s_cluster_ha
 }
 
 main $@
