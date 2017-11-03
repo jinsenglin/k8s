@@ -580,7 +580,7 @@ function update_kube_proxy() {
             echo "M1"
 
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get -n kube-system configmap/kube-proxy -o yaml | tee /tmp/configmap-kube-proxy.yaml
-            sed -i "s|^\(        server: https:\/\/\).*|\1$PIP0:8443|" /tmp/configmap-kube-proxy.yaml # TODO fix 6443->8443
+            sed -i "s|^\(        server: https:\/\/\).*|\1$PIP0:8443|" /tmp/configmap-kube-proxy.yaml # 6443->8443
             kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f /tmp/configmap-kube-proxy.yaml            
 
             for pod in $(kubectl --kubeconfig=/etc/kubernetes/admin.conf get pods -n kube-system -l k8s-app=kube-proxy -o json | jq -r '.items[].metadata.name')
@@ -662,7 +662,7 @@ function add_node() {
             echo "wait 10 seconds for file '/etc/kubernetes/kubelet.conf' created"
             i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
-            # TODO update kubelet
+            # update kubelet
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
             systemctl restart kubelet
 
@@ -674,7 +674,7 @@ function add_node() {
             echo "wait 10 seconds for file '/etc/kubernetes/kubelet.conf' created"
             i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
-            # TODO update kubelet
+            # update kubelet
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
             systemctl restart kubelet
 
