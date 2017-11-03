@@ -7,11 +7,21 @@
 # Usage 5: bash remote-runner-wrapper.sh del_k8s
 # Usage 6: bash remote-runner-wrapper.sh del_etcd
 # Usage 7: bash remote-runner-wrapper.sh del_lb
+# Usage 8: bash remote-runner-wrapper.sh restart_docker_and_kubelet
 
 set -e
 
 CMD=$1
 shift
+
+function restart_docker_and_kubelet() {
+    source rc
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
+}
 
 function del_k8s() {
     source rc
