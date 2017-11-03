@@ -705,8 +705,8 @@ function main() {
     #scale_kube_dns          # 5:59
     #check_k8s_cluster_ha    # 6:00
     #setup_keepalived        # 6:01   # TODO replace hard-coded IP in config files
-    setup_nginx_lb          # 6:01     # TODO replace hard-coded IP in config files
-    #check_nginx_lb
+    #setup_nginx_lb          # 6:01     # TODO replace hard-coded IP in config files
+    check_nginx_lb          # 6:02
     #update_kube_proxy
 
     #            echo "wait 10 seconds for k8s pods up and running"
