@@ -40,7 +40,7 @@ gcr.io/google_containers/heapster-influxdb-amd64 v1.1.1 vs. ?
 
 # e2e Tests
 
-```
+```pass
 kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
 kubectl get po -o wide
 
