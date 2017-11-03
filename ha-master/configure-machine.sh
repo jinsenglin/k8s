@@ -440,7 +440,8 @@ function check_k8s_cluster_ha() {
 
 #check_k8s_cluster
 #install_flannel
-update_kube_apiserver
+#update_kube_apiserver
+check_k8s_cluster
 #setup_ha_master
 #check_k8s_cluster_ha
 #setup_keepalived
