@@ -6,6 +6,7 @@
 # Usage 4: bash remote-runner-wrapper.sh configure
 # Usage 5: bash remote-runner-wrapper.sh del_k8s
 # Usage 6: bash remote-runner-wrapper.sh del_etcd
+# Usage 7: bash remote-runner-wrapper.sh del_lb
 
 set -e
 
@@ -24,6 +25,13 @@ function del_etcd() {
     ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "docker stop etcd && docker rm etcd"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "docker stop etcd && docker rm etcd"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "docker stop etcd && docker rm etcd"
+}
+
+function del_lb() {
+    source rc
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "docker stop nginx-lb && docker rm nginx-lb"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "docker stop nginx-lb && docker rm nginx-lb"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "docker stop nginx-lb && docker rm nginx-lb"
 }
 
 # do once only
