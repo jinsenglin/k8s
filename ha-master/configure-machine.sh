@@ -694,8 +694,8 @@ function main() {
     #check_k8s_cluster_ha
     #scale_kube_dns
     #check_k8s_cluster_ha
-    setup_keepalived   # TODO replace hard-coded IP in config files
-    #setup_nginx_lb     # TODO replace hard-coded IP in config files
+    #setup_keepalived   # TODO replace hard-coded IP in config files
+    setup_nginx_lb     # TODO replace hard-coded IP in config files
     #check_nginx_lb
     #update_kube_proxy
 
