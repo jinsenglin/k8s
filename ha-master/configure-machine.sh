@@ -211,6 +211,7 @@ function check_k8s_cluster() {
             kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get configmap -n kube-system
 
             ;;
         $M2)
@@ -393,6 +394,7 @@ function check_k8s_cluster_ha() {
             kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get configmap -n kube-system
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
 
             ;;
@@ -402,6 +404,7 @@ function check_k8s_cluster_ha() {
             kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get configmap -n kube-system
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
 
             ;;
@@ -411,6 +414,7 @@ function check_k8s_cluster_ha() {
             kubeadm token list
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get node
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get po -n kube-system -o wide
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get configmap -n kube-system
             kubectl --kubeconfig=/etc/kubernetes/admin.conf get cs
 
             ;;
@@ -556,32 +560,71 @@ function check_nginx_lb() {
     esac
 }
 
-#update_etc_sysctl_conf
-#bring_up_etcd_cluster
+function update_kube_proxy() {
+    source rc
 
-#            echo "wait 10 seconds for etcd nodes up and running"
-#            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
 
-#check_etcd_cluster
-#run_kubeadm_init
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf get -n kube-system configmap/kube-proxy -o yaml | tee /tmp/configmap-kube-proxy.yaml
+            sed -i "s|^\(        server: https:\/\/\).*\(:6443\)|\1$PIP0\2|" /tmp/configmap-kube-proxy.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf apply -f /tmp/configmap-kube-proxy.yaml            
 
-#            echo "wait 10 seconds for k8s pods up and running"
-#            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+            for pod in $(kubectl --kubeconfig=/etc/kubernetes/admin.conf get pods -n kube-system -l k8s-app=kube-proxy -o json | jq -r '.items[].metadata.name')
+            do
+                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete pods $pod -n kube-system
+            done
 
-#check_k8s_cluster
-#install_flannel
-#update_kube_apiserver
-#check_k8s_cluster
-#setup_ha_master
+            ;;
+        $M2)
+            echo "M2"
+            ;;
+        $M3)
+            echo "M3"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'update_kube_proxy'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'update_kube_proxy'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
 
-#            echo "wait 10 seconds for k8s pods up and running"
-#            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+function main() {
+    #update_etc_sysctl_conf
+    #bring_up_etcd_cluster
+    
+    #            echo "wait 10 seconds for etcd nodes up and running"
+    #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+    
+    #check_etcd_cluster
+    #run_kubeadm_init
+    
+    #            echo "wait 10 seconds for k8s pods up and running"
+    #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+    
+    #check_k8s_cluster
+    #install_flannel
+    #update_kube_apiserver
+    #check_k8s_cluster
+    #setup_ha_master
+    
+    #            echo "wait 10 seconds for k8s pods up and running"
+    #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+    
+    #check_k8s_cluster_ha
+    #scale_kube_dns
+    #check_k8s_cluster_ha
+    #setup_keepalived   # TODO replace hard-coded IP in config files
+    #setup_nginx_lb     # TODO replace hard-coded IP in config files
+    #check_nginx_lb
+    update_kube_proxy
+    #run_kubeadm_join
+}
 
-#check_k8s_cluster_ha
-#scale_kube_dns
-#check_k8s_cluster_ha
-#setup_keepalived   # TODO replace hard-coded IP in config files
-#setup_nginx_lb     # TODO replace hard-coded IP in config files
-check_nginx_lb
-#update_kube_proxy
-#run_kubeadm_join
+main $@
