@@ -309,15 +309,67 @@ function setup_ha_master() {
             ;;
         $M2)
             echo "M2"
-#            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | RUN IT
-#            kubeadm join --token 62c99d.c8de9d195fda2f32 192.168.202.101:6443 --discovery-token-ca-cert-hash sha256:63d3f8c78b1691afd4ab14cb2ca76341bb48d519ca89b15baf720d85d4d8e2af
-#            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+
+            # run kubeadm join
+            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | bash
+
+            # copy k8s settings from master-1
+            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+
+            # update kube-apiserver
+            mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
+            sed -i "s|^\(    - --advertise-address=\).*|\1$PIP2|" /tmp/kube-apiserver.yaml
+            mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests
+           
+            # update kube-controller-manager
+            mv /etc/kubernetes/manifests/kube-controller-manager.yaml /tmp
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/controller-manager.conf
+            mv /tmp/kube-controller-manager.yaml /etc/kubernetes/manifests
+
+            # update kube-scheduler
+            mv /etc/kubernetes/manifests/kube-scheduler.yaml /tmp
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/scheduler.conf
+            mv /tmp/kube-scheduler.yaml /etc/kubernetes/manifests
+
+            # update kubelet
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/kubelet.conf
+            systemctl restart kubelet
+            
+            # update kubeconfig file
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/admin.conf
+
             ;;
         $M3)
             echo "M3"
-#            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | RUN IT
-#            kubeadm join --token 62c99d.c8de9d195fda2f32 192.168.202.101:6443 --discovery-token-ca-cert-hash sha256:63d3f8c78b1691afd4ab14cb2ca76341bb48d519ca89b15baf720d85d4d8e2af
-#            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+
+            # run kubeadm join
+            ssh -o StrictHostKeyChecking=false $M1 "grep 'kubeadm join' k8s/ha-master/kubeadm-init.log" | bash
+
+            # copy k8s settings from master-1
+            scp -o StrictHostKeyChecking=false -r $M1:/etc/kubernetes/ /etc/
+
+            # update kube-apiserver
+            mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp
+            sed -i "s|^\(    - --advertise-address=\).*|\1$PIP2|" /tmp/kube-apiserver.yaml
+            mv /tmp/kube-apiserver.yaml /etc/kubernetes/manifests
+           
+            # update kube-controller-manager
+            mv /etc/kubernetes/manifests/kube-controller-manager.yaml /tmp
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/controller-manager.conf
+            mv /tmp/kube-controller-manager.yaml /etc/kubernetes/manifests
+
+            # update kube-scheduler
+            mv /etc/kubernetes/manifests/kube-scheduler.yaml /tmp
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/scheduler.conf
+            mv /tmp/kube-scheduler.yaml /etc/kubernetes/manifests
+
+            # update kubelet
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/kubelet.conf
+            systemctl restart kubelet
+            
+            # update kubeconfig file
+            sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/admin.conf
+
             ;;
         $M4)
             echo "M4 has nothing to do in step 'setup_ha_master'"
