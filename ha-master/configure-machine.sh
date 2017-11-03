@@ -485,6 +485,34 @@ function setup_keepalived() {
     esac
 }
 
+function setup_nginx_lb() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            docker run -d -p 8443:8443 --name nginx-lb --restart always -v $PWD/kubeadm-ha/nginx-default.conf:/etc/nginx/nginx.conf nginx
+            ;;
+        $M2)
+            echo "M2"
+            docker run -d -p 8443:8443 --name nginx-lb --restart always -v $PWD/kubeadm-ha/nginx-default.conf:/etc/nginx/nginx.conf nginx
+            ;;
+        $M3)
+            echo "M3"
+            docker run -d -p 8443:8443 --name nginx-lb --restart always -v $PWD/kubeadm-ha/nginx-default.conf:/etc/nginx/nginx.conf nginx
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 
@@ -509,7 +537,7 @@ function setup_keepalived() {
 #check_k8s_cluster_ha
 #scale_kube_dns
 #check_k8s_cluster_ha
-setup_keepalived
-#setup_nginx_lb
+#setup_keepalived
+setup_nginx_lb
 #update_kube_proxy
 #run_kubeadm_join
