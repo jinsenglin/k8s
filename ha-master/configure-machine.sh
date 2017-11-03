@@ -694,8 +694,8 @@ function main() {
     
     #check_k8s_cluster       # 5:51
     #install_flannel         # 5:52
-    update_kube_apiserver   # 5:54
-    #check_k8s_cluster
+    #update_kube_apiserver   # 5:54
+    check_k8s_cluster       # 5:54
     #setup_ha_master
     
     #            echo "wait 10 seconds for k8s pods up and running"
