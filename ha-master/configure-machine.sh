@@ -426,6 +426,34 @@ function check_k8s_cluster_ha() {
     esac
 }
 
+function scale_kube_dns() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf scale --replicas=3 -n kube-system deployment/kube-dns
+
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'scale_kube_dns'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 #update_etc_sysctl_conf
 #bring_up_etcd_cluster
 
@@ -447,7 +475,9 @@ function check_k8s_cluster_ha() {
 #            echo "wait 10 seconds for k8s pods up and running"
 #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
-check_k8s_cluster_ha
+#check_k8s_cluster_ha
+scale_kube_dns
+#check_k8s_cluster_ha
 #setup_keepalived
 #setup_nginx_lb
 #update_kube_proxy
