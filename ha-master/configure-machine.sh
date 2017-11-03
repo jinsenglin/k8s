@@ -339,6 +339,9 @@ function setup_ha_master() {
             # update kubeconfig file
             sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP2\2|" /etc/kubernetes/admin.conf
 
+            echo "wait 1 minutes for pods up and running"
+            i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+
             # label as master
             kubectl --kubeconfig=/etc/kubernetes/admin.conf label nodes $M2 node-role.kubernetes.io/master=
 
@@ -373,6 +376,9 @@ function setup_ha_master() {
             
             # update kubeconfig file
             sed -i "s|^\(    server: https:\/\/\).*\(:6443\)$|\1$PIP3\2|" /etc/kubernetes/admin.conf
+
+            echo "wait 1 minutes for pods up and running"
+            i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
 
             # label as master
             kubectl --kubeconfig=/etc/kubernetes/admin.conf label nodes $M3 node-role.kubernetes.io/master=
@@ -679,8 +685,8 @@ function main() {
     #check_k8s_cluster
     #install_flannel
     #update_kube_apiserver
-    check_k8s_cluster
-    #setup_ha_master
+    #check_k8s_cluster
+    setup_ha_master
     
     #            echo "wait 10 seconds for k8s pods up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
