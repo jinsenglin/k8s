@@ -15,6 +15,8 @@ shift
 
 function del_k8s() {
     source rc
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M5 --delete-local-data --force --ignore-daemonsets; kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M5; kubeadm reset; rm -rf /var/lib/kubelet"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M4 --delete-local-data --force --ignore-daemonsets; kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M4; kubeadm reset; rm -rf /var/lib/kubelet"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M3 --delete-local-data --force --ignore-daemonsets; kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M3; kubeadm reset; rm -rf /var/lib/kubelet"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M2 --delete-local-data --force --ignore-daemonsets; kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M2; kubeadm reset; rm -rf /var/lib/kubelet"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M1 --delete-local-data --force --ignore-daemonsets; kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M1; kubeadm reset; rm -rf /var/lib/kubelet"
