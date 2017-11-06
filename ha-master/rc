@@ -33,3 +33,12 @@ export M2_ID=2237532b-399a-4110-982a-a52f6f6f5007
 export M3_ID=58973301-54cd-46f6-833f-d1c8e50e3ae0
 export M4_ID=9024c49e-14c6-4913-b934-295c5a13434a
 export M5_ID=85a875dd-c43a-4b99-b91f-91d39db99837
+# 2017年11月 6日 週一 16時19分23秒 CST
+export F=2C2G10G
+export I=Tony_Ubuntu_16.04.2_Srv_Cloud_v1.3
+export SG=open-all
+export KP=devops
+export PN=infra
+export PSN=infra
+export EN=Catherine-924
+export PK=/Users/cclin/.ssh/id_rsa_devops

@@ -2,23 +2,31 @@
 
 set -e
 
+echo "# $(date)" | tee -a rc
+
 # flavor
 F=2C2G10G
+echo "export F=$F" | tee -a rc
 
 # image
 I=Tony_Ubuntu_16.04.2_Srv_Cloud_v1.3
+echo "export I=$I" | tee -a rc
 
 # security group
 SG=open-all
+echo "export SG=$SG" | tee -a rc
 
 # key pair name
 KP=devops
+echo "export KP=$KP" | tee -a rc
 
 # private network name
 PN=infra
+echo "export PN=$PN" | tee -a rc
 
 # private subnet name
 PSN=infra
+echo "export PSN=$PSN" | tee -a rc
 
 # private IPs
 PIP0=192.168.202.100
@@ -67,6 +75,7 @@ function reserve_PIPs() {
 
 # external network name
 EN=Catherine-924
+echo "export EN=$EN" | tee -a rc
 
 # Reserve resources
 function reserve_FIPs() {
@@ -157,6 +166,7 @@ function reserve_Ms() {
 
 # private key file used to ssh login virtual machines
 PK=~/.ssh/id_rsa_devops
+echo "export PK=$PK" | tee -a rc
 
 function copy_PK() {
     source rc
