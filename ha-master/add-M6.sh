@@ -31,4 +31,17 @@ function provision() {
 }
 #provision
 
-# bash remote-runner
+function copy() {
+    source rc
+
+    bash remote-runner.sh $FIP6 "git clone https://github.com/jinsenglin/k8s.git"
+    bash remote-runner.sh $FIP6 "cd k8s/ha-master; bash copy-packages-to-machine.sh" # TODO /etc/hosts
+}
+#copy
+
+function configure() {
+    source rc
+
+    bash remote-runner.sh $FIP6 "cd k8s/ha-master; bash add-M6-kubeadm-join.sh"
+}
+configure
