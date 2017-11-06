@@ -28,6 +28,7 @@ function case_del_nginx() {
 }
 
 function case_curl_nginx() {
+    # Accessing services running on the cluster :: Access services, nodes, or pods using the Proxy Verb. :: Manually constructing apiserver proxy URLs
     source rc
     bash remote-runner.sh $FIPC screen -dmS kubectl-proxy kubectl proxy
     sleep 1
