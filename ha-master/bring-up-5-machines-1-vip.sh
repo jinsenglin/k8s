@@ -94,6 +94,8 @@ function reserve_FIPs() {
 # Export floating IPs
 function export_FIPs() {
     source rc
+    echo "export FIPC=192.168.240.48" | tee -a rc
+
     FIP0=$(openstack floating ip show $FIP0_ID -f value -c floating_ip_address)
     echo "export FIP0=$FIP0" | tee -a rc
 
