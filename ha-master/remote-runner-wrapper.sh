@@ -8,11 +8,31 @@
 # Usage 6: bash remote-runner-wrapper.sh del_etcd
 # Usage 7: bash remote-runner-wrapper.sh del_lb
 # Usage 8: bash remote-runner-wrapper.sh restart_docker_and_kubelet
+# Usage 9: bash remote-runner-wrapper.sh power_off
+# Usage 9: bash remote-runner-wrapper.sh power_on
 
 set -e
 
 CMD=$1
 shift
+
+function power_off() {
+    source rc
+    openstack server stop $M1
+    openstack server stop $M2
+    openstack server stop $M3
+    openstack server stop $M4
+    openstack server stop $M5
+}
+
+function power_on() {
+    source rc
+    openstack server start $M1
+    openstack server start $M2
+    openstack server start $M3
+    openstack server start $M4
+    openstack server start $M5
+}
 
 function restart_docker_and_kubelet() {
     source rc
