@@ -27,6 +27,14 @@ function case_del_nginx() {
     bash remote-runner.sh $FIPC kubectl delete service/hello-nginx
 }
 
+function case_curl_nginx() {
+    source rc
+    bash remote-runner.sh $FIPC screen -dmS kubectl-proxy kubectl proxy
+    sleep 1
+    bash remote-runner.sh $FIPC curl -s http://127.0.0.1:8001/api/v1/namespaces/default/services/hello-nginx/proxy/
+    bash remote-runner.sh $FIPC screen -X -S kubectl-proxy quit
+}
+
 CMD=$1
 
 case $CMD in
