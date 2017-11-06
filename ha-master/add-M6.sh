@@ -25,5 +25,6 @@ function provision() {
     
     scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP6:~/.ssh/id_rsa
 }
+provision
 
 # bash remote-runner
