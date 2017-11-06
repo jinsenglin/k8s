@@ -664,6 +664,7 @@ function add_node() {
 
             # update kubelet
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
+            sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/bootstrap-kubelet.conf
             systemctl restart kubelet
 
             ;;
@@ -676,6 +677,7 @@ function add_node() {
 
             # update kubelet
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
+            sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/bootstrap-kubelet.conf
             systemctl restart kubelet
 
             ;;
@@ -720,8 +722,8 @@ function main() {
 
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
-    #add_node                # 6:05
-    check_k8s_cluster_ha    # 6:11
+    add_node                # 6:05
+    #check_k8s_cluster_ha    # 6:11
 }
 
 main $@
