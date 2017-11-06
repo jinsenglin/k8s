@@ -5,6 +5,8 @@ set -e
 function provision() {
     source rc
 
+    echo "# $(date)" | tee -a rc
+
     PIP6=192.168.202.106
     echo "export PIP6=$PIP6" | tee -a rc
     
@@ -22,9 +24,11 @@ function provision() {
     
     M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id --wait $M6)
     echo "export M6_ID=$M6_ID" | tee -a rc
-    
+
+    echo "wait 1 minutes for $M6 up and running"
+    i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
     scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP6:~/.ssh/id_rsa
 }
-provision
+#provision
 
 # bash remote-runner

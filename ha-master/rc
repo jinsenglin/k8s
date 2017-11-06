@@ -42,3 +42,10 @@ export PN=infra
 export PSN=infra
 export EN=Catherine-924
 export PK=/Users/cclin/.ssh/id_rsa_devops
+# 2017年11月 6日 週一 16時20分42秒 CST
+export PIP6=192.168.202.106
+export PIP6_PORT_ID=ca57409d-c454-4634-896f-0143f916293a
+export FIP6_ID=75c05b0c-8b96-4822-810d-e1c42327c2b9
+export FIP6=192.168.240.59
+export M6=k8s-node3
+export M6_ID=070fb20e-f4bd-4a99-ae8c-5f27293f77f8
