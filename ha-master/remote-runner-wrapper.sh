@@ -5,11 +5,12 @@
 # Usage 3: bash remote-runner-wrapper.sh copy_pkgs
 # Usage 4: bash remote-runner-wrapper.sh configure
 # Usage 5: bash remote-runner-wrapper.sh del_k8s
-# Usage 6: bash remote-runner-wrapper.sh del_etcd
-# Usage 7: bash remote-runner-wrapper.sh del_lb
-# Usage 8: bash remote-runner-wrapper.sh restart_docker_and_kubelet
-# Usage 9: bash remote-runner-wrapper.sh power_off
-# Usage 9: bash remote-runner-wrapper.sh power_on
+# Usage 6: bash remote-runner-wrapper.sh del_k8s_workers
+# Usage 7: bash remote-runner-wrapper.sh del_etcd
+# Usage 8: bash remote-runner-wrapper.sh del_lb
+# Usage 9: bash remote-runner-wrapper.sh restart_docker_and_kubelet
+# Usage 10: bash remote-runner-wrapper.sh power_off
+# Usage 11: bash remote-runner-wrapper.sh power_on
 
 set -e
 
@@ -41,6 +42,15 @@ function restart_docker_and_kubelet() {
     ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
     ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "hostname; systemctl restart docker kubelet"
+}
+
+function del_k8s_workers() {
+    source rc
+
+    set +e
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "kubeadm reset; [ -d /var/lib/kubelet ] && rm -rf /var/lib/kubelet; [ -f /etc/kubernetes/bootstrap-kubelet.conf ] && rm /etc/kubernetes/bootstrap-kubelet.conf"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "kubeadm reset; [ -d /var/lig/kubelet ] && rm -rf /var/lib/kubelet; [ -f /etc/kubernetes/bootstrap-kubelet.conf ] && rm /etc/kubernetes/bootstrap-kubelet.conf"
+    set -e
 }
 
 function del_k8s() {
