@@ -13,6 +13,6 @@ function configure() {
     sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
     sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/bootstrap-kubelet.conf
 
-    systemctl restart kubelet
+    systemctl restart kubelet docker
 }
 configure
