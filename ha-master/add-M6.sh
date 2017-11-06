@@ -29,7 +29,7 @@ function provision() {
     i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
     scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP6:~/.ssh/id_rsa
 }
-#provision
+provision
 
 function copy() {
     source rc
@@ -37,7 +37,7 @@ function copy() {
     bash remote-runner.sh $FIP6 "git clone https://github.com/jinsenglin/k8s.git"
     bash remote-runner.sh $FIP6 "cd k8s/ha-master; bash copy-packages-to-machine.sh" # TODO /etc/hosts
 }
-#copy
+copy
 
 function configure() {
     source rc
