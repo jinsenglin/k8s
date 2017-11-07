@@ -17,8 +17,14 @@ function case_scale_nginx() {
 }
 
 function case_expose_nginx() {
+    # default type = ClusterIP
     source rc
     bash remote-runner.sh $FIPC kubectl expose deployment/hello-nginx --target-port=80
+}
+
+function case_expose_nginx_nodeport() {
+    source rc
+    bash remote-runner.sh $FIPC kubectl expose deployment/hello-nginx --type=NodePort --target-port=80
 }
 
 function case_del_nginx() {
@@ -28,6 +34,7 @@ function case_del_nginx() {
 }
 
 function case_curl_nginx() {
+    # When service was exposed with type of ClusterIP
     # Accessing services running on the cluster :: Access services, nodes, or pods using the Proxy Verb. :: Manually constructing apiserver proxy URLs
     source rc
     bash remote-runner.sh $FIPC screen -dmS kubectl-proxy kubectl proxy
