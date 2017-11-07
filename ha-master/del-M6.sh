@@ -5,6 +5,7 @@ set -e
 function configure() {
     source rc
 
+    bash easy-kubectl.sh drain $M6 --delete-local-data --force --ignore-daemonsets
     bash easy-kubectl.sh delete node $M6
 
     set +e
