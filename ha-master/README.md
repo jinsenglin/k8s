@@ -1,3 +1,7 @@
+# Note
+
+setup client/management node is out of this scope.
+
 # Usage
 
 Step 1: bring-up-5-machines-1-vip.sh
