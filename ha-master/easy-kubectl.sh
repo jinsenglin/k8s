@@ -6,6 +6,11 @@
 
 set -e
 
+function case_insecure_private_registry() {
+    source rc
+    bash remote-runner.sh $FIPC kubectl run hello-registry --image=192.168.240.5:5000/registry:2.6.2 --replicas=1 --port=5000
+}
+
 function case_run_nginx() {
     source rc
     bash remote-runner.sh $FIPC kubectl run hello-nginx --image=nginx:latest --replicas=1 --port=80
