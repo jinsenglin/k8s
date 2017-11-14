@@ -750,13 +750,13 @@ function install_heapster() {
 
 
 function main() {
-    update_etc_sysctl_conf
-    bring_up_etcd_cluster   # 5:48
+    #update_etc_sysctl_conf
+    #bring_up_etcd_cluster   # 5:48
     
     #            echo "wait 10 seconds for etcd nodes up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
     
-    #check_etcd_cluster      # 5:49
+    check_etcd_cluster      # 5:49
     #run_kubeadm_init        # 5:49
     
     #            echo "wait 10 seconds for k8s pods up and running"
