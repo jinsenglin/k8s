@@ -56,6 +56,9 @@ function case_curl_dashboard() {
     sleep 1
     bash remote-runner.sh $FIPC curl -s http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
     bash remote-runner.sh $FIPC screen -X -S kubectl-proxy quit
+
+    # Notes
+    # ssh -L8001:localhost:8001 $FIPC
 }
 
 CMD=$1
