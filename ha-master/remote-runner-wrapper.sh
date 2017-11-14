@@ -11,11 +11,27 @@
 # Usage 9: bash remote-runner-wrapper.sh restart_docker_and_kubelet
 # Usage 10: bash remote-runner-wrapper.sh power_off
 # Usage 11: bash remote-runner-wrapper.sh power_on
+# Usage 12: bash remote-runner-wrapper.sh patch
 
 set -e
 
 CMD=$1
 shift
+
+function patch() {
+    source rc
+    img1="gcr.io/google_containers/kubernetes-dashboard-amd64:v1.7.1"
+    img2="gcr.io/google_containers/heapster-amd64:v1.4.3"
+    img3="gcr.io/google_containers/heapster-grafana-amd64:v4.4.3"
+    img4="gcr.io/google_containers/heapster-influxdb-amd64:v1.3.3"
+
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP6 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+}
 
 function power_off() {
     source rc
