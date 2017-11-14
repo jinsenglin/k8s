@@ -56,4 +56,12 @@ function reserve() {
     #scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP6:~/.ssh/id_rsa
 }
 
+function copy() {
+    source rc
+
+    # M1 - M5 (ETA 25 mins)
+    bash remote-runner-wrapper.sh git_clone
+    bash remote-runner-wrapper.sh copy_pkgs
+}
+
 $CMD

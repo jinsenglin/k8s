@@ -750,8 +750,8 @@ function install_heapster() {
 
 
 function main() {
-    #update_etc_sysctl_conf
-    #bring_up_etcd_cluster   # 5:48
+    update_etc_sysctl_conf
+    bring_up_etcd_cluster   # 5:48
     
     #            echo "wait 10 seconds for etcd nodes up and running"
     #            i=10; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
@@ -785,7 +785,7 @@ function main() {
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
     #add_node                # 6:05
-    check_k8s_cluster_ha    # 6:11
+    #check_k8s_cluster_ha    # 6:11
     #install_dashboard
     #install_heapster
 }
