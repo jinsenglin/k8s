@@ -44,6 +44,7 @@ deb https://download.docker.com/linux/$(lsb_release -si | tr '[:upper:]' '[:lowe
 EOF
 apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk '{print $3}')
 
+    # required
     docker pull gcr.io/google_containers/kube-proxy-amd64:v1.8.2
     docker pull gcr.io/google_containers/kube-apiserver-amd64:v1.8.2
     docker pull gcr.io/google_containers/kube-controller-manager-amd64:v1.8.2
@@ -55,10 +56,11 @@ apt-get update && apt-get install -y docker-ce=$(apt-cache madison docker-ce | g
     docker pull quay.io/coreos/flannel:v0.8.0-amd64
     docker pull gcr.io/google_containers/etcd-amd64:3.0.17
     docker pull gcr.io/google_containers/pause-amd64:3.0
-    #docker pull gcr.io/google_containers/kubernetes-dashboard-amd64:1.7.1
-    #docker pull gcr.io/google_containers/heapster-amd64:1.4.3
-    #docker pull gcr.io/google_containers/heapster-grafana-amd64:4.4.3
-    #docker pull gcr.io/google_containers/heapster-influxdb-amd64:1.3.3
+    # option
+    docker pull gcr.io/google_containers/kubernetes-dashboard-amd64:1.7.1
+    docker pull gcr.io/google_containers/heapster-amd64:1.4.3
+    docker pull gcr.io/google_containers/heapster-grafana-amd64:4.4.3
+    docker pull gcr.io/google_containers/heapster-influxdb-amd64:1.3.3
 }
 
 function donwload_keepalived() {
