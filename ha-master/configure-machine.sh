@@ -768,8 +768,8 @@ function main() {
     
     
     #check_k8s_cluster_ha    # 5:58
-    scale_kube_dns          # 5:59
-    #check_k8s_cluster_ha    # 6:00
+    #scale_kube_dns          # 5:59
+    check_k8s_cluster_ha    # 6:00
     #setup_keepalived        # 6:01   # TODO replace hard-coded IP in config files
     #setup_nginx_lb          # 6:01     # TODO replace hard-coded IP in config files
     #check_nginx_lb          # 6:02
