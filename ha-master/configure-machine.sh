@@ -675,16 +675,13 @@ function add_node() {
 
     case $HOSTNAME in
         $M1)
-            echo "M1"
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M1 -p '{"spec":{"unschedulable":true}}'
+            echo "M1 has nothing to do in step 'add_node'"
             ;;
         $M2)
-            echo "M2"
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M2 -p '{"spec":{"unschedulable":true}}'
+            echo "M2 has nothing to do in step 'add_node'"
             ;;
         $M3)
-            echo "M3"
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M3 -p '{"spec":{"unschedulable":true}}'
+            echo "M3 has nothing to do in step 'add_node'"
             ;;
         $M4)
             echo "M4"
@@ -696,7 +693,7 @@ function add_node() {
             # update kubelet
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/bootstrap-kubelet.conf
-            systemctl restart kubelet
+            systemctl restart kubelet docker
 
             ;;
         $M5)
@@ -709,7 +706,7 @@ function add_node() {
             # update kubelet
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/kubelet.conf
             sed -i "s|^\(    server: https:\/\/\).*|\1$PIP0:8443|" /etc/kubernetes/bootstrap-kubelet.conf
-            systemctl restart kubelet
+            systemctl restart kubelet docker
 
             ;;
         *)
@@ -807,8 +804,8 @@ function main() {
 
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
-    make_masters_unscheduled
-    #add_node                # 6:05
+    #make_masters_unscheduled
+    add_node                # 6:05
     #check_k8s_cluster_ha    # 6:11
     #install_dashboard
     #install_heapster
