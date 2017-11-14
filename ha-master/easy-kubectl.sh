@@ -48,6 +48,16 @@ function case_curl_nginx() {
     bash remote-runner.sh $FIPC screen -X -S kubectl-proxy quit
 }
 
+function case_curl_dashboard() {
+    # Prerequisite
+    # - install kubeadm-ha/kubernetes-dashboard.yaml
+    source rc
+    bash remote-runner.sh $FIPC screen -dmS kubectl-proxy kubectl proxy
+    sleep 1
+    bash remote-runner.sh $FIPC curl -s http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+    bash remote-runner.sh $FIPC screen -X -S kubectl-proxy quit
+}
+
 CMD=$1
 
 case $CMD in
