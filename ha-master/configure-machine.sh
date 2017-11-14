@@ -725,8 +725,8 @@ function install_heapster() {
         $M1)
             echo "M1"
 #            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/influxdb.yaml
-#            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/heapster.yaml
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/grafana.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/heapster.yaml
+#            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/grafana.yaml
             ;;
         $M2)
             echo "M2 has nothing to do in step 'install_heapster'"
