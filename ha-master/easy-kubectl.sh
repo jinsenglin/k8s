@@ -9,9 +9,11 @@ set -e
 function case_get_default_token() {
     source rc
     echo "namespace = default | token = default-token-xxxx"
-    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
+    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets | grep default-token | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
     echo "namespace = kube-system | token = default-token-xxxx"
-    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets -n kube-system | grep default | cut -f1 -d ' ') -n kube-system | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
+    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets -n kube-system | grep default-token | cut -f1 -d ' ') -n kube-system | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
+    echo "namespace = kube-system | token = kubernetes-dashboard-xxxx"
+    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets -n kube-system | grep kubernetes-dashboard | cut -f1 -d ' ') -n kube-system | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
 }
 
 function case_insecure_private_registry() {
