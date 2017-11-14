@@ -15,7 +15,7 @@ DATA
 }
 
 function download_utilities() {
-apt-get update && apt-get install -y tree jq
+apt-get update && apt-get install -y tree jq ntpdate
 }
 
 function download_k8s_packages() {

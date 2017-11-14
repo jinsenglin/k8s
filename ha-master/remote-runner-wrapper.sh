@@ -12,26 +12,29 @@
 # Usage 10: bash remote-runner-wrapper.sh power_off
 # Usage 11: bash remote-runner-wrapper.sh power_on
 # Usage 12: bash remote-runner-wrapper.sh patch
+# Usage 13: bash remote-runner-wrapper.sh ntpdate
 
 set -e
 
 CMD=$1
 shift
 
+function ntpdate() {
+    source rc
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "ntpdate time.stdtime.gov.tw"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "ntpdate time.stdtime.gov.tw"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "ntpdate time.stdtime.gov.tw"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "ntpdate time.stdtime.gov.tw"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "ntpdate time.stdtime.gov.tw"
+}
+
 function patch() {
     source rc
-    img0="gcr.io/google_containers/kubernetes-dashboard-init-amd64:v1.0.1"
-    img1="gcr.io/google_containers/kubernetes-dashboard-amd64:v1.7.1"
-    img2="gcr.io/google_containers/heapster-amd64:v1.4.3"
-    img3="gcr.io/google_containers/heapster-grafana-amd64:v4.4.3"
-    img4="gcr.io/google_containers/heapster-influxdb-amd64:v1.3.3"
-
-    ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
-    ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
-    ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
-    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
-    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
-    ssh -i ~/.ssh/id_rsa_devops root@$FIP6 -o StrictHostKeyChecking=false "docker pull $img1; docker pull $img2; docker pull $img3; docker pull $img4"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP1 -o StrictHostKeyChecking=false "apt-get install -y ntpdate"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP2 -o StrictHostKeyChecking=false "apt-get install -y ntpdate"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP3 -o StrictHostKeyChecking=false "apt-get install -y ntpdate"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP4 -o StrictHostKeyChecking=false "apt-get install -y ntpdate"
+    ssh -i ~/.ssh/id_rsa_devops root@$FIP5 -o StrictHostKeyChecking=false "apt-get install -y ntpdate"
 }
 
 function power_off() {
