@@ -28,6 +28,7 @@ kubelet version: v1.7.0 vs. 1.8.0
 
 container images versions:
 
+(required)
 gcr.io/google_containers/kube-proxy-amd64 v1.7.0 vs. v1.8.2
 gcr.io/google_containers/kube-apiserver-amd64 v1.7.0 vs. v1.8.2
 gcr.io/google_containers/kube-controller-manager-amd64 v1.7.0 vs. v1.8.2
@@ -39,10 +40,12 @@ nginx latest vs. latest
 quay.io/coreos/flannel v0.7.1-amd64 vs. v0.8.0-amd64
 gcr.io/google_containers/etcd-amd64 3.0.17 vs. 3.0.17
 gcr.io/google_containers/pause-amd64 3.0 vs. 3.0
-gcr.io/google_containers/kubernetes-dashboard-amd64 v1.6.1 vs. ?
-gcr.io/google_containers/heapster-amd64 v1.3.0 vs. ?
-gcr.io/google_containers/heapster-grafana-amd64 v4.0.2 vs. ?
-gcr.io/google_containers/heapster-influxdb-amd64 v1.1.1 vs. ?
+
+(option)
+gcr.io/google_containers/kubernetes-dashboard-amd64 v1.6.1 vs. 1.7.1
+gcr.io/google_containers/heapster-amd64 v1.3.0 vs. 1.4.3
+gcr.io/google_containers/heapster-grafana-amd64 v4.0.2 vs. 4.4.3
+gcr.io/google_containers/heapster-influxdb-amd64 v1.1.1 vs. 1.3.3
 
 # e2e Tests
 
