@@ -724,6 +724,8 @@ function install_heapster() {
     case $HOSTNAME in
         $M1)
             echo "M1"
+            # TODO Dashboard has to be deployed after heapster or restarted once heapster is up and running.
+            # TODO k8s.io/heapster/metrics/util/util.go:51: Failed to list *v1.Node: nodes is forbidden: User "system:serviceaccount:kube-system:heapster" cannot list nodes at the cluster scope
             kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/influxdb.yaml
             kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/heapster.yaml
             kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/grafana.yaml
