@@ -14,7 +14,7 @@ Step 4: remote-runner-wrapper.sh copy_pkgs
 
 Step 5: remote-runner-wrapper.sh configure
 
-Step 6: copy kubeconfig file from k8s-master1 then change server IP "$PIP1:6443" with "$PIP0:8443"
+Step 6: backup kubeconfig file from k8s-master1:/etc/kubernetes/admin.conf then change server IP "$PIP1:6443" with "$PIP0:8443" to git server
 
 # Diff Info
 
