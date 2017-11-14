@@ -172,16 +172,18 @@ function run_kubeadm_init() {
         $M1)
             echo "M1"
 
-            if [ -d /var/lib/kubelet ]; then
-                kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M1 --delete-local-data --force --ignore-daemonsets
-                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete ds kube-proxy -n kube-system
-                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete ds kube-flannel-ds -n kube-system
-                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M1
-                kubeadm reset
-                rm -rf /var/lib/kubelet
-            fi
+# TODO: move these steps to cleanup procedure
+#
+#            if [ -d /var/lib/kubelet ]; then
+#                kubectl --kubeconfig=/etc/kubernetes/admin.conf drain $M1 --delete-local-data --force --ignore-daemonsets
+#                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete ds kube-proxy -n kube-system
+#                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete ds kube-flannel-ds -n kube-system
+#                kubectl --kubeconfig=/etc/kubernetes/admin.conf delete node $M1
+#                kubeadm reset
+#                rm -rf /var/lib/kubelet
+#            fi
 
-            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml | tee kubeadm-init.log
+            kubeadm init --config=kubeadm-ha/kubeadm-init-v1.8.x.yaml | tee kubeadm-init.log # IMPORTANT FILE which will be referenced in the later steps.
             ;;
         $M2)
             echo "M2 has nothing to do in step 'run_kubeadm_init'"
