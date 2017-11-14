@@ -715,6 +715,36 @@ function add_node() {
     esac
 }
 
+function install_heapster() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            # TODO Dashboard has to be deployed after heapster or restarted once heapster is up and running.
+            # TODO k8s.io/heapster/metrics/util/util.go:51: Failed to list *v1.Node: nodes is forbidden: User "system:serviceaccount:kube-system:heapster" cannot list nodes at the cluster scope
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/influxdb.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/heapster.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/grafana.yaml
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'install_heapster'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'install_heapster'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'install_heapster'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'install_heapster'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 function install_dashboard() {
     source rc
 
@@ -746,35 +776,6 @@ function install_dashboard() {
     esac
 }
 
-function install_heapster() {
-    source rc
-
-    case $HOSTNAME in
-        $M1)
-            echo "M1"
-            # TODO Dashboard has to be deployed after heapster or restarted once heapster is up and running.
-            # TODO k8s.io/heapster/metrics/util/util.go:51: Failed to list *v1.Node: nodes is forbidden: User "system:serviceaccount:kube-system:heapster" cannot list nodes at the cluster scope
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/influxdb.yaml
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/heapster.yaml
-            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/grafana.yaml
-            ;;
-        $M2)
-            echo "M2 has nothing to do in step 'install_heapster'"
-            ;;
-        $M3)
-            echo "M3 has nothing to do in step 'install_heapster'"
-            ;;
-        $M4)
-            echo "M4 has nothing to do in step 'install_heapster'"
-            ;;
-        $M5)
-            echo "M5 has nothing to do in step 'install_heapster'"
-            ;;
-        *)
-            echo "unknown hostname"
-            ;;
-    esac
-}
 
 
 function main() {
@@ -807,8 +808,8 @@ function main() {
     #make_masters_unscheduled
     #add_node                # 6:05
     check_k8s_cluster_ha    # 6:11
-    #install_dashboard
     #install_heapster
+    #install_dashboard
 }
 
 main $@
