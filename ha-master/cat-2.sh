@@ -19,7 +19,7 @@ function release() {
     openstack server delete $M5
 
     # M6
-    openstack server delete $M6
+    #openstack server delete $M6
 }
 
 function reserve() {
@@ -48,12 +48,12 @@ function reserve() {
     scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP5:~/.ssh/id_rsa
 
     # M6
-    M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id --wait $M6)
-    echo "export M6_ID=$M6_ID" | tee -a rc
+    #M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id --wait $M6)
+    #echo "export M6_ID=$M6_ID" | tee -a rc
 
-    echo "wait 1 minutes for $M6 up and running"
-    i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
-    scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP6:~/.ssh/id_rsa
+    #echo "wait 1 minutes for $M6 up and running"
+    #i=60; while [ $i -gt 0 ]; do echo "wait for $i seconds"; i=$(( $i - 1 )); sleep 1; done
+    #scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP6:~/.ssh/id_rsa
 }
 
 $CMD
