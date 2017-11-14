@@ -6,6 +6,14 @@
 
 set -e
 
+function case_get_default_token() {
+    source rc
+    echo "namespace = default | token = default-token-xxxx"
+    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets | grep default | cut -f1 -d ' ') | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
+    echo "namespace = kube-system | token = default-token-xxxx"
+    bash remote-runner.sh $FIPC "kubectl describe secret \$(kubectl get secrets -n kube-system | grep default | cut -f1 -d ' ') -n kube-system | grep -E '^token' | cut -f2 -d':' | tr -d '\t'"
+}
+
 function case_insecure_private_registry() {
     source rc
     bash remote-runner.sh $FIPC kubectl run hello-registry --image=192.168.240.5:5000/registry:2.6.2 --replicas=1 --port=5000
