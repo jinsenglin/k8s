@@ -714,6 +714,34 @@ function install_dashboard() {
     esac
 }
 
+function install_heapster() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/influxdb.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/heapster.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/heapster/grafana.yaml
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'install_heapster'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'install_heapster'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'install_heapster'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'install_heapster'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
 
 function main() {
     #update_etc_sysctl_conf
@@ -751,8 +779,9 @@ function main() {
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
     #add_node                # 6:05
-    check_k8s_cluster_ha    # 6:11
+    #check_k8s_cluster_ha    # 6:11
     #install_dashboard
+    install_heapster
 }
 
 main $@
