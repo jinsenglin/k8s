@@ -42,7 +42,7 @@ function case_curl_nginx() {
     # When service was exposed with type of ClusterIP
     # Accessing services running on the cluster :: Access services, nodes, or pods using the Proxy Verb. :: Manually constructing apiserver proxy URLs
     source rc
-    bash remote-runner.sh $FIPC screen -dmS kubectl-proxy kubectl proxy
+    bash remote-runner.sh $FIPC screen -dmS kubectl-proxy kubectl proxy # --address='0.0.0.0' will cause an error 'http: proxy error: unexpected EOF' in query
     sleep 1
     bash remote-runner.sh $FIPC curl -s http://127.0.0.1:8001/api/v1/namespaces/default/services/hello-nginx/proxy/
     bash remote-runner.sh $FIPC screen -X -S kubectl-proxy quit
