@@ -805,8 +805,8 @@ function main() {
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
     #make_masters_unscheduled
-    add_node                # 6:05
-    #check_k8s_cluster_ha    # 6:11
+    #add_node                # 6:05
+    check_k8s_cluster_ha    # 6:11
     #install_dashboard
     #install_heapster
 }
