@@ -693,6 +693,8 @@ function install_dashboard() {
     case $HOSTNAME in
         $M1)
             echo "M1"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f k8s/ha-master/kubeadm-ha/kubernetes-dashboard.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf scale --replicas=3 -n kube-system deployment/kubernetes-dashboard
             ;;
         $M2)
             echo "M2 has nothing to do in step 'install_dashboard'"
