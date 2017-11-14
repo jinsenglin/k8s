@@ -49,3 +49,9 @@ export FIP6_ID=75c05b0c-8b96-4822-810d-e1c42327c2b9
 export FIP6=192.168.240.59
 export M6=k8s-node3
 export M6_ID=070fb20e-f4bd-4a99-ae8c-5f27293f77f8
+# 2017年11月14日 週二 17時10分17秒 CST
+export M1_ID=89f53d90-bc66-490c-a954-ba3b8e914cc8
+export M2_ID=0e67724a-a75c-4d9e-9a70-5c533bb8595a
+export M3_ID=c8fcaee2-33ce-4f2c-9cb2-94e242b92beb
+export M4_ID=8ec23e73-8b0b-42da-80a4-a517fa56f423
+export M5_ID=df07e604-7bdb-4106-a9f4-5a449af26bd0

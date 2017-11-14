@@ -36,7 +36,7 @@ function reserve() {
     echo "export M3_ID=$M3_ID" | tee -a rc
     M4_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP4 -f value -c id $M4)
     echo "export M4_ID=$M4_ID" | tee -a rc
-    M5_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP5 -f value -c id --wait $M5)
+    M5_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP5 -f value -c id $M5)
     echo "export M5_ID=$M5_ID" | tee -a rc
 
     echo "wait 1 minutes for $M1 - $M5 up and running"
@@ -48,7 +48,7 @@ function reserve() {
     scp -o StrictHostKeyChecking=false -i $PK $PK root@$FIP5:~/.ssh/id_rsa
 
     # M6
-    #M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id --wait $M6)
+    #M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id $M6)
     #echo "export M6_ID=$M6_ID" | tee -a rc
 
     #echo "wait 1 minutes for $M6 up and running"

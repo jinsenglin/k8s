@@ -22,7 +22,7 @@ function provision() {
     M6=k8s-node3
     echo "export M6=$M6" | tee -a rc
     
-    M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id --wait $M6)
+    M6_ID=$(openstack server create --image $I --flavor $F --key-name "$KP" --nic port-id=$PIP6 -f value -c id $M6)
     echo "export M6_ID=$M6_ID" | tee -a rc
 
     echo "wait 1 minutes for $M6 up and running"
