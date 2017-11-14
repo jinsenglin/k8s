@@ -773,10 +773,10 @@ function main() {
     #setup_keepalived        # 6:01   # TODO replace hard-coded IP in config files
     #setup_nginx_lb          # 6:01     # TODO replace hard-coded IP in config files
     #check_nginx_lb          # 6:02
-    update_kube_proxy       # 6:03
+    #update_kube_proxy       # 6:03
 
 
-    #check_kube_proxy        # 6:04
+    check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
     #add_node                # 6:05
     #check_k8s_cluster_ha    # 6:11
