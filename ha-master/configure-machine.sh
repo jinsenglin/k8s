@@ -764,10 +764,10 @@ function main() {
     #install_flannel         # 5:52
     #update_kube_apiserver   # 5:54
     #check_k8s_cluster       # 5:54
-    setup_ha_master         # 5:55
+    #setup_ha_master         # 5:55
     
     
-    #check_k8s_cluster_ha    # 5:58
+    check_k8s_cluster_ha    # 5:58
     #scale_kube_dns          # 5:59
     #check_k8s_cluster_ha    # 6:00
     #setup_keepalived        # 6:01   # TODO replace hard-coded IP in config files
