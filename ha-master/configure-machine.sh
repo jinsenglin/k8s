@@ -693,9 +693,11 @@ function install_dashboard() {
     case $HOSTNAME in
         $M1)
             echo "M1"
-            #kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/dashboard/kubernetes-dashboard.yaml
-            #kubectl --kubeconfig=/etc/kubernetes/admin.conf scale --replicas=1 -n kube-system deployment/kubernetes-dashboard
 
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/dashboard/kubernetes-dashboard.yaml
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf scale --replicas=1 -n kube-system deployment/kubernetes-dashboard
+
+            # give token 'dashboard-admin-xxxx' admin privilege (useful when accessing dashboard)
             kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f kubeadm-ha/dashboard/dashboard-admin.yaml
             ;;
         $M2)
@@ -781,8 +783,8 @@ function main() {
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
     #add_node                # 6:05
-    #check_k8s_cluster_ha    # 6:11
-    install_dashboard
+    check_k8s_cluster_ha    # 6:11
+    #install_dashboard
     #install_heapster
 }
 
