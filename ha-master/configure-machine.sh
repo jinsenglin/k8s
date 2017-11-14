@@ -687,6 +687,32 @@ function add_node() {
     esac
 }
 
+function install_dashboard() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            ;;
+        $M2)
+            echo "M2 has nothing to do in step 'install_dashboard'"
+            ;;
+        $M3)
+            echo "M3 has nothing to do in step 'install_dashboard'"
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'install_dashboard'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'install_dashboard'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+}
+
+
 function main() {
     #update_etc_sysctl_conf
     #bring_up_etcd_cluster   # 5:48
@@ -723,7 +749,8 @@ function main() {
     #check_kube_proxy        # 6:04
     #check_k8s_cluster_ha    # 6:05
     #add_node                # 6:05
-    check_k8s_cluster_ha    # 6:11
+    #check_k8s_cluster_ha    # 6:11
+    install_dashboard
 }
 
 main $@
