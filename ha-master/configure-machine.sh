@@ -641,6 +641,35 @@ function check_kube_proxy() {
     esac
 }
 
+function make_masters_unscheduled() {
+    source rc
+
+    case $HOSTNAME in
+        $M1)
+            echo "M1"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M1 -p '{"spec":{"unschedulable":true}}'
+            ;;
+        $M2)
+            echo "M2"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M2 -p '{"spec":{"unschedulable":true}}'
+            ;;
+        $M3)
+            echo "M3"
+            kubectl --kubeconfig=/etc/kubernetes/admin.conf patch node $M3 -p '{"spec":{"unschedulable":true}}'
+            ;;
+        $M4)
+            echo "M4 has nothing to do in step 'make_masters_unscheduled'"
+            ;;
+        $M5)
+            echo "M5 has nothing to do in step 'make_masters_unscheduled'"
+            ;;
+        *)
+            echo "unknown hostname"
+            ;;
+    esac
+
+}
+
 function add_node() {
     source rc
 
@@ -777,7 +806,8 @@ function main() {
 
 
     #check_kube_proxy        # 6:04
-    check_k8s_cluster_ha    # 6:05
+    #check_k8s_cluster_ha    # 6:05
+    make_masters_unscheduled
     #add_node                # 6:05
     #check_k8s_cluster_ha    # 6:11
     #install_dashboard
