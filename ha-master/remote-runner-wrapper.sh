@@ -20,6 +20,7 @@ shift
 
 function patch() {
     source rc
+    img0="gcr.io/google_containers/kubernetes-dashboard-init-amd64:v1.0.1"
     img1="gcr.io/google_containers/kubernetes-dashboard-amd64:v1.7.1"
     img2="gcr.io/google_containers/heapster-amd64:v1.4.3"
     img3="gcr.io/google_containers/heapster-grafana-amd64:v4.4.3"
