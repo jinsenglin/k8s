@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - image: busybox
+    name: busybox
+    command:
+      - sleep
+      - "3600" 
+    volumeMounts:
+    - mountPath: /host-tmp
+      name: host-tmp-dir
+  volumes:
+  - name: host-tmp-dir
+    hostPath:
+      # directory location on host
+      path: /tmp
+      # this field is optional
+      type: Directory
