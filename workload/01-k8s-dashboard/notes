@@ -1,1 +1,5 @@
+ssh -i ~/.ssh/id_rsa_devops -L8001:localhost:8001 centos@192.168.240.101
 http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+kubectl get sa/super-admin -n kube-system -o jsonpath={.secrets[0].name}
+kubectl get secret/super-admin-token-22894 -n kube-system -o jsonpath={.data.token} | base64 -d
