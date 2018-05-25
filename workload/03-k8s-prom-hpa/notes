@@ -1,0 +1,29 @@
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes" | jq .
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/pods" | jq .
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1" | jq .
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/monitoring/pods/*/fs_usage_bytes" | jq .
+kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/http_requests" | jq .
+
+<<CASE1
+cd k8s-prom-hpa
+
+kubectl create -f ./podinfo/podinfo-svc.yaml,./podinfo/podinfo-dep.yaml
+kubectl create -f ./podinfo/podinfo-hpa.yaml
+
+hey -n 10000 -q 10 -c 5 http://<K8S_PUBLIC_IP>:31198/ #do 10K requests
+
+kubectl delete -f ./podinfo/podinfo-hpa.yaml,./podinfo/podinfo-dep.yaml,./podinfo/podinfo-svc.yaml
+CASE1
+
+
+
+<<CASE2
+cd k8s-prom-hpa
+
+kubectl create -f ./podinfo/podinfo-svc.yaml,./podinfo/podinfo-dep.yaml
+kubectl create -f ./podinfo/podinfo-hpa-custom.yaml
+
+hey -n 10000 -q 5 -c 5 http://<K8S_PUBLIC_IP>:31198/healthz #do 10K requests rate limited at 25 QPS
+
+kubectl delete -f ./podinfo/podinfo-hpa-custom.yaml,./podinfo/podinfo-dep.yaml,./podinfo/podinfo-svc.yaml
+CASE2
