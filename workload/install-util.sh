@@ -10,4 +10,8 @@ yum install -y jq wget git tree golang
     chmod +x cfssljson_linux-amd64
     mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
 
+    export PATH=$PATH:/usr/local/bin
+
     go get -u github.com/rakyll/hey
+
+    export PATH=$PATH:~/go/bin
