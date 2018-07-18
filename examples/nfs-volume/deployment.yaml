@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: my-deployment
+  name: my-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: my-deployment
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: my-deployment
+    spec:
+      containers:
+      - image: nginx
+        name: my-deployment
+        volumeMounts:
+        - name: nfs-client-root
+          mountPath: /data
+        resources: {}
+      volumes:
+      - name: nfs-client-root
+        nfs:
+          server: 192.168.240.57
+          path: /var/nfsshare
