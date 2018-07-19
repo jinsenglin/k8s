@@ -36,7 +36,7 @@ DaemonSet
 
 Deployment
 
-* core-dns
+* kube-dns
 
 Static Pod
 

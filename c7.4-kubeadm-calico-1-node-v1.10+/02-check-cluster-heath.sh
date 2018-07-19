@@ -4,6 +4,8 @@ set -e
 set -o pipefail
 
 function main() {
+    kubectl --kubeconfig /etc/kubernetes/admin.conf version
+
     kubectl --kubeconfig /etc/kubernetes/admin.conf cluster-info
 
     kubectl --kubeconfig /etc/kubernetes/admin.conf get node
