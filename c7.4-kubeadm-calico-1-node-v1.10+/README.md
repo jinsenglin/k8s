@@ -2,25 +2,52 @@
 
 calico will make OpenStack floating IP connection broken.
 
-# DaemonSet
+# v1.10.5
+
+DaemonSet
 
 * calico-node
 * kube-proxy
 
-# Deployment
+Deployment
 
 * kube-dns
 
-# Static Pod
+Static Pod
 
 * kube-apiserver
 * kube-controller-manager
 * kube-scheduler
 
-# Native Process
+Native Process
 
 * kubelet
 
-# Native Docker Container
+Native Docker Container
+
+* etcd
+
+# v1.11.1
+
+DaemonSet
+
+* calico-node
+* kube-proxy
+
+Deployment
+
+* core-dns
+
+Static Pod
+
+* kube-apiserver
+* kube-controller-manager
+* kube-scheduler
+
+Native Process
+
+* kubelet
+
+Native Docker Container
 
 * etcd
