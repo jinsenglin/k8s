@@ -4,6 +4,7 @@ calico will make OpenStack floating IP connection broken.
 
 # DaemonSet
 
+* calico-node
 * kube-proxy
 
 # Deployment
