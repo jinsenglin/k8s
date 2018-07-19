@@ -86,9 +86,10 @@ EOF
     yum install -y kubectl-1.10.2-0 kubeadm-1.10.2-0 kubelet-1.10.2-0 # MUST INSTALL ALL THREE
     systemctl enable kubelet && systemctl start kubelet
 
-    sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-    systemctl daemon-reload
-    systemctl restart kubelet
+    # [ optional ]
+    # sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    # systemctl daemon-reload
+    # systemctl restart kubelet
 
 <<NOTE
 It's ok that the kubelet state is failed at this moment.
