@@ -1,3 +1,7 @@
+# Note
+
+calico will make OpenStack floating IP connection broken.
+
 # DaemonSet
 
 * kube-proxy
