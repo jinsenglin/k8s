@@ -83,7 +83,7 @@ repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
 
-    yum install -y kubectl-1.10.2-0 kubeadm-1.10.2-0 kubelet-1.10.2-0 # MUST INSTALL ALL THREE
+    yum install -y kubectl-1.10.5-0 kubeadm-1.10.5-0 kubelet-1.10.5-0 # MUST INSTALL ALL THREE
     systemctl enable kubelet && systemctl start kubelet
 
     # [ optional ]
