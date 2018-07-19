@@ -37,6 +37,15 @@ function nofirewall() {
     fi
 }
 
+function enable_bridge_nf_call_iptables() {
+    cat <<EOF >  /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+    sysctl --system
+}
+
 function enable_docker() {
     yum install -y docker
     systemctl enable docker && systemctl start docker
@@ -63,11 +72,46 @@ Server:
 VERSION
 }
 
+function enable_kubelet() {
+    cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+    yum install -y kubectl-1.10.2-0 kubeadm-1.10.2-0 kubelet-1.10.2-0 # MUST INSTALL ALL THREE
+    systemctl enable kubelet && systemctl start kubelet
+
+    sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    systemctl daemon-reload
+    systemctl restart kubelet
+
+<<NOTE
+It's ok that the kubelet state is failed at this moment.
+
+The reason is that kubelet is unable to load client CA file /etc/kubernetes/pki/ca.crt: open /etc/kubernetes/pki/ca.crt: no such file or directory.
+
+The file will be auto-generated after kubeadm init.
+NOTE
+}
+
+function add_toolbox() {
+    yum install -y epel-release
+    yum install -y jq
+}
+
 function main() {
     noswap
     noselinux
     nofirewall
+    enable_bridge_nf_call_iptables
     enable_docker
+    enable_kubelet
+    add_toolbox
 }
 
 main
