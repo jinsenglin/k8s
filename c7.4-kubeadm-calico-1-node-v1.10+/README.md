@@ -33,7 +33,6 @@ DaemonSet
 
 * calico-node
 * kube-proxy
-  * from iptables-based to ipvs-based proxy if ipvs required kernel exists
 
 Deployment
 
