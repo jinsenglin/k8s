@@ -29,6 +29,11 @@ Native Docker Container
 
 # v1.11.1
 
+Node Taints
+
+* "effect": "NoSchedule"
+* "key": "node-role.kubernetes.io/master"
+
 DaemonSet
 
 * calico-node
