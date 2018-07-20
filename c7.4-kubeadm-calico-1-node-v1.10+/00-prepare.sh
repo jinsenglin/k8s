@@ -106,7 +106,11 @@ function add_toolbox() {
 
     wget https://kubernetes-helm.storage.googleapis.com/helm-v2.9.1-linux-amd64.tar.gz 
     tar -zxf helm-v2.9.1-linux-amd64.tar.gz && rm -f helm-v2.9.1-linux-amd64.tar.gz
-    mv linux-amd64/helm /usr/local/bin && rm -rf linux-amd64
+    mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64
+
+    wget https://github.com/ksonnet/ksonnet/releases/download/v0.11.0/ks_0.11.0_linux_amd64.tar.gz
+    tar -zxf ks_0.11.0_linux_amd64.tar.gz && rm -rf ks_0.11.0_linux_amd64.tar.gz
+    mv ks_0.11.0_linux_amd64/ks /usr/local/bin/ks && rm -rf ks_0.11.0_linux_amd64
 }
 
 function main() {
