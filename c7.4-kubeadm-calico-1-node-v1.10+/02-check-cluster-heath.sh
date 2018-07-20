@@ -4,11 +4,10 @@ set -e
 set -o pipefail
 
 function main() {
-    kubectl --kubeconfig /etc/kubernetes/admin.conf version
-
-    kubectl --kubeconfig /etc/kubernetes/admin.conf cluster-info
-
-    kubectl --kubeconfig /etc/kubernetes/admin.conf get node
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+    kubectl version
+    kubectl cluster-info
+    kubectl get node
 
 # All Ready
 <<OUTPUT
@@ -16,7 +15,7 @@ NAME            STATUS    ROLES     AGE       VERSION
 k8s.novalocal   Ready     master    2m        v1.10.5
 OUTPUT
 
-    kubectl --kubeconfig /etc/kubernetes/admin.conf get po -n kube-system
+    kubectl -n kube-system get po
 
 # All Running
 <<OUTPUT
