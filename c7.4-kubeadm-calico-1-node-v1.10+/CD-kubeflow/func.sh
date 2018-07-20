@@ -3,8 +3,8 @@ APP_NAME=kubeflow-app
 
 function create_kubeflow() {
     export KUBEFLOW_VERSION=0.2.2
-    export KUBEFLOW_REPO=/tmp/kubeflow_repo
-    export KUBEFLOW_KS_DIR=/tmp/$APP_NAME
+    export KUBEFLOW_REPO=$PWD/kubeflow_repo
+    export KUBEFLOW_KS_DIR=$PWD/$APP_NAME
     export KUBEFLOW_DEPLOY=false
     curl https://raw.githubusercontent.com/kubeflow/kubeflow/v${KUBEFLOW_VERSION}/scripts/deploy.sh | bash
 
@@ -15,8 +15,8 @@ function create_kubeflow() {
 }
 
 function delete_kubeflow() {
-    KUBEFLOW_REPO=/tmp/kubeflow_repo
-    KUBEFLOW_KS_DIR=/tmp/$APP_NAME
+    KUBEFLOW_REPO=$PWD/kubeflow_repo
+    KUBEFLOW_KS_DIR=$PWD/$APP_NAME
 
     cd $KUBEFLOW_KS_DIR
         ks delete default
