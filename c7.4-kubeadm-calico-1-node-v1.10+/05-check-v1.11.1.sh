@@ -4,9 +4,34 @@ set -e
 set -o pipefail
 
 function check_helm() {
-    helm init
-    # tiller pod's status is pending because it doesn't tolerate the taints
-    helm reset
+    export KUBECONFIG=/etc/kubernetes/admin.conf
+
+    #
+    # The tiller pod's status is pending because it doesn't tolerate the taints
+    #
+    # [ option 1: remove the taint ]
+    # kubectl taint nodes k8s.novalocal node-role.kubernetes.io/master-
+    #
+    # [ option 2: tolerate the taint ]
+    #
+    kubectl taint nodes k8s.novalocal node-role.kubernetes.io/master-
+
+    #
+    # Error: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
+    #
+    # [ option 1: specify service account ]
+    # helm init --service-account super-admin
+    #
+    # [ option 2: permit user "system:serviceaccount:kube-system:default" ]
+    #
+    source CD-super-admin/func.sh
+    create_super_admin
+
+        helm init --service-account super-admin
+        helm reset
+
+    delete_super_admin
+    kubectl taint nodes k8s.novalocal node-role.kubernetes.io/master=:NoSchedule
 }
 
 function check_pod() {
@@ -33,13 +58,20 @@ function check_node() {
 # All Ready
 <<OUTPUT
 NAME            STATUS    ROLES     AGE       VERSION
-k8s.novalocal   Ready     master    2m        v1.10.5
+k8s.novalocal   Ready     master    2m        v1.11.1
 OUTPUT
 }
 
 function check_cluster() {
     export KUBECONFIG=/etc/kubernetes/admin.conf
     kubectl cluster-info
+
+<<OUTPUT
+Kubernetes master is running at https://192.168.33.8:6443
+KubeDNS is running at https://192.168.33.8:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+OUTPUT
 }
 
 function check_version() {

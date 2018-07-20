@@ -104,8 +104,8 @@ function add_toolbox() {
     yum install -y epel-release
     yum install -y wget jq
 
-    wget https://kubernetes-helm.storage.googleapis.com/helm-v2.8.2-linux-amd64.tar.gz 
-    tar -zxf helm-v2.8.2-linux-amd64.tar.gz && rm -f helm-v2.8.2-linux-amd64.tar.gz
+    wget https://kubernetes-helm.storage.googleapis.com/helm-v2.9.1-linux-amd64.tar.gz 
+    tar -zxf helm-v2.9.1-linux-amd64.tar.gz && rm -f helm-v2.9.1-linux-amd64.tar.gz
     mv linux-amd64/helm /usr/local/bin && rm -rf linux-amd64
 }
 

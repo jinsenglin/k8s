@@ -31,8 +31,8 @@ Native Docker Container
 
 Node Taints
 
-* "effect": "NoSchedule"
 * "key": "node-role.kubernetes.io/master"
+  * "effect": "NoSchedule"
 
 DaemonSet
 
