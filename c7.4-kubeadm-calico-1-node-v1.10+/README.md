@@ -16,6 +16,10 @@ machines
 
 calico will make OpenStack floating IP connection broken.
 
+There is a conflict between vm network (192.168.33.0/24) and calico pod network (192.168.0.0/16)!!!
+
+service-cluster-ip-range=10.96.0.0/12
+
 # v1.10.5
 
 DaemonSet
