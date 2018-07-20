@@ -52,3 +52,7 @@ Native Process
 Native Docker Container
 
 * etcd
+
+Reference
+
+* [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
