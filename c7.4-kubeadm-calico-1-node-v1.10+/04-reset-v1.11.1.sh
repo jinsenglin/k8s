@@ -13,9 +13,14 @@ function clean_iptables() {
     iptables -X
 }
 
+function clean_ipvs() {
+    ipvsadm -C
+}
+
 function main() {
     kubeadm reset
     clean_iptables
+    clean_ipvs
 }
 
 main
