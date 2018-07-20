@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubeflow-hub-ingress
+  namespace: add-on
+spec:
+  rules:
+  - host: jupyter-hub.add-on.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: tf-hub-0
+          servicePort: 8000
