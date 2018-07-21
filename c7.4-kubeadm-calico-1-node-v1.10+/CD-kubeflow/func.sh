@@ -12,7 +12,7 @@ function create_kubeflow() {
         ks env set default --namespace add-on
         ks param set kubeflow-core reportUsage false
         ks apply default
-        # kubectl apply -f Ingress.yaml
+        kubectl apply -f Ingress.yaml
 }
 
 function delete_kubeflow() {
@@ -20,7 +20,7 @@ function delete_kubeflow() {
     KUBEFLOW_KS_DIR=$PWD/$APP_NAME
 
     cd $KUBEFLOW_KS_DIR
-        # kubectl delete -f Ingress.yaml
+        kubectl delete -f Ingress.yaml
         ks delete default
     cd -
 
