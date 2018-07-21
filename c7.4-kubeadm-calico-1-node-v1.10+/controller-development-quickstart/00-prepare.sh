@@ -3,6 +3,12 @@
 set -e
 set -o pipefail
 
+function with_git() {
+    command -v git
+    git config --global user.name "Your Name"
+    git config --global user.email you@example.com
+}
+
 function with_golang() {
     command -v go
 }
@@ -23,6 +29,7 @@ function add_dep() {
 }
 
 function main() {
+    with_git
     with_golang
     with_skaffold
     add_gopath
