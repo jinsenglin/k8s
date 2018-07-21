@@ -10,7 +10,7 @@ function main() {
     cd $GOPATH/src/github.com/cclin81922/k8s-pod-monitor
         # just copy and paste the sample code
         # then 
-        dep ensure
+        $GOPATH/bin/dep ensure
         go build -o out/pod-monitor github.com/cclin81922/k8s-pod-monitor/cmd/pod-monitor
         make
         docker build -t k8s-pod-monitor:latest .
