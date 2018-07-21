@@ -22,6 +22,8 @@ machines
 
 calico will make OpenStack floating IP connection broken.
 
+service-node-port-range 30000-32767 (default)
+
 # v1.10.5
 
 DaemonSet
