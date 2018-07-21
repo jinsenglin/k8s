@@ -1,0 +1,5 @@
+FROM golang:1.10.1-alpine3.7
+COPY . /go/src/github.com/cclin81922/k8s-pod-monitor/
+RUN go build -o /app github.com/cclin81922/k8s-pod-monitor/cmd/pod-monitor
+
+CMD ["/app"] 
