@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-monitor
+spec:
+  containers:
+  - name: pod-monitor
+    image: k8s-pod-monitor
