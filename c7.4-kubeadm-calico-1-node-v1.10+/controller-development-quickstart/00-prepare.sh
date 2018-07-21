@@ -3,15 +3,19 @@
 set -e
 set -o pipefail
 
-function add_golang() {
-    yum install -y golang
+function with_golang() {
+    command -v go
+}
+
+function with_skaffold() {
+    command -v skaffold
 }
 
 function add_gopath() {
-    mkdir -p ~/go
-    mkdir -p ~/go/bin
-    mkdir -o ~/go/src
-    mkdir -o ~/go/pkg
+    [ -d ~/go ] || mkdir ~/go
+    [ -d ~/go/bin ] || mkdir ~/go/bin
+    [ -d ~/go/src ] || mkdir ~/go/src
+    [ -d ~/go/pkg ] || mkdir ~/go/pkg
 }
 
 function add_dep() {
@@ -19,7 +23,8 @@ function add_dep() {
 }
 
 function main() {
-    add_golang
+    with_golang
+    with_skaffold
     add_gopath
     add_dep
 }
