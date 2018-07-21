@@ -1,7 +1,7 @@
 function create_event_exporter() {
-    kubectl -n add-on apply -f .
+    kubectl -n 3rd-party apply -f .
 }
 
 function delete_event_exporter() {
-    kubectl -n add-on delete -f .
+    kubectl -n 3rd-party delete -f .
 }

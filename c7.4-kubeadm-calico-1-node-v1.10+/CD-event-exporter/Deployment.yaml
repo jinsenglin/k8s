@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: Always
         name: event-exporter
         command: ["/event-exporter"]
-        args: ["-v", "4", "-elasticsearch-server", "http://10.112.0.3:9200/"]
+        args: ["-v", "4"]
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
