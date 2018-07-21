@@ -1,4 +1,5 @@
 function create_super_admin() {
+    # installed in the namespace kube-system
     kubectl apply -f .
 }
 

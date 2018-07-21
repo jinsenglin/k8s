@@ -27,6 +27,7 @@ function check_helm() {
     source CD-super-admin/func.sh
     create_super_admin
 
+        # installed in the namespace kube-system
         helm init --service-account super-admin
         helm reset
 
