@@ -13,6 +13,7 @@ function main() {
         touch Makefile
         touch Dockerfile
         touch skaffold.yaml
+        touch k8s.pod.yaml
         touch cmd/pod-monitor/main.go
         touch .gitignore
         git init
