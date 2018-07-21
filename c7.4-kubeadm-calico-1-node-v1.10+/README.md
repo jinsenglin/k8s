@@ -1,24 +1,26 @@
 # Lab
 
+network plan
+
+* calico pod network 192.168.0.0/16 (default)
+* service-cluster-ip-range 10.96.0.0/12 (default)
+* -> vm network 10.112.0.0/12
+
 machines
 
 * k8s
   * 4C8G50G
-  * 192.168.33.8 (192.168.240.23)
+  * 10.112.0.9 (192.168.240.23)
 * k8s-ext-lb
   * 1C1G5G
-  * 192.168.33.9 (192.168.240.57)
+  * 10.112.0.4 (192.168.240.57)
 * k8s-ext-es
   * 4C8G50G
-  * 192.168.33.7 (192.168.240.63)
+  * 10.112.0.3 (192.168.240.63)
 
 # Note
 
 calico will make OpenStack floating IP connection broken.
-
-There is a conflict between vm network (192.168.33.0/24) and calico pod network (192.168.0.0/16)!!!
-
-service-cluster-ip-range=10.96.0.0/12
 
 # v1.10.5
 
