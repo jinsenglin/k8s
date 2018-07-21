@@ -80,3 +80,4 @@ Native Docker Container
 Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
+* [Export Kubernetes' events to Elasticsearch](https://github.com/alauda/event-exporter)
