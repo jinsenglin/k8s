@@ -14,6 +14,7 @@ function main() {
         touch Dockerfile
         touch skaffold.yaml
         touch k8s-pod.yaml
+        touch k8s-clusterrolebinding.yaml
         touch cmd/pod-monitor/main.go
         touch .gitignore
         git init
