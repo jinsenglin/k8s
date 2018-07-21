@@ -111,6 +111,10 @@ function add_toolbox() {
     wget https://github.com/ksonnet/ksonnet/releases/download/v0.11.0/ks_0.11.0_linux_amd64.tar.gz
     tar -zxf ks_0.11.0_linux_amd64.tar.gz && rm -rf ks_0.11.0_linux_amd64.tar.gz
     mv ks_0.11.0_linux_amd64/ks /usr/local/bin/ks && rm -rf ks_0.11.0_linux_amd64
+
+    wget https://github.com/GoogleContainerTools/skaffold/releases/download/v0.10.0/skaffold-linux-amd64
+    chmod +x skaffold-linux-amd64
+    mv skaffold-linux-amd64 /usr/local/bin/skaffold
 }
 
 function main() {
