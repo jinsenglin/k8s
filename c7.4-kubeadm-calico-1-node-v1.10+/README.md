@@ -35,6 +35,7 @@ Deployment
 
 Static Pod
 
+* etcd
 * kube-apiserver
 * kube-controller-manager
 * kube-scheduler
@@ -42,10 +43,6 @@ Static Pod
 Native Process
 
 * kubelet
-
-Native Docker Container
-
-* etcd
 
 # v1.11.1
 
@@ -65,6 +62,7 @@ Deployment
 
 Static Pod
 
+* etcd
 * kube-apiserver
 * kube-controller-manager
 * kube-scheduler
@@ -72,10 +70,6 @@ Static Pod
 Native Process
 
 * kubelet
-
-Native Docker Container
-
-* etcd
 
 Additional Resources
 
