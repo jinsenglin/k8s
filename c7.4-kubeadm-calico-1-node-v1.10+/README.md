@@ -80,4 +80,5 @@ Native Docker Container
 Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
+* [Kubernetes v1.11.x HA 全手動苦工安裝教學](https://kairen.github.io/2018/07/09/kubernetes/deploy/manual-v1.11/)
 * [Export Kubernetes' events to Elasticsearch](https://github.com/alauda/event-exporter)
