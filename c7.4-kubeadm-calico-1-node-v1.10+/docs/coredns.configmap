@@ -1,0 +1,24 @@
+apiVersion: v1
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        proxy . /etc/resolv.conf
+        cache 30
+        reload
+    }
+kind: ConfigMap
+metadata:
+  creationTimestamp: 2018-07-22T04:33:43Z
+  name: coredns
+  namespace: kube-system
+  resourceVersion: "205"
+  selfLink: /api/v1/namespaces/kube-system/configmaps/coredns
+  uid: 6a2cc1ad-8d68-11e8-86ec-fa163e3af835
