@@ -98,6 +98,18 @@ Native Process
 
 * kubelet
 
+Installed Helm Releases
+
+```
+NAME                                REVISION    UPDATED                     STATUS      CHART                           NAMESPACE
+fluent-bit-release                  1           Mon Jul 23 05:44:59 2018    DEPLOYED    fluent-bit-0.6.0                add-on   
+kube-state-metrics-release          1           Mon Jul 23 06:50:38 2018    DEPLOYED    kube-state-metrics-0.8.1        add-on   
+metrics-server-release              1           Mon Jul 23 06:48:37 2018    DEPLOYED    metrics-server-0.0.2            add-on   
+nfs-provisioner-release             1           Mon Jul 23 03:38:53 2018    DEPLOYED    nfs-server-provisioner-0.1.5    add-on   
+nginx-ingress-release               1           Mon Jul 23 03:40:03 2018    DEPLOYED    nginx-ingress-0.23.0            add-on   
+prometheus-node-exporter-release    1           Mon Jul 23 06:53:40 2018    DEPLOYED    prometheus-node-exporter-0.2.0  add-on   
+```
+
 # Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
