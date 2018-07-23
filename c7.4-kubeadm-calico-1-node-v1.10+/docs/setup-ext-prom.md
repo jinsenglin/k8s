@@ -31,4 +31,5 @@ scrape_configs:
 
     static_configs:
       - targets: ['localhost:9090']
+      # targets: ['localhost:9090', 'http://prometheus-node-exporter.add-on.k8s.local', 'http://kube-state-metrics.add-on.k8s.local']
 ```
