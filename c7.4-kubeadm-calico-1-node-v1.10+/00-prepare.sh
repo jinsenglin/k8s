@@ -78,17 +78,17 @@ Server:
  Experimental:    false
 VERSION
 
-    # To install latest docker-ce
+    # To install latest docker-ce (edge)
     # curl -fsSL https://get.docker.com/ | sh
     # systemctl enable docker && systemctl start docker
 
-    # To install latest docker-ce
+    # To install latest docker-ce (stable)
     # yum -y install yum-utils device-mapper-persistent-data lvm2
     # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     # yum -y install docker-ce
     # systemctl enable docker && systemctl start docker
 
-    # To install specific version docker-ce
+    # To install specific version docker-ce (stable)
     # yum -y install yum-utils device-mapper-persistent-data lvm2
     # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     # yum -y install docker-ce-17.03.2.ce-1.el7.centos # To list all version docker-ce: "yum list docker-ce --showduplicates | sort -r"
