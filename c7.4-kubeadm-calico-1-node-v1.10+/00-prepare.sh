@@ -107,7 +107,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 EOF
 
     yum install -y kubectl-1.10.5-0 kubeadm-1.10.5-0 kubelet-1.10.5-0 # MUST INSTALL ALL THREE
-    systemctl enable kubelet && systemctl start kubelet
+    systemctl enable kubelet
 
     # [ optional ]
     # sed -i "s/cgroup-driver=systemd/cgroup-driver=cgroupfs/g" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
@@ -115,7 +115,7 @@ EOF
     # systemctl restart kubelet
 
 <<NOTE
-It's ok that the kubelet state is failed at this moment.
+Don't start kubelet at this point.
 
 The reason is that kubelet is unable to load client CA file /etc/kubernetes/pki/ca.crt: open /etc/kubernetes/pki/ca.crt: no such file or directory.
 
