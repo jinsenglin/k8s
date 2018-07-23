@@ -13,7 +13,11 @@ function pin_version() {
 }
 
 function init_cluster() {
-    kubeadm init --pod-network-cidr=192.168.0.0/16 --feature-gates=CoreDNS=false
+    # a.
+    # kubeadm init --pod-network-cidr=192.168.0.0/16 --feature-gates=CoreDNS=false
+
+    # b.
+    kubeadm init --pod-network-cidr=192.168.0.0/16
 }
 
 function init_pod_network() {

@@ -44,7 +44,7 @@ Native Process
 
 * kubelet
 
-# v1.11.1
+# v1.11.1 (a. kube-dns)
 
 Node Taints
 
@@ -71,7 +71,34 @@ Native Process
 
 * kubelet
 
-Additional Resources
+# v1.11.1 (b. coredns)
+
+Node Taints
+
+* "key": "node-role.kubernetes.io/master"
+  * "effect": "NoSchedule"
+
+DaemonSet
+
+* calico-node
+* kube-proxy
+
+Deployment
+
+* coredns
+
+Static Pod
+
+* etcd
+* kube-apiserver
+* kube-controller-manager
+* kube-scheduler
+
+Native Process
+
+* kubelet
+
+# Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
 * [Kubernetes v1.11.x HA 全手動苦工安裝教學](https://kairen.github.io/2018/07/09/kubernetes/deploy/manual-v1.11/)
