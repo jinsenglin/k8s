@@ -24,4 +24,10 @@ create dashboard
 
 ```
 # query 'up'
+#
+# * dashboard name   : k8s-ext-prom
+# * panel type       : graph
+# * panel name       : up
+# * panel datasource : k8s-ext-prom
+# * panel query      : up
 ```
