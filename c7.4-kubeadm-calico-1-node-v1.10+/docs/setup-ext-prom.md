@@ -2,8 +2,8 @@
 yum install -y docker
 systemctl enable docker && systemctl start docker
 
-docker pull prom/prometheus:2.3.2
-docker run -d --restart always --name prom -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:2.3.2
+docker pull prom/prometheus:v2.3.2
+docker run -d --restart always --name prom -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:v2.3.2
 
 # verify
 # curl http://127.0.0.1:9090/
