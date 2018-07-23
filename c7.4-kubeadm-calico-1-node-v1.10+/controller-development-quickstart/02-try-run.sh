@@ -27,7 +27,7 @@ function main() {
         kubectl -n dev get po
         kubectl -n dev logs pod-monitor
         kubectl delete -f k8s-namespace.yaml -f k8s-clusterrolebinding.yaml -f k8s-pod.yaml
-        docker rmi k8s-pod-monitor:latest
+        docker rmi k8s-pod-monitor:latest # also need manually remove the builder stage image
         git add -A
         git commit -m "pass try-run"
 }
