@@ -4,6 +4,7 @@ systemctl enable docker && systemctl start docker
 
 docker pull prom/prometheus:v2.3.2
 docker run -d --restart always --name prom -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:v2.3.2
+# docker run -d --restart always --name prom -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml --dns=10.112.0.4 --dns=8.8.8.8 prom/prometheus:v2.3.2
 
 # verify
 # curl http://127.0.0.1:9090/
@@ -31,5 +32,5 @@ scrape_configs:
 
     static_configs:
       - targets: ['localhost:9090']
-      # targets: ['localhost:9090', 'http://prometheus-node-exporter.add-on.k8s.local', 'http://kube-state-metrics.add-on.k8s.local']
+      # targets: ['localhost:9090', 'prometheus-node-exporter.add-on.k8s.local:80', 'kube-state-metrics.add-on.k8s.local:80']
 ```
