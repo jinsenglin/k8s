@@ -27,6 +27,7 @@ function main() {
         kubectl -n dev get po
         kubectl -n dev logs pod-monitor
         kubectl delete -f k8s-namespace.yaml k8s-clusterrolebinding.yaml -f k8s-pod.yaml
+        docker rmi k8s-pod-monitor:latest
         git add -A
         git commit -m "pass try-run"
 }
