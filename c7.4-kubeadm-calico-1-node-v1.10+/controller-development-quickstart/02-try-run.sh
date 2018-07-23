@@ -11,7 +11,9 @@ function main() {
         # just copy and paste the sample code
         # cp sample-code/Dockerfile.without.multi-stage.builds.support Dockerfile
         # cp sample-code/-gitignore .gitignore
+        # cp sample-code/k8s-namespace.yaml .
         # cp sample-code/k8s-pod.yaml .
+        # cp sample-code/k8s-k8s-clusterrolebinding.yaml.yaml .
         # cp sample-code/Makefile .
         # cp sample-code/skaffold.yaml .
         # cp sample-code/v1.11.x-Gopkg.toml .
