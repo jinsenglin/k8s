@@ -56,6 +56,7 @@ function enable_docker() {
     systemctl enable docker && systemctl start docker
 
     # WARNING : this version is too old to use multi-stage builds
+    # WARNING : this version is too old to use coredns !!!
 <<VERSION
 Client:
  Version:         1.13.1
