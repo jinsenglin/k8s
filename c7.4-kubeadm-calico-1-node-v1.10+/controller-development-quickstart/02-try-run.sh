@@ -15,7 +15,6 @@ function main() {
         # cp sample-code/k8s-pod.yaml .
         # cp sample-code/k8s-clusterrolebinding.yaml .
         # cp sample-code/Makefile .
-        # cp sample-code/skaffold.yaml .
         # cp sample-code/v1.11.x-Gopkg.toml Gopkg.toml
         # cp sample-code/cmd/pod-monitor/* cmd/pod-monitor/
         # cp sample-code/internal/controller/* internal/controller/
