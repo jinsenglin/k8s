@@ -51,5 +51,5 @@ backend backend_servers
       # balance with roundrobin
     balance            roundrobin
       # define backend servers
-    server             k8s 10.112.0.9:32280 check
+    server             k8s 10.112.0.10:32280 check
 ```
