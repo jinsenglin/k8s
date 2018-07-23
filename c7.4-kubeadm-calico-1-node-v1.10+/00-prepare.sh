@@ -88,6 +88,27 @@ VERSION
     # yum -y install docker-ce
     # systemctl enable docker && systemctl start docker
 
+<<VERSION
+Client:
+ Version:           18.06.0-ce
+ API version:       1.38
+ Go version:        go1.10.3
+ Git commit:        0ffa825
+ Built:             Wed Jul 18 19:08:18 2018
+ OS/Arch:           linux/amd64
+ Experimental:      false
+
+Server:
+ Engine:
+  Version:          18.06.0-ce
+  API version:      1.38 (minimum version 1.12)
+  Go version:       go1.10.3
+  Git commit:       0ffa825
+  Built:            Wed Jul 18 19:10:42 2018
+  OS/Arch:          linux/amd64
+  Experimental:     false
+VERSION
+
     # To install specific version docker-ce (stable)
     # yum -y install yum-utils device-mapper-persistent-data lvm2
     # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
