@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus-node-exporter-ingress
+  namespace: add-on
+spec:
+  rules:
+  - host: prometheus-node-exporter.add-on.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-node-exporter-release
+          servicePort: 9100
