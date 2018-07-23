@@ -9,14 +9,14 @@ function main() {
 
     cd $GOPATH/src/github.com/cclin81922/k8s-pod-monitor
         # just copy and paste the sample code
-        # cp sample-code/Dockerfile.without.multi-stage.builds.support Dockerfile
+        # cp sample-code/Dockerfile .
         # cp sample-code/-gitignore .gitignore
         # cp sample-code/k8s-namespace.yaml .
         # cp sample-code/k8s-pod.yaml .
-        # cp sample-code/k8s-k8s-clusterrolebinding.yaml.yaml .
+        # cp sample-code/k8s-clusterrolebinding.yaml .
         # cp sample-code/Makefile .
         # cp sample-code/skaffold.yaml .
-        # cp sample-code/v1.11.x-Gopkg.toml .
+        # cp sample-code/v1.11.x-Gopkg.toml Gopkg.toml
         # cp sample-code/cmd/pod-monitor/* cmd/pod-monitor/
         # cp sample-code/internal/controller/* internal/controller/
         # then 
@@ -28,6 +28,8 @@ function main() {
         kubectl -n dev get po
         kubectl -n dev logs pod-monitor
         kubectl delete -f k8s-clusterrolebinding.yaml -f k8s-pod.yaml
+        git add -A
+        git commit -m "pass try-run"
 }
 
 main
