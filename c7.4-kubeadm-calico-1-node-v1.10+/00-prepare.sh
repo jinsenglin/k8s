@@ -10,6 +10,10 @@ function noswap() {
         echo "no swap [ failed ]"
         exit 1
     fi
+
+    # To turn off swap
+    # Step 1. swapoff -a && sysctl -w vm.swappiness=0       # only for current session
+    # Step 2. remove the swap record in the file /etc/fstab # permanently
 }
 
 function noselinux() {
