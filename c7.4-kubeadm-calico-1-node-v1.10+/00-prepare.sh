@@ -91,8 +91,11 @@ VERSION
     # To install specific version docker-ce (stable)
     # yum -y install yum-utils device-mapper-persistent-data lvm2
     # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    # yum -y install docker-ce-17.03.2.ce-1.el7.centos # To list all version docker-ce: "yum list docker-ce --showduplicates | sort -r"
+    # yum -y install --setopt=obsoletes=0 docker-ce-17.03.2.ce-1.el7.centos # To list all version docker-ce: "yum list docker-ce --showduplicates | sort -r"
     # systemctl enable docker && systemctl start docker
+    #
+    # About --setopt=obsoletes=0
+    # See https://zhuanlan.zhihu.com/p/35699988
 
 }
 
