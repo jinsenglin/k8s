@@ -23,10 +23,10 @@ function main() {
         go build -o out/pod-monitor github.com/cclin81922/k8s-pod-monitor/cmd/pod-monitor
         make
         docker build -t k8s-pod-monitor:latest .
-        kubectl apply -f k8s-clusterrolebinding.yaml -f k8s-pod.yaml
+        kubectl apply -f k8s-namespace.yaml k8s-clusterrolebinding.yaml -f k8s-pod.yaml
         kubectl -n dev get po
         kubectl -n dev logs pod-monitor
-        kubectl delete -f k8s-clusterrolebinding.yaml -f k8s-pod.yaml
+        kubectl delete -f k8s-namespace.yaml k8s-clusterrolebinding.yaml -f k8s-pod.yaml
         git add -A
         git commit -m "pass try-run"
 }
