@@ -10,6 +10,8 @@ create datasource
 ```
 open http://localhost:3000
 
+# login with admin / admin
+#
 # step 1 :: ...
 # step 2 :: ...
 ```
