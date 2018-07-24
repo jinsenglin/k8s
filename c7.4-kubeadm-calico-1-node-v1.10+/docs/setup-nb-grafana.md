@@ -63,4 +63,6 @@ Additional Resources
 * [Prom node exporter README.md](https://github.com/prometheus/node_exporter)
 * [DockerHub prom/node-exporter image info](https://hub.docker.com/r/prom/node-exporter/)
 * [quay.io prometheus/node-exporter image info](https://quay.io/repository/prometheus/node-exporter?tab=info)
-* [MONITORING LINUX HOST METRICS WITH THE NODE EXPORTER](https://prometheus.io/docs/guides/node-exporter/)
+* [prometheus.io/docs :: Monitoring Linux host metrics with the Node Exporter](https://prometheus.io/docs/guides/node-exporter/)
+* [Grafana plugin :: dashboard :: Node Exporter Full](https://grafana.com/dashboards/1860)
+* [Grafana plugin :: dashboard :: Node Exporter Server Metrics](https://grafana.com/dashboards/405)
