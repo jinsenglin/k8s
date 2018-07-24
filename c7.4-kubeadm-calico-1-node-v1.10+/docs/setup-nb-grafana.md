@@ -58,6 +58,7 @@ After installed C-prometheus-node-exporter
 Additional Resources
 
 * [Free space vs Available Space](https://github.com/prometheus/node_exporter/issues/269)
+* [Prometheus Querying Function rate() vs irate()](https://hk.saowen.com/a/9b0e30de9327a6d553ab68061ceac681639d70956b42791a96cbd29f60c16d8b)
 * [Node Exporter 常用查询语句](https://songjiayang.gitbooks.io/prometheus/content/exporter/nodeexporter_query.html)
 * [Helm stable/prometheus-node-exporter README.md](https://github.com/helm/charts/tree/master/stable/prometheus-node-exporter) 
 * [Prom node exporter README.md](https://github.com/prometheus/node_exporter)
