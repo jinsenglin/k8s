@@ -68,5 +68,7 @@ Additional Resources
 * [quay.io prometheus/node-exporter image info](https://quay.io/repository/prometheus/node-exporter?tab=info)
 * [prometheus.io/docs :: Monitoring Linux host metrics with the Node Exporter](https://prometheus.io/docs/guides/node-exporter/)
 * [prometheys.io/docs :: PromQL :: Operator :: Aggregtion](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators)
+* [prometheys.io/docs :: PromQL :: Function :: rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate)
+* [prometheys.io/docs :: PromQL :: Function :: irate](https://prometheus.io/docs/prometheus/latest/querying/functions/#irate)
 * [Grafana plugin :: dashboard :: Node Exporter Full](https://grafana.com/dashboards/1860)
 * [Grafana plugin :: dashboard :: Node Exporter Server Metrics](https://grafana.com/dashboards/405)
