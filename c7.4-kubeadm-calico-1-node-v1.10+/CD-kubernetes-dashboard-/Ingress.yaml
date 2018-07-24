@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-dashboard-ingress
+  namespace: add-on
+spec:
+  rules:
+  - host: kubernetes-dashboard.add-on.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard-release
+          servicePort: 443
