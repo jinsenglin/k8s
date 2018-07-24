@@ -30,4 +30,26 @@ create dashboard
 # * panel name       : up
 # * panel datasource : k8s-ext-prom
 # * panel query      : up
+
+# after installed C-prometheus-node-exporter
+#
+# query 'node_cpu'
+# * avg by (instance, mode) (irate(node_cpu[5m])) * 100
+#
+# query 'node_memory_MemAvailable'
+#
+# query 'node_filesystem_avail'
+# * 'node_filesystem_avail{device!="overlay",mountpoint="/"}'
+#
+# query 'node_network_receive_bytes'
+# * 'node_network_receive_bytes{device="eth0"}'
+#
+# query 'node_network_transmit_bytes'
+# * 'node_network_transmit_bytes{device="eth0"}'
+#
 ```
+
+Additional Resources
+
+* [Free space vs Available Space](https://github.com/prometheus/node_exporter/issues/269)
+* [Node Exporter 常用查询语句](https://songjiayang.gitbooks.io/prometheus/content/exporter/nodeexporter_query.html)
