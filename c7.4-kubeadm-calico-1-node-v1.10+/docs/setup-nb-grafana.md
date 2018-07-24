@@ -45,9 +45,13 @@ After installed C-prometheus-node-exporter
 #
 # query 'node_network_receive_bytes'
 # * 'node_network_receive_bytes{device="eth0"}'
+# * 'node_network_receive_bytes{device="eth0"}[5m]'
+# * 'rate(node_network_receive_bytes{device="eth0"}[5m])'
 #
 # query 'node_network_transmit_bytes'
 # * 'node_network_transmit_bytes{device="eth0"}'
+# * 'node_network_transmit_bytes{device="eth0"}[5m]'
+# * 'rate(node_network_transmit_bytes{device="eth0"}[5m])'
 #
 ```
 
