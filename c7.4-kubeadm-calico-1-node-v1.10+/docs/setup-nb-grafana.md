@@ -30,9 +30,11 @@ create dashboard
 # * panel name       : up
 # * panel datasource : k8s-ext-prom
 # * panel query      : up
+```
 
-# after installed C-prometheus-node-exporter
-#
+After installed C-prometheus-node-exporter
+
+```
 # query 'node_cpu'
 # * avg by (instance, mode) (irate(node_cpu[5m])) * 100
 #
