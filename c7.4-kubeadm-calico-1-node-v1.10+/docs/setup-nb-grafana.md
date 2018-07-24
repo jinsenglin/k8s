@@ -62,6 +62,8 @@ Additional Resources
 * [Helm stable/prometheus-node-exporter README.md](https://github.com/helm/charts/tree/master/stable/prometheus-node-exporter) 
 * [Prom node exporter README.md](https://github.com/prometheus/node_exporter)
 * [Prom node exporter :: collector :: filesystem_linux.go](https://github.com/prometheus/node_exporter/blob/master/collector/filesystem_linux.go)
+* [Golang :: package :: syscall :: type Statfs_t](https://golang.org/pkg/syscall/#Statfs_t)
+* [Golang :: package :: syscall :: func Statfs](https://golang.org/pkg/syscall/#Statfs)
 * [DockerHub prom/node-exporter image info](https://hub.docker.com/r/prom/node-exporter/)
 * [quay.io prometheus/node-exporter image info](https://quay.io/repository/prometheus/node-exporter?tab=info)
 * [prometheus.io/docs :: Monitoring Linux host metrics with the Node Exporter](https://prometheus.io/docs/guides/node-exporter/)
