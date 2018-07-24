@@ -59,3 +59,8 @@ Additional Resources
 
 * [Free space vs Available Space](https://github.com/prometheus/node_exporter/issues/269)
 * [Node Exporter 常用查询语句](https://songjiayang.gitbooks.io/prometheus/content/exporter/nodeexporter_query.html)
+* [Helm stable/prometheus-node-exporter README.md](https://github.com/helm/charts/tree/master/stable/prometheus-node-exporter) 
+* [Prom node exporter README.md](https://github.com/prometheus/node_exporter)
+* [DockerHub prom/node-exporter image info](https://hub.docker.com/r/prom/node-exporter/)
+* [quay.io prometheus/node-exporter image info](https://quay.io/repository/prometheus/node-exporter?tab=info)
+* [MONITORING LINUX HOST METRICS WITH THE NODE EXPORTER](https://prometheus.io/docs/guides/node-exporter/)
