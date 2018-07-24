@@ -4,7 +4,7 @@ metadata:
   name: busybox
 spec:
   containers:
-  - image: ubuntu:latest
+  - image: busybox:latest
     imagePullPolicy: IfNotPresent
     name: busybox
     command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 600']
