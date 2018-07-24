@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - image: centos:latest
+    imagePullPolicy: IfNotPresent
+    name: busybox
+    command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 600']
+  restartPolicy: Never
