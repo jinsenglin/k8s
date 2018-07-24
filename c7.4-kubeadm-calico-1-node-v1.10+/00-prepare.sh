@@ -163,6 +163,10 @@ function add_toolbox() {
     wget https://github.com/GoogleContainerTools/skaffold/releases/download/v0.10.0/skaffold-linux-amd64
     chmod +x skaffold-linux-amd64
     mv skaffold-linux-amd64 /usr/local/bin/skaffold
+
+    wget https://github.com/kubernetes-sigs/kustomize/releases/download/v1.0.4/kustomize_1.0.4_linux_amd64
+    chmod +x kustomize_1.0.4_linux_amd64
+    mv kustomize_1.0.4_linux_amd64 /usr/local/bin/kustomize
 }
 
 function main() {
