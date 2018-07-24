@@ -20,6 +20,12 @@ attach
 kubectl exec -i -t busybox -- sh
 ```
 
+detach
+
+```
+ctrl + d
+```
+
 cleanup
 
 ```
