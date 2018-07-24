@@ -67,6 +67,8 @@ Additional Resources
 * [DockerHub prom/node-exporter image info](https://hub.docker.com/r/prom/node-exporter/)
 * [quay.io prometheus/node-exporter image info](https://quay.io/repository/prometheus/node-exporter?tab=info)
 * [prometheus.io/docs :: Monitoring Linux host metrics with the Node Exporter](https://prometheus.io/docs/guides/node-exporter/)
+* [prometheys.io/docs :: PromQL :: Selector :: Instant](https://prometheus.io/docs/prometheus/latest/querying/basics/#instant-vector-selectors)
+* [prometheys.io/docs :: PromQL :: Selector :: Range](https://prometheus.io/docs/prometheus/latest/querying/basics/#range-vector-selectors)
 * [prometheys.io/docs :: PromQL :: Operator :: Aggregtion](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators)
 * [prometheys.io/docs :: PromQL :: Function :: rate](https://prometheus.io/docs/prometheus/latest/querying/functions/#rate)
 * [prometheys.io/docs :: PromQL :: Function :: irate](https://prometheus.io/docs/prometheus/latest/querying/functions/#irate)
