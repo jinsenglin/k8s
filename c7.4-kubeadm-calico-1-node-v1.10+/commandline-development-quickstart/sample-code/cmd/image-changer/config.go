@@ -7,7 +7,7 @@ import (
     "k8s.io/client-go/tools/clientcmd"
 )
 
-func GetKubernetesConfig(string kubeconfig) *rest.Config {
+func GetKubernetesConfig(kubeconfig string) *rest.Config {
     // creates the config from the given kubeconfig file
     config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
     if err != nil {

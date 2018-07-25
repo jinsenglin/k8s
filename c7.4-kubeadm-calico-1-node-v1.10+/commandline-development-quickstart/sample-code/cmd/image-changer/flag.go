@@ -3,6 +3,8 @@ package main
 import (
     "log"
     "flag"
+    "os"
+    "path/filepath"
 )
 
 func ParseFlag() (string, string, string, string, string) {
