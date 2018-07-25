@@ -12,6 +12,7 @@ function main() {
         # cp sample-code/-gitignore .gitignore
         # cp sample-code/Makefile .
         # cp sample-code/v1.11.x-Gopkg.toml Gopkg.toml
+        # cp sample-code/v1.11.x-Gopkg.lock Gopkg.lock
         # cp sample-code/cmd/image-changer/* cmd/image-changer/
         # then 
         $GOPATH/bin/dep ensure
