@@ -22,6 +22,8 @@ machines
 
 service-node-port-range 30000-32767 (default)
 
+haproxy (http/https) * ingress (http/https) * svc (http/https) = 8 combinations
+
 # v1.10.5
 
 DaemonSet
@@ -114,15 +116,17 @@ Pulled Docker Images
 
 ```
 REPOSITORY                                                       TAG                  IMAGE ID            CREATED             SIZE
-k8s.gcr.io/kube-proxy-amd64                                      v1.11.1              d5c25579d0ff        6 days ago          97.8MB
-k8s.gcr.io/kube-apiserver-amd64                                  v1.11.1              816332bd9d11        6 days ago          187MB
-k8s.gcr.io/kube-controller-manager-amd64                         v1.11.1              52096ee87d0e        6 days ago          155MB
-k8s.gcr.io/kube-scheduler-amd64                                  v1.11.1              272b3a60cd68        6 days ago          56.8MB
-ubuntu                                                           latest               74f8760a2a8b        7 days ago          82.4MB
-busybox                                                          latest               22c2dd5ee85d        7 days ago          1.16MB
+k8s.gcr.io/kube-proxy-amd64                                      v1.11.1              d5c25579d0ff        7 days ago          97.8MB
+k8s.gcr.io/kube-apiserver-amd64                                  v1.11.1              816332bd9d11        7 days ago          187MB
+k8s.gcr.io/kube-scheduler-amd64                                  v1.11.1              272b3a60cd68        7 days ago          56.8MB
+k8s.gcr.io/kube-controller-manager-amd64                         v1.11.1              52096ee87d0e        7 days ago          155MB
+nginx                                                            1.14.0               8ae4d16b741a        8 days ago          109MB
+ubuntu                                                           latest               74f8760a2a8b        8 days ago          82.4MB
+busybox                                                          latest               22c2dd5ee85d        8 days ago          1.16MB
 gcr.io/kubeflow-images-public/centraldashboard                   v0.2.1               28709f907c23        2 weeks ago         376MB
 gcr.io/kubeflow-images-public/tensorflow-1.8.0-notebook-cpu      v0.2.1               36e1ae29232d        2 weeks ago         4.11GB
 alpine                                                           3.7                  791c3e2ebfcb        2 weeks ago         4.2MB
+nginx                                                            1.15.0               5699ececb21c        4 weeks ago         109MB
 gcr.io/kubeflow-images-public/tf_operator                        v0.2.0               482bc6b1f3e1        5 weeks ago         800MB
 centos                                                           latest               49f7960eb7e4        7 weeks ago         200MB
 gcr.io/kubeflow/jupyterhub-k8s                                   v20180531-3bb991b1   f3c9c0973f76        7 weeks ago         780MB
@@ -135,8 +139,10 @@ fluent/fluent-bit                                                0.13.0         
 quay.io/coreos/kube-state-metrics                                v1.3.1               a9c8f313b7aa        3 months ago        22.2MB
 k8s.gcr.io/etcd-amd64                                            3.2.18               b8df3b177be2        3 months ago        219MB
 golang                                                           1.10.1-alpine3.7     52d894fca6d4        3 months ago        376MB
-quay.io/datawire/statsd                                          0.30.1               aa4a9dba9613        3 months ago        75.4MB
-quay.io/datawire/ambassador                                      0.30.1               0d265435bf12        3 months ago        113MB
+quay.io/datawire/statsd                                          0.30.1               aa4a9dba9613        4 months ago        75.4MB
+quay.io/datawire/ambassador                                      0.30.1               0d265435bf12        4 months ago        113MB
+k8s.gcr.io/kubernetes-dashboard-amd64                            v1.8.3               0c60bcf89900        5 months ago        102MB
+nginxdemos/hello                                                 plain-text           e6797a8b6cd5        5 months ago        16.8MB
 quay.io/kubernetes_incubator/nfs-provisioner                     v1.0.9               53c948301d39        7 months ago        332MB
 k8s.gcr.io/pause                                                 3.1                  da86e6ba6ca1        7 months ago        742kB
 gcr.io/google_containers/metrics-server-amd64                    v0.2.1               9801395070f3        7 months ago        42.5MB
