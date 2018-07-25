@@ -167,6 +167,10 @@ function add_toolbox() {
     wget https://github.com/kubernetes-sigs/kustomize/releases/download/v1.0.4/kustomize_1.0.4_linux_amd64
     chmod +x kustomize_1.0.4_linux_amd64
     mv kustomize_1.0.4_linux_amd64 /usr/local/bin/kustomize
+
+    wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
+    unzip terraform_0.11.7_linux_amd64.zip && rm -f terraform_0.11.7_linux_amd64.zip
+    mv terraform /usr/local/bin/terraform
 }
 
 function main() {
