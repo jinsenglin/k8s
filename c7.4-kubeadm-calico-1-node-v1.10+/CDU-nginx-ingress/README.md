@@ -10,4 +10,13 @@ rm -rf app1
 
 # verify tls termination
 
-TODO
+```
+# add "127.0.0.1   cafe.example.com" to /etc/hosts
+
+kubectl apply -f cafe.example.com/
+curl -k https://cafe.example.com:32443/coffee
+curl -k https://cafe.example.com:32443/tee
+kubectl delete -f cafe.example.com/
+
+# remove "127.0.0.1   cafe.example.com" from /etc/hosts
+```
