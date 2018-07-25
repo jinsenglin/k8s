@@ -32,7 +32,7 @@ create dashboard
 # * panel query      : up
 ```
 
-After installed C-prometheus-node-exporter
+# After installed C-prometheus-node-exporter
 
 ```
 # query 'node_cpu'
@@ -76,3 +76,13 @@ Additional Resources
 * [prometheys.io/docs :: PromQL :: Function :: irate](https://prometheus.io/docs/prometheus/latest/querying/functions/#irate)
 * [Grafana plugin :: dashboard :: Node Exporter Full](https://grafana.com/dashboards/1860)
 * [Grafana plugin :: dashboard :: Node Exporter Server Metrics](https://grafana.com/dashboards/405)
+
+# After installed C-kube-state-metrics
+
+```
+# query 'kube_pod_container_status_running'
+# * sum(kube_pod_container_status_running{namespace="add-on"})
+#
+```
+
+* [The exposed metrics of kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/master/Documentation)
