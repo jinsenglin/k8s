@@ -1,0 +1,10 @@
+name: "sa"
+shortDesc: "Manage super-admin service account"
+command: ./command.sh
+tree:
+  - name: "create"
+    shortDesc: "Create super-admin"
+    command: ./command-create.sh
+  - name: "token"
+    shortDesc: "Get super-admin token (base64 decoded)"
+    command: ./command-token.sh
