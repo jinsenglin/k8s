@@ -17,9 +17,9 @@ function main() {
         $GOPATH/bin/dep ensure
         go build -o out/image-changer github.com/cclin81922/k8s-image-changer/cmd/image-changer
         make
-        kubectl run nginx --image=nginx:1.14.0
-        ./out/image-changer -kubeconfig=$KUBECONFIG -deploy=nginx -container=nginx -image=nginx:1.15.0
-        kubectl delete deploy nginx
+        kubectl -n default run nginx --image=nginx:1.14.0
+        ./out/image-changer -kubeconfig=$KUBECONFIG -namespace=default -deploy=nginx -container=nginx -image=nginx:1.15.0
+        kubectl -n default delete deploy nginx
         git add -A
         git commit -m "pass try-run"
 }

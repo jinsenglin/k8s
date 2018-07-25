@@ -11,7 +11,6 @@ function main() {
         mkdir -p cmd/image-changer pkg internal out
         $GOPATH/bin/dep init
         touch Makefile
-        touch Dockerfile
         touch cmd/image-changer/main.go
         touch .gitignore
         git init
