@@ -1,0 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  finalizers:
+  - kubernetes
