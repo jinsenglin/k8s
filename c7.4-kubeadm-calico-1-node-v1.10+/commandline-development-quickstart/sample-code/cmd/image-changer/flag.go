@@ -7,7 +7,15 @@ import (
     "path/filepath"
 )
 
-func ParseFlag() (string, string, string, string, string) {
+type flags struct {
+    kubeconfig     string
+    namespaceName  string
+    deploymentName string
+    containerName  string
+    imageName      string
+}
+
+func ParseFlag() *flags {
     // parses the command-line flags
     var kubeconfig *string
     if home := homeDir(); home != "" {
@@ -35,7 +43,7 @@ func ParseFlag() (string, string, string, string, string) {
         log.Panic("You must specify the image name.")
     }
 
-    return *kubeconfig, *namespaceName, *deploymentName, *containerName, *imageName
+    return &flags{*kubeconfig, *namespaceName, *deploymentName, *containerName, *imageName}
 }
 
 func homeDir() string {
