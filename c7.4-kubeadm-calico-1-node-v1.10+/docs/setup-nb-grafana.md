@@ -85,4 +85,6 @@ Additional Resources
 #
 ```
 
+Additional Resources
+
 * [The exposed metrics of kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/master/Documentation)
