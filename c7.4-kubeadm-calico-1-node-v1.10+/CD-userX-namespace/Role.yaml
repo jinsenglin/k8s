@@ -1,0 +1,9 @@
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: user-x
+  namespace: user-x
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
