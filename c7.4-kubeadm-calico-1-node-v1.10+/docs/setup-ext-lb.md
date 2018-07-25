@@ -51,5 +51,21 @@ backend backend_servers
       # balance with roundrobin
     balance            roundrobin
       # define backend servers
-    server             k8s 10.112.0.10:32280 check
+    server             k8s 10.112.0.10:32080 check
+
+# define frontend ( set any name for "https-in" section )
+frontend https-in
+      # listen 443
+    bind *:443
+      # set default backend
+    default_backend    backend_servers_https
+      # send X-Forwarded-For header
+    option             forwardfor
+
+# define backend
+backend backend_servers_https
+      # balance with roundrobin
+    balance            roundrobin
+      # define backend servers
+    server             k8s 10.112.0.10:32443 check
 ```

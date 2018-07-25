@@ -1,4 +1,4 @@
-# veirfy
+# verify
 
 ```
 helm create app1
@@ -7,3 +7,7 @@ curl http://app1.default.k8s.local
 helm del --purge app1
 rm -rf app1
 ```
+
+# verify tls termination
+
+TODO
