@@ -150,7 +150,7 @@ NOTE
 
 function add_toolbox() {
     yum install -y epel-release
-    yum install -y tree wget jq golang
+    yum install -y tree wget unzip jq golang
 
     wget https://kubernetes-helm.storage.googleapis.com/helm-v2.9.1-linux-amd64.tar.gz 
     tar -zxf helm-v2.9.1-linux-amd64.tar.gz && rm -f helm-v2.9.1-linux-amd64.tar.gz
