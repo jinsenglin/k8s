@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: userX
+  name: user-x
 spec:
   finalizers:
   - kubernetes
