@@ -27,3 +27,7 @@ Usage
 * Deploy the API using `make deploy` command
 
 Hello World, Check https://book.kubebuilder.io/getting_started/hello_world.html
+
+Additional Resources
+
+* https://admiralty.io/kubernetes-custom-resource-controller-and-operator-development-tools.html
