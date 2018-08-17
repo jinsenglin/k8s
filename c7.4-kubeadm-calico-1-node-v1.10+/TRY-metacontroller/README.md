@@ -36,7 +36,8 @@ kubectl apply -f metacontroller/manifests/metacontroller.yaml
 #
 
 # Run Example :: DecoratorController :: Service Per Pod (Jsonnet)
-#
+# cd metacontroller/examples/service-per-pod/
+# bash test.sh
 
 ```
 
