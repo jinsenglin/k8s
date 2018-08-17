@@ -11,6 +11,7 @@ machines
 * k8s
   * 4C8G50G
   * 10.112.0.10 (192.168.240.23), dns 8.8.8.8
+  * hostname: k8s.novalocal
 * k8s-ext-lb
   * 1C1G5G
   * 10.112.0.4 (192.168.240.57), dns 8.8.8.8
@@ -196,6 +197,12 @@ Backup /etc/kubernetes
 
 ```
 tar -czf kubernetes.tar.gz /etc/kubernetes
+```
+
+Backup /etc/hostname
+
+```
+tar -czf hostname.tar.gz /etc/hostname
 ```
 
 # Additional Resources
