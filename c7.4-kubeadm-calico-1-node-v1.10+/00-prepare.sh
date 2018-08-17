@@ -157,7 +157,7 @@ function add_toolbox() {
     mv linux-amd64/helm /usr/local/bin/helm && rm -rf linux-amd64
 
     wget https://github.com/ksonnet/ksonnet/releases/download/v0.11.0/ks_0.11.0_linux_amd64.tar.gz
-    tar -zxf ks_0.11.0_linux_amd64.tar.gz && rm -rf ks_0.11.0_linux_amd64.tar.gz
+    tar -zxf ks_0.11.0_linux_amd64.tar.gz && rm -f ks_0.11.0_linux_amd64.tar.gz
     mv ks_0.11.0_linux_amd64/ks /usr/local/bin/ks && rm -rf ks_0.11.0_linux_amd64
 
     wget https://github.com/GoogleContainerTools/skaffold/releases/download/v0.10.0/skaffold-linux-amd64
@@ -171,6 +171,11 @@ function add_toolbox() {
     wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
     unzip terraform_0.11.7_linux_amd64.zip && rm -f terraform_0.11.7_linux_amd64.zip
     mv terraform /usr/local/bin/terraform
+
+    wget https://github.com/coreos/etcd/releases/download/v3.2.18/etcd-v3.2.18-linux-amd64.tar.gz
+    tar -zxf etcd-v3.2.18-linux-amd64.tar.gz && rm -f etcd-v3.2.18-linux-amd64.tar.gz
+    mv etcd-v3.2.18-linux-amd64/etcdctl /usr/local/bin/etcdctl
+    rm -rf etcd-v3.2.18-linux-amd64
 }
 
 function main() {
