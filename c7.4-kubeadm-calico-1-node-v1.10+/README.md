@@ -173,7 +173,7 @@ Restore etcd
 
 ```
 export ETCDCTL_API=3
-etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key snapshot restore etcd-snapshot.db
+etcdctl snapshot restore etcd-snapshot.db
 rm -rf /var/lib/etcd && mv default.etcd /var/lib/etcd
 ```
 
