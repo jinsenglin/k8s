@@ -150,6 +150,14 @@ quay.io/prometheus/node-exporter                                 v0.15.2        
 k8s.gcr.io/defaultbackend                                        1.3                  a70ad572a50f        17 months ago       3.62MB
 ```
 
+Inspect etcd
+
+```
+export ETCDCTL_API=3
+etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key endpoint status
+```
+
+
 # Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
