@@ -205,6 +205,11 @@ Backup /etc/hostname
 tar -czf hostname.tar.gz /etc/hostname
 ```
 
+Prepare machine for restore
+
+* hostname: k8s.novalocal
+* ip: 10.112.0.10
+
 # Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
