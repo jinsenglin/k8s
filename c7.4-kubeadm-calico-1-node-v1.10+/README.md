@@ -183,6 +183,8 @@ Backup images
 docker save -o IMAGE.tar IMAGE
 docker save -o IMAGE.tar IMAGE
 docker save -o IMAGE.tar IMAGE
+
+docker images --format "{{.ID}} {{.Repository}} {{.Tag}}" | { while read id repo tag; do docker save -o $(basename $repo):$tag.tar $id; done; }
 ```
 
 Restore images
