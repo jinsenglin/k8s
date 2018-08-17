@@ -30,7 +30,8 @@ kubectl apply -f metacontroller/manifests/metacontroller.yaml
 #
 
 # Run Example :: CompositeController :: IndexedJob (Python)
-#
+# cd metacontroller/examples/indexedjob/
+# bash test.sh
 
 # Run Example :: CompositeController :: Vitess Operator (Jsonnet)
 #
