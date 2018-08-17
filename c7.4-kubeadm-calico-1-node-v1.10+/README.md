@@ -201,6 +201,13 @@ Backup /etc/kubernetes
 tar -czf kubernetes.tar.gz /etc/kubernetes
 ```
 
+Restore /etc/kubernetes
+
+```
+tar -zxf kubernetes.tar.gz
+rm -rf /etc/kubernetes && mv etc/kubernetes /etc/kubernetes && rmdir etc
+```
+
 Backup /etc/hostname
 
 ```
