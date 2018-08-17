@@ -43,3 +43,6 @@ kubectl apply -f metacontroller/manifests/metacontroller.yaml
 Addiontional Resources
 
 * https://admiralty.io/kubernetes-custom-resource-controller-and-operator-development-tools.html
+* https://github.com/GoogleCloudPlatform/metacontroller/tree/master/examples/jsonnetd
+* https://github.com/google/go-jsonnet
+* https://jsonnet.org/
