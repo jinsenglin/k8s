@@ -176,6 +176,28 @@ etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apis
 rm -rf /var/lib/etcd && mv default.etcd /var/lib/etcd
 ```
 
+Backup images
+
+```
+docker save -o IMAGE.tar IMAGE
+docker save -o IMAGE.tar IMAGE
+docker save -o IMAGE.tar IMAGE
+```
+
+Restore images
+
+```
+docker load -i IMAGE.tar
+docker load -i IMAGE.tar
+docker load -i IMAGE.tar
+```
+
+Backup /etc/kubernetes
+
+```
+tar -czf kubernetes.tar.gz /etc/kubernetes
+```
+
 # Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
