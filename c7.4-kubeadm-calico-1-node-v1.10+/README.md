@@ -161,64 +161,6 @@ etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apis
 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key get / --prefix --keys-only
 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key get / --prefix
 ```
-
-Backup etcd
-
-```
-export ETCDCTL_API=3
-etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/apiserver-etcd-client.crt --key=/etc/kubernetes/pki/apiserver-etcd-client.key snapshot save etcd-snapshot.db
-```
-
-Restore etcd
-
-```
-export ETCDCTL_API=3
-etcdctl snapshot restore etcd-snapshot.db
-rm -rf /var/lib/etcd && mv default.etcd /var/lib/etcd
-```
-
-Backup images
-
-```
-docker save -o IMAGE.tar IMAGE
-docker save -o IMAGE.tar IMAGE
-docker save -o IMAGE.tar IMAGE
-
-docker images --format "{{.ID}} {{.Repository}} {{.Tag}}" | { while read id repo tag; do docker save -o $(basename $repo):$tag.tar $id; done; }
-```
-
-Restore images
-
-```
-docker load -i IMAGE.tar
-docker load -i IMAGE.tar
-docker load -i IMAGE.tar
-```
-
-Backup /etc/kubernetes
-
-```
-tar -czf kubernetes.tar.gz /etc/kubernetes
-```
-
-Restore /etc/kubernetes
-
-```
-tar -zxf kubernetes.tar.gz
-rm -rf /etc/kubernetes && mv etc/kubernetes /etc/kubernetes && rmdir etc
-```
-
-Backup /etc/hostname
-
-```
-tar -czf hostname.tar.gz /etc/hostname
-```
-
-Prepare machine for restore
-
-* hostname: k8s.novalocal
-* ip: 10.112.0.10
-
 # Additional Resources
 
 * [centos7使用kubeadm安装kubernetes 1.11版本多主高可用](https://www.kubernetes.org.cn/4256.html)
