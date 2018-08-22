@@ -1,5 +1,10 @@
 NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook.
 
+When using dims/k8s-keystone-auth, there are two ways to configure permissions
+
+1. via policy.json, like this https://github.com/dims/k8s-keystone-auth/blob/master/examples/policy.json
+2. via k8s rbac
+
 usage
 
 ```
