@@ -44,6 +44,8 @@ Additional Resources
   * https://kubernetes.io/docs/reference/access-authn-authz/authentication/#webhook-token-authentication
 * tutorial
   * https://github.com/dims/k8s-keystone-auth#new-kubectl-clients-v180-and-later
+  * -> https://github.com/dims/openstack-cloud-controller-manager
+  * -> -> https://github.com/kubernetes/cloud-provider-openstack
   * http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
   * http://superuser.openstack.org/articles/kubernetes-keystone-integration-test/
   * https://kairen.github.io/2018/05/30/kubernetes/k8s-integration-keystone/
