@@ -18,7 +18,10 @@ kubectl config delete-context user-x
 kubectl config unset users.user-x
 ```
 
-add extra permissions
+add extra permissions to support
+- get nodes
+- top nodes
+- top pods
 
 ```
 cat <<YAML | kubectl create -f -
