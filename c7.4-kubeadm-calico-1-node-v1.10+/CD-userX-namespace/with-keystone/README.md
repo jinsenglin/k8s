@@ -13,6 +13,16 @@ kubectl use-context openstackcontext
 kubectl get pods
 
 # NOTE kubectl now supports using openstack environment variables
+
+# Sample my-os-rc
+export OS_AUTH_URL="http://KEYSTONE_HOST/identity/v3"
+export OS_PROJECT_NAME="jinsenglin"
+export OS_TENANT_NAME="jinsenglin"
+export OS_USERNAME="jinsenglin"
+export OS_PASSWORD="jinsenglin"
+export OS_REGION_NAME="RegionOne"
+export OS_DOMAIN_NAME="default"
+export OS_IDENTITY_API_VERSION="3"
 ```
 
 kubectl kubeconfig file
