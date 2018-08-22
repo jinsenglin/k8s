@@ -12,3 +12,13 @@ function update_enable_resource_quota() {
     #
     :
 }
+
+function update_enable_authz_webhook() {
+    #
+    :
+}
+
+function update_enable_authn_token_webhook() {
+    #
+    :
+}
