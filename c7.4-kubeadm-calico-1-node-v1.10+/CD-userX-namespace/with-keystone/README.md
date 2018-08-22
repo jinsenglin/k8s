@@ -6,6 +6,8 @@ usage
 source my-os-rc
 kubectl use-context openstackcontext
 kubectl get pods
+
+# NOTE kubectl now supports using openstack environment variables
 ```
 
 kubectl kubeconfig file
