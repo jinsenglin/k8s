@@ -68,7 +68,7 @@ Additional Resources
 * dims/k8s-keystone-auth
   * https://github.com/dims/k8s-keystone-auth#new-kubectl-clients-v180-and-later
   * -> https://github.com/dims/openstack-cloud-controller-manager
-  * -> -> https://github.com/kubernetes/cloud-provider-openstack
+  * -> -> https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md
   * -> -> -> https://github.com/kubernetes/cloud-provider-openstack/search?q=keystone&unscoped_q=keystone
 * tutorial
   * http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
