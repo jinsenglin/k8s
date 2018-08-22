@@ -73,3 +73,4 @@ Additional Resources
   * http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
   * http://superuser.openstack.org/articles/kubernetes-keystone-integration-test/
   * https://kairen.github.io/2018/05/30/kubernetes/k8s-integration-keystone/
+  * https://lingxiankong.github.io/2018-03-28-integration-test-k8s-keystone.html
