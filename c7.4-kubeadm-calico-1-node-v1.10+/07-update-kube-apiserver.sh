@@ -21,6 +21,9 @@ function update_enable_authz_webhook() {
     # TO-BE --authorization-mode=Node,RBAC,Webhook
     #
     # AS-IS
+    # TO-BE --runtime-config=authorization.k8s.io/v1beta1=true
+    #
+    # AS-IS
     # TO-BE --authorization-webhook-config-file=/etc/kubernetes/webhook.kubeconfig
     # 
     # volumeMounts:
