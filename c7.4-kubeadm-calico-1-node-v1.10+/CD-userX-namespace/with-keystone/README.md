@@ -1,5 +1,15 @@
 NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook.
 
+kubectl kubeconfig file
+
+```
+- name: openstackuser
+  user:
+    as-user-extra: {}
+    auth-provider:
+      name: openstack # IMPORTANT!
+```
+
 Additional Resources
 
 * k8s doc
