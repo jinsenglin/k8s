@@ -76,5 +76,6 @@ Additional Resources
   * https://kairen.github.io/2018/05/30/kubernetes/k8s-integration-keystone/
   * https://lingxiankong.github.io/2018-03-28-integration-test-k8s-keystone.html
 * docker image
+  * k8scloudprovider/k8s-keystone-auth
   * lingxiankong/k8s-keystone-auth:authorization-improved
   * kairen/k8s-keystone-auth:aee023b3
