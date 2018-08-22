@@ -24,11 +24,17 @@ kubectl get pods
 export OS_AUTH_URL="http://KEYSTONE_HOST/identity/v3"
 export OS_PROJECT_NAME="jinsenglin"
 export OS_TENANT_NAME="jinsenglin"
-export OS_USERNAME="jinsenglin"
+export OS_USERNAME="jinsenglin" # of role: admin, Member
 export OS_PASSWORD="jinsenglin"
 export OS_REGION_NAME="RegionOne"
 export OS_DOMAIN_NAME="default"
 export OS_IDENTITY_API_VERSION="3"
+
+# query role id list by $OS_USERNAME 
+openstack role assignment list --user $OS_USERNAME 
+
+# query role id and role name list
+openstack role list
 ```
 
 kubectl kubeconfig file
