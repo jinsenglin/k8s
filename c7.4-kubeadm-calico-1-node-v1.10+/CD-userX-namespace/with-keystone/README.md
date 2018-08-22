@@ -1,5 +1,12 @@
 NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook.
 
+usage
+
+```
+source my-os-rc
+kubectl get pods
+```
+
 kubectl kubeconfig file
 
 ```
