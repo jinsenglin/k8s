@@ -4,17 +4,29 @@ usage
 
 ```
 source my-os-rc
+kubectl use-context openstackcontext
 kubectl get pods
 ```
 
 kubectl kubeconfig file
 
 ```
+clusters:
+- cluster:
+  name: kubernetes
+
+users:
 - name: openstackuser
   user:
     as-user-extra: {}
     auth-provider:
       name: openstack # IMPORTANT!
+
+contexts:
+- context:
+    cluster: kubernetes
+    user: openstackuser
+  name: openstackcontext
 ```
 
 Additional Resources
