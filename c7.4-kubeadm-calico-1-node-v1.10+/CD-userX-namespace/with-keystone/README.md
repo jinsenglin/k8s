@@ -3,7 +3,7 @@ NEED tell kube-apiserver to enable authentication-token-webhook and authorizatio
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
 
 1. via policy.json, like this https://github.com/dims/k8s-keystone-auth/blob/master/examples/policy.json
-2. via k8s rbac
+2. via k8s rbac, like this http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
 
 install webhook
 
@@ -29,9 +29,6 @@ export OS_PASSWORD="jinsenglin"
 export OS_REGION_NAME="RegionOne"
 export OS_DOMAIN_NAME="default"
 export OS_IDENTITY_API_VERSION="3"
-
-# Sample k8s rbac
-TODO
 ```
 
 kubectl kubeconfig file
