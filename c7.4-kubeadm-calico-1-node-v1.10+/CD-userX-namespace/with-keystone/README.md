@@ -19,6 +19,7 @@ kubectl use-context openstackcontext
 kubectl get pods
 
 # NOTE kubectl now supports using openstack environment variables
+# PR https://github.com/kubernetes/kubernetes/pull/39587
 
 # Sample my-os-rc
 export OS_AUTH_URL="http://KEYSTONE_HOST/identity/v3"
@@ -74,3 +75,6 @@ Additional Resources
   * http://superuser.openstack.org/articles/kubernetes-keystone-integration-test/
   * https://kairen.github.io/2018/05/30/kubernetes/k8s-integration-keystone/
   * https://lingxiankong.github.io/2018-03-28-integration-test-k8s-keystone.html
+* docker image
+  * lingxiankong/k8s-keystone-auth:authorization-improved
+  * kairen/k8s-keystone-auth:aee023b3
