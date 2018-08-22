@@ -18,8 +18,6 @@ function init_cluster() {
 
     # b.
     kubeadm init --pod-network-cidr=192.168.0.0/16
-    
-    # --apiserver-advertise-address 10.112.0.10
 }
 
 function init_pod_network() {
