@@ -1,3 +1,5 @@
+NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook.
+
 Additional Resources
 
 * k8s doc
