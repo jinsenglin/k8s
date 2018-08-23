@@ -10,7 +10,15 @@ create index
 ```
 open http://localhost:5601
 
+# A.
 # step 1 :: create index pattern "kubernetes_cluster-*"
+# step 2 :: select time filter field name, available options:
+  * @timestamp (try this one)
+  * kubernetes.annotations.kubernetes_io/config_seen
+  * time
+
+# B.
+# step 1 :: create index pattern "logstash-*"
 # step 2 :: select time filter field name, available options:
   * @timestamp (try this one)
   * kubernetes.annotations.kubernetes_io/config_seen
