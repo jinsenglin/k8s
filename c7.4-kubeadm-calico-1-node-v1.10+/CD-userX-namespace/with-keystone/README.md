@@ -1,7 +1,7 @@
 # NEXT STEP
 
 * In this doc, accessing keystone is via http instead of https. Need check how to pass ca cert file to k8s-keystone-auth.
-* ConfigMap.yaml for authz policy doesn't work. Need debug. (workaround: use k8s rbac)
+* ConfigMap.yaml for authz policy doesn't work. Need debug - check log authorizer.go:197. (workaround: use k8s rbac)
 
 # NEED
 
