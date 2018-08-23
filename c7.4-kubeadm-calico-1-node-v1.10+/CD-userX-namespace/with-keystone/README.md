@@ -15,7 +15,61 @@ When using dims/k8s-keystone-auth, there are two ways to configure permissions
 test k8s-keystone-auth service
 
 ```
-see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
+# see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
+
+# sample curl
+TOKEN=b30d3b966cb74957ae615ffc60ab5393 # openstack token issue -c id
+cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
+{
+  "apiVersion": "authentication.k8s.io/v1beta1",
+  "kind": "TokenReview",
+  "metadata": {
+    "creationTimestamp": null
+  },
+  "spec": {
+    "token": "$TOKEN"
+  }
+}
+EOF
+
+# sample output
+{
+  "apiVersion": "authentication.k8s.io/v1beta1",
+  "kind": "TokenReview",
+  "metadata": {
+    "creationTimestamp": null
+  },
+  "spec": {
+    "token": "b30d3b966cb74957ae615ffc60ab5393"
+  },
+  "status": {
+    "authenticated": true,
+    "user": {
+      "username": "alice",
+      "uid": "445dbd0cacd44ba6bb78c87771a550df",
+      "groups": [
+        "9aa12faec95c4d5d84538453e65fc139"
+      ],
+      "extra": {
+        "alpha.kubernetes.io/identity/project/id": [
+          "9aa12faec95c4d5d84538453e65fc139"
+        ],
+        "alpha.kubernetes.io/identity/project/name": [
+          "team1"
+        ],
+        "alpha.kubernetes.io/identity/roles": [
+          "k8s-admin"
+        ],
+        "alpha.kubernetes.io/identity/user/domain/id": [
+          "default"
+        ],
+        "alpha.kubernetes.io/identity/user/domain/name": [
+          "Default"
+        ]
+      }
+    }
+  }
+}
 ```
 
 usage
