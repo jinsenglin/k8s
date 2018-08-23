@@ -45,7 +45,7 @@ function check_pod() {
 
 NAME                                    READY     STATUS    RESTARTS   AGE
 calico-node-zgfm4                       2/2       Running   0          1m
-etcd-k8s.novalocal                      1/1       Running   0          51s
+etcd-k8s                                1/1       Running   0          51s
 kube-apiserver-k8s                      1/1       Running   0          52s
 kube-controller-manager-k8s             1/1       Running   0          48s
 kube-dns-86f4d74b45-hm25m               3/3       Running   0          1m
