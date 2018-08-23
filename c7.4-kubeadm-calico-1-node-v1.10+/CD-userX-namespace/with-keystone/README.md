@@ -38,7 +38,7 @@ openstack role assignment list --user $OS_USERNAME
 openstack role list
 ```
 
-kubectl kubeconfig file
+kubectl kubeconfig file for kubectl clients from v1.8.0 to v1.10.x
 
 ```
 clusters:
@@ -51,6 +51,26 @@ users:
     as-user-extra: {}
     auth-provider:
       name: openstack # IMPORTANT!
+
+contexts:
+- context:
+    cluster: kubernetes
+    user: openstackuser
+  name: openstackcontext
+```
+
+kubectl kubeconfig file for kubectl clients from v1.11.0 and later
+
+```
+clusters:
+- cluster:
+  name: kubernetes
+
+users:
+- name: openstackuser
+  user:
+    command: "/path/to/client-keystone-auth"
+    apiVersion: "client.authentication.k8s.io/v1alpha1"
 
 contexts:
 - context:
