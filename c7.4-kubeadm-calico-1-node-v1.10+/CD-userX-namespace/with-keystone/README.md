@@ -152,7 +152,7 @@ use kubectl with keystone token
 
 ```
 source openrc-alice
-kubectl use-context openstackcontext
+kubectl config use-context openstackcontext
 kubectl get pods
 
 # NOTE kubectl now supports using openstack environment variables
