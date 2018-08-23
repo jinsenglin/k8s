@@ -152,6 +152,7 @@ use kubectl with keystone token
 
 ```
 source openrc-alice
+export KUBECONFIG=$KUBECONFIG:$PWD/openstackcontext.kubeconfig
 kubectl config use-context openstackcontext
 kubectl get pods
 
