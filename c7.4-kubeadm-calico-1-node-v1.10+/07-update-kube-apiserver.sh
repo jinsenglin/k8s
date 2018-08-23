@@ -23,7 +23,7 @@ preferences: {}
 clusters:
   - cluster:
       insecure-skip-tls-verify: true
-      server: https://k8s-keystone-auth-service:8443/webhook
+      server: https://10.112.0.10:31443/webhook
     name: webhook
 users:
   - name: webhook
@@ -56,7 +56,7 @@ preferences: {}
 clusters:
   - cluster:
       insecure-skip-tls-verify: true
-      server: https://k8s-keystone-auth-service:8443/webhook
+      server: https://10.112.0.10:31443/webhook
     name: webhook
 users:
   - name: webhook
