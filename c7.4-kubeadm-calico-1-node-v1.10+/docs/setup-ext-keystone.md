@@ -35,6 +35,8 @@ export OS_CACERT=/etc/apache2/ssl/apache.crt
 OpenStack Keystone Command Line Usage
 
 ```
+openstack token issue
+
 openstack project list          # admin
 openstack user list             # admin
 openstack role list             # admin
@@ -59,11 +61,53 @@ openstack project create team2
 openstack role create k8s-admin
 openstack role create k8s-viewer
 
-openstack user create alice
-openstack user create bob
-openstack user create carol
+openstack user create --password passw0rd alice
+openstack user create --password passw0rd bob
+openstack user create --password passw0rd carol
 
 openstack role add --user alice --project team1 k8s-admin
 openstack role add --user bob --project team2 k8s-admin
 openstack role add --user carol --project team2 k8s-viewer
+```
+
+openrc-alice
+
+```
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_NAME=team1
+export OS_USERNAME=alice
+export OS_PASSWORD=passw0rd
+export OS_AUTH_URL=https://192.168.240.63:35357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+export OS_CACERT=/etc/apache2/ssl/apache.crt
+```
+
+openrc-bob
+
+```
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_NAME=team2
+export OS_USERNAME=bob
+export OS_PASSWORD=passw0rd
+export OS_AUTH_URL=https://192.168.240.63:35357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+export OS_CACERT=/etc/apache2/ssl/apache.crt
+```
+
+openrc-carol
+
+```
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_NAME=team2
+export OS_USERNAME=carol
+export OS_PASSWORD=passw0rd
+export OS_AUTH_URL=https://192.168.240.63:35357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
+export OS_CACERT=/etc/apache2/ssl/apache.crt
 ```
