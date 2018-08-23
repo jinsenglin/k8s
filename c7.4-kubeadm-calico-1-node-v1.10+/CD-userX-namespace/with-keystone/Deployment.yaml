@@ -17,6 +17,7 @@ spec:
     spec:
       containers:
         - name: k8s-keystone-auth
+          serviceAccountName: super-admin
           image: k8scloudprovider/k8s-keystone-auth
           imagePullPolicy: IfNotPresent
           args:
