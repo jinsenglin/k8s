@@ -1,13 +1,19 @@
-NEXT STEP
+# NEXT STEP
 
 In this doc, accessing keystone is via http instead of https. Need check how to pass ca cert file to k8s-keystone-auth.
 
-NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook. [[doc](../../07-update-kube-apiserver.sh)]
+# NEED
+
+Tell kube-apiserver to enable authentication-token-webhook and authorization-webhook. [[doc](../../07-update-kube-apiserver.sh)]
+
+# NOTE
 
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
 
 1. via policy.json, like this https://github.com/dims/k8s-keystone-auth/blob/master/examples/policy.json
 2. via k8s rbac, like this http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
+
+# USAGE
 
 use internal keystone to create some demo data and to get tokens
 
