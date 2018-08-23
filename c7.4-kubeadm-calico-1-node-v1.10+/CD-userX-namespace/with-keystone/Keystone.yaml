@@ -37,3 +37,5 @@ spec:
     - protocol: TCP
       port: 35357
       targetPort: 35357
+      nodePort: 31357
+  type: NodePort
