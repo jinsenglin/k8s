@@ -9,6 +9,12 @@ When using dims/k8s-keystone-auth, there are two ways to configure permissions
 1. via policy.json, like this https://github.com/dims/k8s-keystone-auth/blob/master/examples/policy.json
 2. via k8s rbac, like this http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
 
+test k8s-keystone-auth service
+
+```
+see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
+```
+
 usage
 
 ```
