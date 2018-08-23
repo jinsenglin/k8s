@@ -150,8 +150,9 @@ clusters:
 users:
 - name: openstackuser
   user:
-    command: "/path/to/client-keystone-auth"
-    apiVersion: "client.authentication.k8s.io/v1alpha1"
+    exec:
+      command: "/path/to/client-keystone-auth"
+      apiVersion: "client.authentication.k8s.io/v1alpha1"
 
 contexts:
 - context:
