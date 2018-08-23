@@ -3,14 +3,14 @@ yum install -y docker
 systemctl enable docker && systemctl start docker
 
 docker pull docker.io/stephenhsu/keystone:9.1.0
-# docker run -d --restart always --name ks -p 5000:5000 -p 35357:35357 -e TLS_ENABLED=true -h 192.168.240.63 docker.io/stephenhsu/keystone:9.1.0    # https
-docker run -d --restart always --name ks -p 5000:5000 -p 35357:35357 -h 192.168.240.63 docker.io/stephenhsu/keystone:9.1.0                          # http
+docker run -d --restart always --name ks -p 5000:5000 -p 35357:35357 -e TLS_ENABLED=true -h 192.168.240.63 docker.io/stephenhsu/keystone:9.1.0  # https
+# docker run -d --restart always --name ks -p 5000:5000 -p 35357:35357 -h 192.168.240.63 docker.io/stephenhsu/keystone:9.1.0                    # http
 
-# verify (http)
-# curl http://127.0.0.1:5000/
-# curl http://127.0.0.1:5000/v3
-# curl http://127.0.0.1:35357/
-# curl http://127.0.0.1:35357/v3
+# verify
+# curl -k https://127.0.0.1:5000/
+# curl -k https://127.0.0.1:5000/v3
+# curl -k https://127.0.0.1:35357/
+# curl -k https://127.0.0.1:35357/v3
 
 # copy openrc file
 # docker cp ks:/root/openrc .
@@ -19,7 +19,7 @@ docker run -d --restart always --name ks -p 5000:5000 -p 35357:35357 -h 192.168.
 # docker cp ks:/etc/apache2/ssl/apache.crt .
 ```
 
-Sample openrc file (https)
+Sample openrc file
 
 ```
 export OS_PROJECT_DOMAIN_NAME=default
@@ -71,7 +71,7 @@ openstack role add --user bob --project team2 k8s-admin
 openstack role add --user carol --project team2 k8s-viewer
 ```
 
-openrc-alice (https)
+openrc-alice
 
 ```
 export OS_PROJECT_DOMAIN_NAME=default
@@ -85,7 +85,7 @@ export OS_IMAGE_API_VERSION=2
 export OS_CACERT=/etc/apache2/ssl/apache.crt
 ```
 
-openrc-bob (https)
+openrc-bob
 
 ```
 export OS_PROJECT_DOMAIN_NAME=default
@@ -99,7 +99,7 @@ export OS_IMAGE_API_VERSION=2
 export OS_CACERT=/etc/apache2/ssl/apache.crt
 ```
 
-openrc-carol (https)
+openrc-carol
 
 ```
 export OS_PROJECT_DOMAIN_NAME=default
