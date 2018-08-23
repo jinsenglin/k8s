@@ -128,9 +128,9 @@ cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
       "resource": "pods"
     },
     "user": "alice",
-    "group": ["9aa12faec95c4d5d84538453e65fc139"],
+    "group": ["e19fbe8a27074fda8f9c646a37966265"],
     "extra": {
-        "alpha.kubernetes.io/identity/project/id": ["9aa12faec95c4d5d84538453e65fc139"],
+        "alpha.kubernetes.io/identity/project/id": ["e19fbe8a27074fda8f9c646a37966265"],
         "alpha.kubernetes.io/identity/project/name": ["team1"],
         "alpha.kubernetes.io/identity/roles": ["k8s-admin"]
     }
