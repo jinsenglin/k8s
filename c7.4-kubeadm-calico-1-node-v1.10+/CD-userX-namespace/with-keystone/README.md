@@ -1,16 +1,45 @@
-NEED
+NEXT STEP
 
-* bring up a keystone
-  * bring up an internal keystone
-  * bring up an external keystone. [[doc](../../docs/setup-ext-keystone.md)]
-  * TODO support https (in this doc, http is used; need check how to pass ca cert file to k8s-keystone-auth)
-* test k8s-keystone-auth service
-* tell kube-apiserver to enable authentication-token-webhook and authorization-webhook. [[doc](../../07-update-kube-apiserver.sh)]
+In this doc, accessing keystone is via http instead of https. Need check how to pass ca cert file to k8s-keystone-auth.
+
+NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook. [[doc](../../07-update-kube-apiserver.sh)]
 
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
 
 1. via policy.json, like this https://github.com/dims/k8s-keystone-auth/blob/master/examples/policy.json
 2. via k8s rbac, like this http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
+
+use internal keystone to create some demo data and to get tokens
+
+```
+kubectl -n kube-system exec os-keystone-6c5c7b84b7-59jwl -it -- bash
+
+source openrc
+openstack project create team1
+openstack project create team2
+openstack role create k8s-admin
+openstack role create k8s-viewer
+openstack user create --password passw0rd alice
+openstack user create --password passw0rd bob
+openstack user create --password passw0rd carol
+openstack role add --user alice --project team1 k8s-admin
+openstack role add --user bob --project team2 k8s-admin
+openstack role add --user carol --project team2 k8s-viewer
+
+export OS_PROJECT_NAME=team1
+export OS_USERNAME=alice
+openstack token issue -c id -f value
+
+export OS_PROJECT_NAME=team2
+export OS_USERNAME=bob
+openstack token issue -c id -f value
+
+export OS_PROJECT_NAME=team2
+export OS_USERNAME=carol
+openstack token issue -c id -f value
+
+exit
+```
 
 test k8s-keystone-auth service
 
@@ -18,7 +47,7 @@ test k8s-keystone-auth service
 # see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
 
 # sample curl
-TOKEN=b30d3b966cb74957ae615ffc60ab5393 # openstack token issue -c id
+TOKEN=b30d3b966cb74957ae615ffc60ab5393
 cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
 {
   "apiVersion": "authentication.k8s.io/v1beta1",
