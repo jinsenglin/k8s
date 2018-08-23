@@ -14,7 +14,7 @@ function check_helm() {
     #
     # [ option 2: tolerate the taint ]
     #
-    kubectl taint nodes k8s.novalocal node-role.kubernetes.io/master-
+    kubectl taint nodes k8s node-role.kubernetes.io/master-
 
     #
     # Error: configmaps is forbidden: User "system:serviceaccount:kube-system:default" cannot list configmaps in the namespace "kube-system"
@@ -32,7 +32,7 @@ function check_helm() {
         helm reset
 
     delete_super_admin
-    kubectl taint nodes k8s.novalocal node-role.kubernetes.io/master=:NoSchedule
+    kubectl taint nodes k8s node-role.kubernetes.io/master=:NoSchedule
 }
 
 function check_pod() {
@@ -72,8 +72,8 @@ function check_node() {
 
 # All Ready
 <<OUTPUT
-NAME            STATUS    ROLES     AGE       VERSION
-k8s.novalocal   Ready     master    2m        v1.11.1
+NAME      STATUS    ROLES     AGE       VERSION
+k8s       Ready     master    7m        v1.11.1
 OUTPUT
 }
 
