@@ -15,7 +15,7 @@ spec:
       labels:
         app: k8s-keystone-auth
     spec:
-      # serviceAccountName: super-admin # no use
+      serviceAccount: super-admin
       containers:
         - name: k8s-keystone-auth
           image: k8scloudprovider/k8s-keystone-auth
