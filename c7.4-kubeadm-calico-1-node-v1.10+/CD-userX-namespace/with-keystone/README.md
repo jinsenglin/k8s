@@ -1,3 +1,7 @@
+TODO
+
+* support https://os-keystone/v3 (this doc uses http instead of https)
+
 NEED tell kube-apiserver to enable authentication-token-webhook and authorization-webhook.
 
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
