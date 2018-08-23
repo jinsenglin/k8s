@@ -158,6 +158,16 @@ kubectl get pods
 # NOTE kubectl now supports using openstack environment variables
 # PR https://github.com/kubernetes/kubernetes/pull/39587
 # Client auth providers are deprecated in v1.11.0 and to be removed in the next version. The recommended way of client authentication is to use exec mode with the client-keystone-auth binary.
+
+# openrc-alice
+export OS_PROJECT_DOMAIN_NAME=default
+export OS_USER_DOMAIN_NAME=default
+export OS_PROJECT_NAME=team1
+export OS_USERNAME=alice
+export OS_PASSWORD=passw0rd
+export OS_AUTH_URL=http://10.112.0.10:31357/v3
+export OS_IDENTITY_API_VERSION=3
+export OS_IMAGE_API_VERSION=2
 ```
 
 kubectl kubeconfig file for kubectl clients from v1.8.0 to v1.10.x
