@@ -107,10 +107,10 @@ EOF
 }
 ```
 
-usage
+use kubectl with keystone token
 
 ```
-source my-os-rc
+source openrc-alice
 kubectl use-context openstackcontext
 kubectl get pods
 
@@ -135,6 +135,7 @@ users:
 contexts:
 - context:
     cluster: kubernetes
+    namespace: team1
     user: openstackuser
   name: openstackcontext
 ```
@@ -155,6 +156,7 @@ users:
 contexts:
 - context:
     cluster: kubernetes
+    namespace: team1
     user: openstackuser
   name: openstackcontext
 ```
