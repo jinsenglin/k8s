@@ -78,19 +78,19 @@ EOF
     "creationTimestamp": null
   },
   "spec": {
-    "token": "822da94d09a74196952613487772a800"
+    "token": "a6a4d43605cb431ab3ab4ecef577fb7b"
   },
   "status": {
     "authenticated": true,
     "user": {
       "username": "alice",
-      "uid": "445dbd0cacd44ba6bb78c87771a550df",
+      "uid": "b91698c922a646d88a890370031cf95a",
       "groups": [
-        "9aa12faec95c4d5d84538453e65fc139"
+        "e19fbe8a27074fda8f9c646a37966265"
       ],
       "extra": {
         "alpha.kubernetes.io/identity/project/id": [
-          "9aa12faec95c4d5d84538453e65fc139"
+          "e19fbe8a27074fda8f9c646a37966265"
         ],
         "alpha.kubernetes.io/identity/project/name": [
           "team1"
