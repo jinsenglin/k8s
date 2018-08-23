@@ -116,6 +116,7 @@ kubectl get pods
 
 # NOTE kubectl now supports using openstack environment variables
 # PR https://github.com/kubernetes/kubernetes/pull/39587
+# Client auth providers are deprecated in v1.11.0 and to be removed in the next version. The recommended way of client authentication is to use exec mode with the client-keystone-auth binary.
 ```
 
 kubectl kubeconfig file for kubectl clients from v1.8.0 to v1.10.x
