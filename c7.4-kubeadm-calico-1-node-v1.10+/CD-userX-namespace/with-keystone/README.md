@@ -103,3 +103,6 @@ Additional Resources
 * auth parameters in the ~/.kube/config file for integration of kubectl and keystone
   * [Keystone client-go credential plugin usage](https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-client-keystone-auth.md)
   * [client-go credential plugins](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins)
+* command source code
+  * [k8s-keystone-auth/main.go](https://github.com/kubernetes/cloud-provider-openstack/blob/master/cmd/k8s-keystone-auth/main.go)
+  * [client-keystone-auth/main.go](https://github.com/kubernetes/cloud-provider-openstack/blob/master/cmd/client-keystone-auth/main.go)
