@@ -14,57 +14,64 @@ function update_enable_resource_quota() {
 }
 
 function update_enable_authz_webhook() {
+    # We reuse the folder /etc/kubernetes/pki/ because it's already mounted and accessible by API server pod.
+    cat <<EOF > /etc/kubernetes/pki/webhookconfig.yaml
+---
+apiVersion: v1
+kind: Config
+preferences: {}
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://k8s-keystone-auth-service:8443/webhook
+    name: webhook
+users:
+  - name: webhook
+contexts:
+  - context:
+      cluster: webhook
+      user: webhook
+    name: webhook
+current-context: webhook
+EOF
+
     #
     # MODIFY the file "/etc/kubernetes/manifests/kube-apiserver.yaml"
     #
+    # AS-IS
+    # TO-BE --authorization-webhook-config-file=/etc/kubernetes/pki/webhookconfig.yaml
+    #
     # AS-IS --authorization-mode=Node,RBAC
     # TO-BE --authorization-mode=Node,RBAC,Webhook
-    #
-    # AS-IS
-    # TO-BE --runtime-config=authorization.k8s.io/v1beta1=true
-    #
-    # AS-IS
-    # TO-BE --authorization-webhook-config-file=/etc/kubernetes/webhook.kubeconfig
-    # 
-    # volumeMounts:
-    # ...
-    # - mountPath: /etc/kubernetes/webhook.kubeconfig
-    #   name: webhook-kubeconfig-file
-    #   readOnly: true
-    #
-    # volumes:
-    # ...
-    # - hostPath:
-    #     path: /etc/kubernetes/authn-authz-webhook/webhook.kubeconfig
-    #     type: File
-    #   name: webhook-kubeconfig-file
     :
 }
 
 function update_enable_authn_token_webhook() {
+    # We reuse the folder /etc/kubernetes/pki/ because it's already mounted and accessible by API server pod.
+    cat <<EOF > /etc/kubernetes/pki/webhookconfig.yaml
+---
+apiVersion: v1
+kind: Config
+preferences: {}
+clusters:
+  - cluster:
+      insecure-skip-tls-verify: true
+      server: https://k8s-keystone-auth-service:8443/webhook
+    name: webhook
+users:
+  - name: webhook
+contexts:
+  - context:
+      cluster: webhook
+      user: webhook
+    name: webhook
+current-context: webhook
+EOF
+
     #
     # MODIFY the file "/etc/kubernetes/manifests/kube-apiserver.yaml"
     #
     # AS-IS
-    # TO-BE --runtime-config=authentication.k8s.io/v1beta1=true
-    #
-    # AS-IS
-    # TO-BE --authentication-token-webhook-config-file=/etc/kubernetes/webhook.kubeconfig
-    #
-    # AS-IS
-    # TO-BE --authentication-token-webhook-cache-ttl=5m
-    #
-    # volumeMounts:
-    # ...
-    # - mountPath: /etc/kubernetes/webhook.kubeconfig
-    #   name: webhook-kubeconfig-file
-    #   readOnly: true
-    #
-    # volumes:
-    # ...
-    # - hostPath:
-    #     path: /etc/kubernetes/authn-authz-webhook/webhook.kubeconfig
-    #     type: File
-    #   name: webhook-kubeconfig-kubeconfig
+    # TO-BE --authentication-token-webhook-config-file=/etc/kubernetes/pki/webhookconfig.yaml
     :
 }
