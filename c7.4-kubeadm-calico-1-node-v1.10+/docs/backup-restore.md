@@ -1,6 +1,6 @@
 Prepare machine for restore
 
-* hostname: k8s.novalocal
+* hostname: k8s
 * ip: 10.112.0.10
 
 Backup etcd
