@@ -47,7 +47,7 @@ openstack token issue -c id -f value
 exit
 ```
 
-test k8s-keystone-auth service
+test k8s-keystone-auth service :: authn
 
 ```
 # see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
@@ -104,6 +104,44 @@ EOF
       }
     }
   }
+}
+```
+
+test k8s-keystone-auth service :: authz
+
+```
+# see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
+
+# sample curl
+cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
+{
+  "apiVersion": "authorization.k8s.io/v1beta1",
+  "kind": "SubjectAccessReview",
+  "spec": {
+    "resourceAttributes": {
+      "namespace": "team1",
+      "verb": "create",
+      "group": "",
+      "resource": "pods"
+    },
+    "user": "alice",
+    "group": ["9aa12faec95c4d5d84538453e65fc139"],
+    "extra": {
+        "alpha.kubernetes.io/identity/project/id": ["9aa12faec95c4d5d84538453e65fc139"],
+        "alpha.kubernetes.io/identity/project/name": ["team1"],
+        "alpha.kubernetes.io/identity/roles": ["k8s-admin"]
+    }
+  }
+}
+EOF
+
+# sample output
+{
+    "apiVersion": "authorization.k8s.io/v1beta1",
+    "kind": "SubjectAccessReview",
+    "status": {
+        "allowed": true
+    }
 }
 ```
 
