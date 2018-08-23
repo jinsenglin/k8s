@@ -176,6 +176,11 @@ function add_toolbox() {
     tar -zxf etcd-v3.2.18-linux-amd64.tar.gz && rm -f etcd-v3.2.18-linux-amd64.tar.gz
     mv etcd-v3.2.18-linux-amd64/etcdctl /usr/local/bin/etcdctl
     rm -rf etcd-v3.2.18-linux-amd64
+
+    wget https://github.com/kubernetes/cloud-provider-openstack/releases/download/v0.2.0/cloud-provider-openstack-v0.2.0-linux-amd64.tar.gz
+    tar -zxf cloud-provider-openstack-v0.2.0-linux-amd64.tar.gz && rm -f cloud-provider-openstack-v0.2.0-linux-amd64.tar.gz
+    mv linux-amd64/client-keystone-auth /usr/local/bin/client-keystone-auth
+    rm -rf linux-amd64
 }
 
 function main() {
