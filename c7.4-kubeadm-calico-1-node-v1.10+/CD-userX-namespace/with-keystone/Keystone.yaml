@@ -1,0 +1,42 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: os-keystone
+  namespace: kube-system
+  labels:
+    app: os-keystone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: os-keystone
+  template:
+    metadata:
+      labels:
+        app: os-keystone
+    spec:
+      containers:
+        - name: os-keystone
+          image: stephenhsu/keystone:9.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+            - containerPort: 35357
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: os-keystone
+  namespace: kube-system
+spec:
+  selector:
+    app: os-keystone
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
+    - protocol: TCP
+      port: 35357
+      targetPort: 35357
