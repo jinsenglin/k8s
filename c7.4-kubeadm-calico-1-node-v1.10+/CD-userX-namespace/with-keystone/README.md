@@ -152,7 +152,7 @@ users:
 - name: openstackuser
   user:
     exec:
-      command: "/path/to/client-keystone-auth"
+      command: "/usr/local/bin/client-keystone-auth"
       apiVersion: "client.authentication.k8s.io/v1alpha1"
 
 contexts:
