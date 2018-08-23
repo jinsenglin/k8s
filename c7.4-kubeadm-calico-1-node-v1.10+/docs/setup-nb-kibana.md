@@ -21,7 +21,7 @@ query logs
 
 ```
 # query logs by pod name
-# e.g. kubernetes.pod_name:etcd-k8s.novalocal
+# e.g. kubernetes.pod_name:etcd-k8s
 
 # query logs by namespace name
 # e.g., kubernetes.namespace_name:add-on
