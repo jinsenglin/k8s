@@ -18,7 +18,7 @@ When using dims/k8s-keystone-auth, there are two ways to configure permissions
 use internal keystone to create some demo data and to get tokens
 
 ```
-kubectl -n kube-system exec os-keystone-6c5c7b84b7-59jwl -it -- bash
+kubectl -n kube-system exec os-keystone-6c5c7b84b7-rvnhm -it -- bash
 
 source openrc
 openstack project create team1
@@ -35,17 +35,17 @@ openstack role add --user carol --project team2 k8s-viewer
 export OS_PROJECT_NAME=team1
 export OS_USERNAME=alice
 openstack token issue -c id -f value
-# 822da94d09a74196952613487772a800
+# a6a4d43605cb431ab3ab4ecef577fb7b
 
 export OS_PROJECT_NAME=team2
 export OS_USERNAME=bob
 openstack token issue -c id -f value
-# ee39b1e0e2654443a368eca6ae21ad84
+# 701379a2506e48a28f29c93e6229d8b2
 
 export OS_PROJECT_NAME=team2
 export OS_USERNAME=carol
 openstack token issue -c id -f value
-# 1675355538244cddb12e60cbe66ec2cc
+# 54e9655095ea4559815c48223fcc0e19
 
 exit
 ```
@@ -56,7 +56,7 @@ test k8s-keystone-auth service :: authn
 # see this https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md#test-k8s-keystone-auth-service
 
 # sample curl
-TOKEN=822da94d09a74196952613487772a800
+TOKEN=a6a4d43605cb431ab3ab4ecef577fb7b
 cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
 {
   "apiVersion": "authentication.k8s.io/v1beta1",
@@ -78,19 +78,19 @@ EOF
     "creationTimestamp": null
   },
   "spec": {
-    "token": "822da94d09a74196952613487772a800"
+    "token": "a6a4d43605cb431ab3ab4ecef577fb7b"
   },
   "status": {
     "authenticated": true,
     "user": {
       "username": "alice",
-      "uid": "445dbd0cacd44ba6bb78c87771a550df",
+      "uid": "b91698c922a646d88a890370031cf95a",
       "groups": [
-        "9aa12faec95c4d5d84538453e65fc139"
+        "e19fbe8a27074fda8f9c646a37966265"
       ],
       "extra": {
         "alpha.kubernetes.io/identity/project/id": [
-          "9aa12faec95c4d5d84538453e65fc139"
+          "e19fbe8a27074fda8f9c646a37966265"
         ],
         "alpha.kubernetes.io/identity/project/name": [
           "team1"
@@ -128,9 +128,9 @@ cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
       "resource": "pods"
     },
     "user": "alice",
-    "group": ["9aa12faec95c4d5d84538453e65fc139"],
+    "group": ["e19fbe8a27074fda8f9c646a37966265"],
     "extra": {
-        "alpha.kubernetes.io/identity/project/id": ["9aa12faec95c4d5d84538453e65fc139"],
+        "alpha.kubernetes.io/identity/project/id": ["e19fbe8a27074fda8f9c646a37966265"],
         "alpha.kubernetes.io/identity/project/name": ["team1"],
         "alpha.kubernetes.io/identity/roles": ["k8s-admin"]
     }
