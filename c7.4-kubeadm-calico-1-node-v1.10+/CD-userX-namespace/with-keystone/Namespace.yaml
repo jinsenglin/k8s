@@ -1,0 +1,17 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: team1
+spec:
+  finalizers:
+  - kubernetes
+
+---
+
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: team2
+spec:
+  finalizers:
+  - kubernetes

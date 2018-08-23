@@ -97,7 +97,7 @@ Additional Resources
   * https://lingxiankong.github.io/2018-03-28-integration-test-k8s-keystone.html
   * https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-keystone-webhook-authenticator-and-authorizer.md
 * docker image
-  * k8scloudprovider/k8s-keystone-auth
+  * [k8scloudprovider/k8s-keystone-auth](https://hub.docker.com/r/k8scloudprovider/k8s-keystone-auth/)
   * lingxiankong/k8s-keystone-auth:authorization-improved
   * kairen/k8s-keystone-auth:aee023b3
 * auth parameters in the ~/.kube/config file for integration of kubectl and keystone
