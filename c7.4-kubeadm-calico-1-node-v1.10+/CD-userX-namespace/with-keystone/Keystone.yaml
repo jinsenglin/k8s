@@ -35,8 +35,5 @@ spec:
     app: os-keystone
   ports:
     - protocol: TCP
-      port: 5000
-      targetPort: 5000
-    - protocol: TCP
       port: 35357
       targetPort: 35357
