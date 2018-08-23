@@ -100,3 +100,6 @@ Additional Resources
   * k8scloudprovider/k8s-keystone-auth
   * lingxiankong/k8s-keystone-auth:authorization-improved
   * kairen/k8s-keystone-auth:aee023b3
+* auth parameters in the ~/.kube/config file for integration of kubectl and keystone
+  * [Keystone client-go credential plugin usag[](https://github.com/kubernetes/cloud-provider-openstack/blob/master/docs/using-client-keystone-auth.md)
+  * [client-go credential plugins](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#client-go-credential-plugins)
