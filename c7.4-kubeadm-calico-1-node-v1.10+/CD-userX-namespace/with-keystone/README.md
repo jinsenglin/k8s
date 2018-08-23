@@ -1,7 +1,7 @@
 NEED
 
-* tell kube-apiserver to enable authentication-token-webhook and authorization-webhook. [doc](../../07-update-kube-apiserver.sh)
-* bring up an external keystone [doc](../../docs/setup-ext-keystone.md)
+* tell kube-apiserver to enable authentication-token-webhook and authorization-webhook. [[doc](../../07-update-kube-apiserver.sh)]
+* bring up an external keystone. [[doc](../../docs/setup-ext-keystone.md)]
   * TODO support https (in this doc, http is used; need check how to pass ca cert file to k8s-keystone-auth)
 
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
