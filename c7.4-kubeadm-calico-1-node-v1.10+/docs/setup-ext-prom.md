@@ -35,6 +35,22 @@ scrape_configs:
       # targets: ['localhost:9090', 'prometheus-node-exporter.add-on.k8s.local:80', 'kube-state-metrics.add-on.k8s.local:80']
 ```
 
+# TODO
+
+```
+scrape_configs:
+  - job_name: 'kubernetes-pods'
+
+    kubernetes_sd_configs:
+    - role: pod
+      api_server: 10.112.0.10:6443
+      tls_config:
+        ca_file: ?
+        cert_file: ?
+        key_file: ?
+        insecure_skip_verify: true
+```
+
 # Additional Resources
 
 * [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#%3Ckubernetes_sd_config%3E)
