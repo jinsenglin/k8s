@@ -154,7 +154,10 @@ use kubectl with keystone token
 source openrc-alice
 export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team1.kubeconfig
 kubectl config use-context os-context-team1
-kubectl get pods
+kubectl get pods                            # yes
+kubectl auth can-i get pods                 # yes
+kubectl auth can-i get pods -n team2        # no
+kubectl auth can-i create pods              # yes
 
 # NOTE kubectl now supports using openstack environment variables
 # PR https://github.com/kubernetes/kubernetes/pull/39587
