@@ -40,8 +40,8 @@ scrape_configs:
 prepare admin.crt and admin.key files
 
 ```
-echo -n "crt string in admin.conf" | base64 -d > admin.crt
-echo -n "key string in admin.conf" | base64 -d > admin.key
+echo -n "crt string in admin.conf" | base64 -d > admin.crt && chmod 777 admin.crt
+echo -n "key string in admin.conf" | base64 -d > admin.key && chmod 777 admin.key
 ```
 
 prometheus.yaml
