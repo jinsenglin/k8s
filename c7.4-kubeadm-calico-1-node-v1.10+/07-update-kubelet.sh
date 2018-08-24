@@ -20,6 +20,7 @@ function open_10255() {
     #
     # ABOUT metrics/cadvisor
     # * https://prometheus.io/docs/guides/cadvisor/
+    # * https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-3-container-resource-metrics-361c5ee46e66
     # * curl http://localhost:10255/metrics/cadvisor | grep container_memory_usage_bytes
 
     systemctl daemon-reload
