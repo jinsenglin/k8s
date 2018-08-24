@@ -153,7 +153,7 @@ use kubectl with keystone token
 ```
 source openrc-alice
 export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team1.kubeconfig
-kubectl config use-context openstackcontext
+kubectl config use-context os-context-team1
 kubectl get pods
 
 # NOTE kubectl now supports using openstack environment variables
@@ -169,10 +169,12 @@ export OS_USERNAME=alice
 # switch to bob
 export OS_USERNAME=bob
 export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team2.kubeconfig
+kubectl config use-context os-context-team2
 
 # switch carol
 export OS_USERNAME=carol
 export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team2.kubeconfig
+kubectl config use-context os-context-team2
 ```
 
 kubectl kubeconfig file for kubectl clients from v1.11.0 and later
