@@ -1,7 +1,7 @@
 RELEASE_NAME=prometheus-node-exporter-release
 
 function create_prometheus_node_exporter() {
-    helm install stable/prometheus-node-exporter --namespace add-on --name $RELEASE_NAME
+    helm install stable/prometheus-node-exporter --version 0.3.0 --namespace add-on --name $RELEASE_NAME
     kubectl apply -f Ingress.yaml 
 }
 
