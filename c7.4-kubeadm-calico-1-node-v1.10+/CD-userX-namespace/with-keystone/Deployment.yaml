@@ -31,7 +31,7 @@ spec:
             - --keystone-url
             # - http://192.168.240.63:35357/v3  # when using ext-keystone
             - http://os-keystone:35357/v3       # when using int-keystone
-            - --v=4                             # when debugging
+            # - --v=4                           # when debugging
           volumeMounts:
             - mountPath: /etc/kubernetes/pki
               name: k8s-certs
