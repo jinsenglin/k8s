@@ -3,6 +3,11 @@
 * In this doc, accessing keystone is via http instead of https. Need check how to pass ca cert file to k8s-keystone-auth.
 * ConfigMap.yaml for authz policy doesn't work. Need debug - check log authorizer.go:197. (workaround: use k8s rbac)
   * reason: no project info nor role info passed to k8s-keystone-auth ... BUG!
+      * kubectl asks client-keystone-auth for a token
+      * -> client-keystone-auth asks keystone for a token
+      * kubectl sends a TokenReview request to kube-apiserver
+      * -> kube-apiserver sends a TokenReview request to k8s-keystone-auth
+      * -> kube-apiserver sends a SubjectAccessReview request to k8s-keystone-auth <- - - no project info nor role info passed in
   
 ```
 I0823 15:48:11.081532       1 authorizer.go:197] Authorization failed, user: u0026user.DefaultInfo{Name:\"alice\", UID:\"\", Groups:[]string{\"\", \"system:authenticated\"}, Extra:map[string][]string{\"alpha.kubernetes.io/identity/user/domain/id\":[]string{\"default\"}, \"alpha.kubernetes.io/identity/user/domain/name\":[]string{\"Default\"}, \"alpha.kubernetes.io/identity/project/id\":[]string{\"\"}, \"alpha.kubernetes.io/identity/project/name\":[]string{\"\"}}}, attributes: authorizer.AttributesRecord{User:(*user.DefaultInfo)(0xc420480b00), Verb:\"list\", Namespace:\"team1\", APIGroup:\"\", APIVersion:\"v1\", Resource:\"pods\", Subresource:\"\", Name:\"\", ResourceRequest:true, Path:\"\"}\n
@@ -16,8 +21,10 @@ Tell kube-apiserver to enable authentication-token-webhook and authorization-web
 
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
 
-1. via policy.json, like this https://github.com/kubernetes/cloud-provider-openstack/blob/master/examples/webhook/policy.json
-2. via k8s rbac, like this http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/
+1. with webhook authz
+  * k8s-keystone-auth checks SubjectAccessReview against a policy.json, like [this](https://github.com/kubernetes/cloud-provider-openstack/blob/master/examples/webhook/policy.json).
+2. without webhook authz
+  * k8s rbac like [this](http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/)
 
 # USAGE
 
