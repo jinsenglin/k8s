@@ -2,7 +2,7 @@
 
 * In this doc, accessing keystone is via http instead of https. Need check how to pass ca cert file to k8s-keystone-auth.
 * ConfigMap.yaml for authz policy doesn't work. Need debug - check log authorizer.go:197. (workaround: use k8s rbac)
-  * reason: no project info nor role info passed to k8s-keystone-auth ... BUG! (root cause: token doesn't contain project nor role info)
+  * reason: no project info nor role info passed to k8s-keystone-auth ... BUG! (root cause: token doesn't contain project nor role info) (solution: openstack user set --project team1 alice # default project is required)
       * kubectl asks client-keystone-auth for a token
       * -> client-keystone-auth asks keystone for a token
       * .. keystone log: 10.112.0.10 - - [24/Aug/2018:01:59:47 +0000] "POST /v3/auth/tokens HTTP/1.1" 201 585 "-" "gophercloud/2.0.0"
@@ -106,9 +106,9 @@ openstack project create team1
 openstack project create team2
 openstack role create k8s-admin
 openstack role create k8s-viewer
-openstack user create --password passw0rd alice
-openstack user create --password passw0rd bob
-openstack user create --password passw0rd carol
+openstack user create --password passw0rd --project team1 alice
+openstack user create --password passw0rd --project team2 bob
+openstack user create --password passw0rd --project team2 carol
 openstack role add --user alice --project team1 k8s-admin
 openstack role add --user bob --project team2 k8s-admin
 openstack role add --user carol --project team2 k8s-viewer
