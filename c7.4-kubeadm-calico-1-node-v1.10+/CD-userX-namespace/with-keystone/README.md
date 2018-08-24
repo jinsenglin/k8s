@@ -5,8 +5,13 @@
   * reason: no project info nor role info passed to k8s-keystone-auth ... BUG!
       * kubectl asks client-keystone-auth for a token
       * -> client-keystone-auth asks keystone for a token
+      * .. keystone log: 10.112.0.10 - - [24/Aug/2018:01:59:47 +0000] "POST /v3/auth/tokens HTTP/1.1" 201 585 "-" "gophercloud/2.0.0"
+      * .. 10.112.0.10 is client-keystone-auth
       * kubectl sends a TokenReview request to kube-apiserver
       * -> kube-apiserver sends a TokenReview request to k8s-keystone-auth
+      * -> -> k8s-keystone-auth asks keystone to verify the token
+      * .. .. keystone log: 192.168.0.23 - - [24/Aug/2018:01:59:47 +0000] "GET /v3/auth/tokens HTTP/1.1" 200 580 "-" "gophercloud/2.0.0"
+      * .. .. 192.168.0.23 is k8s-keystone-auth
       * -> kube-apiserver sends a SubjectAccessReview request to k8s-keystone-auth <- - - no project info nor role info passed in
   
 ```
