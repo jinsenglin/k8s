@@ -2,7 +2,7 @@
 
 * In this doc, accessing keystone is via http instead of https. Need check how to pass ca cert file to k8s-keystone-auth.
 * ConfigMap.yaml for authz policy doesn't work. Need debug - check log authorizer.go:197. (workaround: use k8s rbac)
-  * reason: no project info nor role info passed to k8s-keystone-auth ... BUG!
+  * reason: no project info nor role info passed to k8s-keystone-auth ... BUG! (root cause: token doesn't contain project nor role info)
       * kubectl asks client-keystone-auth for a token
       * -> client-keystone-auth asks keystone for a token
       * .. keystone log: 10.112.0.10 - - [24/Aug/2018:01:59:47 +0000] "POST /v3/auth/tokens HTTP/1.1" 201 585 "-" "gophercloud/2.0.0"
@@ -12,10 +12,18 @@
       * -> -> k8s-keystone-auth asks keystone to verify the token
       * .. .. keystone log: 192.168.0.23 - - [24/Aug/2018:01:59:47 +0000] "GET /v3/auth/tokens HTTP/1.1" 200 580 "-" "gophercloud/2.0.0"
       * .. .. 192.168.0.23 is k8s-keystone-auth
-      * -> kube-apiserver sends a SubjectAccessReview request to k8s-keystone-auth <- - - no project info nor role info passed in
-  
+      * .. k8s-keystone-auth log (keystone.go:265): authenticateToken <- - - no project info nor role info resovled
+      * -> kube-apiserver sends a SubjectAccessReview request to k8s-keystone-auth
+      * .. k8s-keystone-auth log (authorizer.go:197): Authorization failed <- - - no project info nor role info passed in
+
+k8s-keystone-auth log (keystone.go:265)
 ```
-I0823 15:48:11.081532       1 authorizer.go:197] Authorization failed, user: u0026user.DefaultInfo{Name:\"alice\", UID:\"\", Groups:[]string{\"\", \"system:authenticated\"}, Extra:map[string][]string{\"alpha.kubernetes.io/identity/user/domain/id\":[]string{\"default\"}, \"alpha.kubernetes.io/identity/user/domain/name\":[]string{\"Default\"}, \"alpha.kubernetes.io/identity/project/id\":[]string{\"\"}, \"alpha.kubernetes.io/identity/project/name\":[]string{\"\"}}}, attributes: authorizer.AttributesRecord{User:(*user.DefaultInfo)(0xc420480b00), Verb:\"list\", Namespace:\"team1\", APIGroup:\"\", APIVersion:\"v1\", Resource:\"pods\", Subresource:\"\", Name:\"\", ResourceRequest:true, Path:\"\"}\n
+authenticateToken : b399a374aeb24a48a5689525ce8a1b8d, &{alice b91698c922a646d88a890370031cf95a [] map[alpha.kubernetes.io/identity/roles:[] alpha.kubernetes.io/identity/project/id:[] alpha.kubernetes.io/identity/project/name:[] alpha.kubernetes.io/identity/user/domain/id:[default] alpha.kubernetes.io/identity/user/domain/name:[Default]]}
+```
+ 
+k8s-keystone-auth log (authorizer.go:197)
+```
+Authorization failed, user: &user.DefaultInfo{Name:"alice", UID:"", Groups:[]string{"", "system:authenticated"}, Extra:map[string][]string{"alpha.kubernetes.io/identity/user/domain/name":[]string{"Default"}, "alpha.kubernetes.io/identity/project/id":[]string{""}, "alpha.kubernetes.io/identity/project/name":[]string{""}, "alpha.kubernetes.io/identity/user/domain/id":[]string{"default"}}}, attributes: authorizer.AttributesRecord{User:(*user.DefaultInfo)(0xc420698ec0), Verb:"list", Namespace:"team1", APIGroup:"", APIVersion:"v1", Resource:"pods", Subresource:"", Name:"", ResourceRequest:true, Path:""}
 ```
   
 # NEED
