@@ -3,8 +3,8 @@ yum install -y docker
 systemctl enable docker && systemctl start docker
 
 docker pull prom/prometheus:v2.3.2
-docker run -d --restart always --name prom -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:v2.3.2
-# docker run -d --restart always --name prom -p 9090:9090 -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml --dns=10.112.0.4 --dns=8.8.8.8 prom/prometheus:v2.3.2
+docker run -d --restart always --name prom -p 9090:9090 -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus:v2.3.2
+# docker run -d --restart always --name prom -p 9090:9090 -v $PWD/prometheus.yml:/etc/prometheus/prometheus.yml -v $PWD:/etc/kubernetes/pki prom/prometheus:v2.3.2
 
 # verify
 # curl http://127.0.0.1:9090/
@@ -35,7 +35,16 @@ scrape_configs:
       # targets: ['localhost:9090', 'prometheus-node-exporter.add-on.k8s.local:80', 'kube-state-metrics.add-on.k8s.local:80']
 ```
 
-# TODO
+# Enable kubernetes_sd_config
+
+prepare admin.crt and admin.key files
+
+```
+echo -n "crt string in admin.conf" | base64 -d > admin.crt
+echo -n "key string in admin.conf" | base64 -d > admin.key
+```
+
+prometheus.yaml
 
 ```
 scrape_configs:
@@ -43,11 +52,10 @@ scrape_configs:
 
     kubernetes_sd_configs:
     - role: pod
-      api_server: 10.112.0.10:6443
+      api_server: https://10.112.0.10:6443
       tls_config:
-        ca_file: ?
-        cert_file: ?
-        key_file: ?
+        cert_file: /etc/kubernetes/pki/admin.crt
+        key_file: /etc/kubernetes/pki/admin.key
         insecure_skip_verify: true
 ```
 
