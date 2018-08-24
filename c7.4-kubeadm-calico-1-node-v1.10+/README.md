@@ -25,6 +25,10 @@ service-node-port-range 30000-32767 (default)
 
 haproxy (http/https) * ingress (http/https) * svc (http/https) = 8 combinations
 
+logs pipeline starts from docker
+
+metrics pipeline starts from kubelet (cadvisor)
+
 # v1.11.1 (b. coredns)
 
 Node Taints
