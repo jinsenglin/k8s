@@ -10,7 +10,7 @@ create index
 ```
 open http://localhost:5601
 
-# A. for prior to fluent-bit-0.9.0
+# A. for fluent-bit-0.6.0
 # step 1 :: create index pattern "kubernetes_cluster-*"
 # step 2 :: select time filter field name, available options:
   * @timestamp (try this one)

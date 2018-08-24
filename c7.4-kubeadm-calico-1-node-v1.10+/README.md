@@ -25,55 +25,6 @@ service-node-port-range 30000-32767 (default)
 
 haproxy (http/https) * ingress (http/https) * svc (http/https) = 8 combinations
 
-# v1.10.5
-
-DaemonSet
-
-* calico-node
-* kube-proxy
-
-Deployment
-
-* kube-dns
-
-Static Pod
-
-* etcd
-* kube-apiserver
-* kube-controller-manager
-* kube-scheduler
-
-Native Process
-
-* kubelet
-
-# v1.11.1 (a. kube-dns)
-
-Node Taints
-
-* "key": "node-role.kubernetes.io/master"
-  * "effect": "NoSchedule"
-
-DaemonSet
-
-* calico-node
-* kube-proxy
-
-Deployment
-
-* kube-dns
-
-Static Pod
-
-* etcd
-* kube-apiserver
-* kube-controller-manager
-* kube-scheduler
-
-Native Process
-
-* kubelet
-
 # v1.11.1 (b. coredns)
 
 Node Taints
