@@ -10,14 +10,14 @@ create index
 ```
 open http://localhost:5601
 
-# A.
+# A. for prior to fluent-bit-0.9.0
 # step 1 :: create index pattern "kubernetes_cluster-*"
 # step 2 :: select time filter field name, available options:
   * @timestamp (try this one)
   * kubernetes.annotations.kubernetes_io/config_seen
   * time
 
-# B.
+# B. for fluent-bit-0.9.0
 # step 1 :: create index pattern "logstash-*"
 # step 2 :: select time filter field name, available options:
   * @timestamp (try this one)
