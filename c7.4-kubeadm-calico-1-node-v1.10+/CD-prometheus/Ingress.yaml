@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: prometheus-ingress
+  namespace: add-on
+spec:
+  rules:
+  - host: prometheus.add-on.k8s.local
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: prometheus-release-server
+          servicePort: 80
