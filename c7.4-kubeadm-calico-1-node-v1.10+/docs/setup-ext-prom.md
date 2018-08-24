@@ -39,3 +39,10 @@ scrape_configs:
 
 * [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#%3Ckubernetes_sd_config%3E)
 * [examples/prometheus-kubernetes.yml](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
+  * job_name: 'kubernetes-apiservers'
+  * job_name: 'kubernetes-nodes'
+  * job_name: 'kubernetes-cadvisor'
+  * job_name: 'kubernetes-service-endpoints'
+  * job_name: 'kubernetes-services'
+  * job_name: 'kubernetes-ingresses'
+  * job_name: 'kubernetes-pods'
