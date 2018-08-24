@@ -174,7 +174,7 @@ export OS_USERNAME=bob
 export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team2.kubeconfig
 kubectl config use-context os-context-team2
 
-# switch carol
+# switch to carol
 export OS_USERNAME=carol
 export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team2.kubeconfig
 kubectl config use-context os-context-team2
