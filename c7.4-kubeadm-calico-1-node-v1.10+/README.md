@@ -25,9 +25,11 @@ service-node-port-range 30000-32767 (default)
 
 haproxy (http/https) * ingress (http/https) * svc (http/https) = 8 combinations
 
-logs pipeline starts from docker
+container logs pipeline starts from docker
 
-metrics pipeline starts from kubelet (cadvisor)
+container metrics pipeline starts from kubelet (cadvisor)
+
+node metrics pipeline starts from node-exporter
 
 # v1.11.1 (b. coredns)
 
