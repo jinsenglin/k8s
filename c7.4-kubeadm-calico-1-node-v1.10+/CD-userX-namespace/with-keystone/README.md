@@ -25,6 +25,61 @@ k8s-keystone-auth log (authorizer.go:197)
 ```
 Authorization failed, user: &user.DefaultInfo{Name:"alice", UID:"", Groups:[]string{"", "system:authenticated"}, Extra:map[string][]string{"alpha.kubernetes.io/identity/user/domain/name":[]string{"Default"}, "alpha.kubernetes.io/identity/project/id":[]string{""}, "alpha.kubernetes.io/identity/project/name":[]string{""}, "alpha.kubernetes.io/identity/user/domain/id":[]string{"default"}}}, attributes: authorizer.AttributesRecord{User:(*user.DefaultInfo)(0xc420698ec0), Verb:"list", Namespace:"team1", APIGroup:"", APIVersion:"v1", Resource:"pods", Subresource:"", Name:"", ResourceRequest:true, Path:""}
 ```
+
+manually sends a token review for b399a374aeb24a48a5689525ce8a1b8d
+```
+TOKEN=b399a374aeb24a48a5689525ce8a1b8d
+cat <<EOF | curl -ks -XPOST -d @- https://10.112.0.10:31443/webhook
+{
+  "apiVersion": "authentication.k8s.io/v1beta1",
+  "kind": "TokenReview",
+  "metadata": {
+    "creationTimestamp": null
+  },
+  "spec": {
+    "token": "$TOKEN"
+  }
+}
+EOF
+
+# result ( NO PROJECT! NOR ROLE! )
+{
+  "apiVersion": "authentication.k8s.io/v1beta1",
+  "kind": "TokenReview",
+  "metadata": {
+    "creationTimestamp": null
+  },
+  "spec": {
+    "token": "b399a374aeb24a48a5689525ce8a1b8d"
+  },
+  "status": {
+    "authenticated": true,
+    "user": {
+      "username": "alice",
+      "uid": "b91698c922a646d88a890370031cf95a",
+      "groups": [
+        ""
+      ],
+      "extra": {
+        "alpha.kubernetes.io/identity/project/id": [
+          ""
+        ],
+        "alpha.kubernetes.io/identity/project/name": [
+          ""
+        ],
+        "alpha.kubernetes.io/identity/roles": [],
+        "alpha.kubernetes.io/identity/user/domain/id": [
+          "default"
+        ],
+        "alpha.kubernetes.io/identity/user/domain/name": [
+          "Default"
+        ]
+      }
+    }
+  }
+}
+```
+
   
 # NEED
 
