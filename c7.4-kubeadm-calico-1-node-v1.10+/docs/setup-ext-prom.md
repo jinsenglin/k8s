@@ -38,6 +38,11 @@ scrape_configs:
 # Additional Resources
 
 * [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#%3Ckubernetes_sd_config%3E)
+  * role: node
+  * role: service
+  * role: pod
+  * role: endpoints
+  * role: ingress
 * [examples/prometheus-kubernetes.yml](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
   * job_name: 'kubernetes-apiservers'
   * job_name: 'kubernetes-nodes'
