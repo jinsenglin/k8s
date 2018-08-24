@@ -12,11 +12,11 @@ function open_10255() {
     #
     
     # USAGE
-    # http://localhost:10255/metrics/           # kubelet internal server
-    # http://localhost:10255/metrics/cadvisor   # kubelet internal server
-    # http://localhost:10255/pods/              # kubelet internal server
-    # http://localhost:10255/stats/             # kubelet internal server
-    # http://localhost:10255/stats/summary      # kubelet internal server
+    # curl http://localhost:10255/metrics/
+    # curl http://localhost:10255/metrics/cadvisor
+    # curl http://localhost:10255/pods/
+    # curl http://localhost:10255/stats/
+    # curl http://localhost:10255/stats/summary
     #
     # ABOUT metrics/cadvisor
     # * https://prometheus.io/docs/guides/cadvisor/
