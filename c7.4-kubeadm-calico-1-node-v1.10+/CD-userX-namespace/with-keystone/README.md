@@ -152,7 +152,7 @@ use kubectl with keystone token
 
 ```
 source openrc-alice
-export KUBECONFIG=$KUBECONFIG:$PWD/openstackcontext.kubeconfig
+export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team1.kubeconfig
 kubectl config use-context openstackcontext
 kubectl get pods
 
@@ -165,6 +165,14 @@ export OS_AUTH_URL=http://10.112.0.10:31357/v3
 export OS_DOMAIN_NAME=default
 export OS_PASSWORD=passw0rd
 export OS_USERNAME=alice
+
+# switch to bob
+export OS_USERNAME=bob
+export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team2.kubeconfig
+
+# switch carol
+export OS_USERNAME=carol
+export KUBECONFIG=$KUBECONFIG:$PWD/os-context-team2.kubeconfig
 ```
 
 kubectl kubeconfig file for kubectl clients from v1.11.0 and later
