@@ -10,8 +10,8 @@ Tell kube-apiserver to enable authentication-token-webhook and authorization-web
 
 When using dims/k8s-keystone-auth, there are two ways to configure permissions
 
-1 with webhook authz: k8s-keystone-auth checks SubjectAccessReview against a policy.json, like [this](https://github.com/kubernetes/cloud-provider-openstack/blob/master/examples/webhook/policy.json).
-2 without webhook authz: k8s rbac like [this](http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/)
+1. with webhook authz: k8s-keystone-auth checks SubjectAccessReview against a policy.json, like [this](https://github.com/kubernetes/cloud-provider-openstack/blob/master/examples/webhook/policy.json).
+2. without webhook authz: uses k8s rbac like [this](http://superuser.openstack.org/articles/keystone-authentication-kubernetes-cluster/)
 
 # USAGE
 
