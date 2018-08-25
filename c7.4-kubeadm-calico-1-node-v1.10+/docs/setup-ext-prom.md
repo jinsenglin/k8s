@@ -102,3 +102,5 @@ Explain
   * https://www.slideshare.net/inwinstack/prometheus-kubernetes-cluster
   * https://groups.google.com/forum/#!topic/prometheus-users/yQxNzwHrc8o
   * https://groups.google.com/forum/#!topic/prometheus-users/eaoPBsYrNlQ
+  * https://github.com/joar/k8s-pv-disk-usage-exporter
+  * https://www.cnblogs.com/lykops/p/8263120.html
