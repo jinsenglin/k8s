@@ -13,7 +13,7 @@ function open_10255() {
     
     # ABOUT PORT 10255
     # The read-only port for the Kubelet to serve on with no authentication/authorization (set to 0 to disable)
-    # server source code https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/server/server.go
+    # HTTP server source code https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/server/server.go
     
     # USAGE
     # curl http://localhost:10255/healthz
