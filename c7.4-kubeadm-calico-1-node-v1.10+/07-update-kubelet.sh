@@ -68,6 +68,20 @@ function open_10255() {
     # * https://prometheus.io/docs/guides/cadvisor/
     # * https://blog.outlyer.com/top-kubernetes-metrics-to-monitor
     # * https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-3-container-resource-metrics-361c5ee46e66
+    #
+    # ABOUT metric 'container_network_transmit_bytes_total'
+    # curl http://localhost:10255/metrics/cadvisor | grep container_network_transmit_bytes_total
+    # prometheus query language
+    # * container_network_transmit_bytes_total{job="cadvisor"}
+    #   * only list usage by namespace ::
+    #   * only list usage by pod in a given ns ::
+    #   * only list usage by container in a given ns ::
+    #   * only list usage by pod in a given deploy ::
+    #
+    # * https://prometheus.io/docs/guides/cadvisor/
+    # * https://blog.outlyer.com/top-kubernetes-metrics-to-monitor
+    # * https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-3-container-resource-metrics-361c5ee46e66
+    
 
     systemctl daemon-reload
     systemctl restart kubelet
