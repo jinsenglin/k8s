@@ -64,6 +64,8 @@ function open_10255() {
     #   * only list usage by pod in a given ns :: rate(container_cpu_usage_seconds_total{job="cadvisor",namespace="add-on",container_name!~".+"}[1m])
     #   * only list usage by container in a given ns :: rate(container_cpu_usage_seconds_total{job="cadvisor",namespace="add-on",container_name=~".+"}[1m])
     #   * only list usage by pod in a given deploy :: NOT AVAILABLE
+    #
+    # * https://prometheus.io/docs/guides/cadvisor/
 
     systemctl daemon-reload
     systemctl restart kubelet
