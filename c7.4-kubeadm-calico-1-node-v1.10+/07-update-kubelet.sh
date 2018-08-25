@@ -16,15 +16,15 @@ function open_10255() {
     # HTTP server source code https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/server/server.go
     
     # USAGE
-    # curl http://localhost:10255/healthz
-    # curl http://localhost:10255/metrics/
-    # curl http://localhost:10255/metrics/probes
-    # curl http://localhost:10255/metrics/cadvisor
-    # curl http://localhost:10255/spec/
-    # curl http://localhost:10255/pods/
+    # curl http://localhost:10255/healthz           # output format: text
+    # curl http://localhost:10255/metrics           # output format: prom
+    # curl http://localhost:10255/metrics/probes    # output format: prom
+    # curl http://localhost:10255/metrics/cadvisor  # output format: prom
+    # curl http://localhost:10255/spec/             # output format: json
+    # curl http://localhost:10255/pods/             # output format: json
     # curl http://localhost:10255/logs/
-    # curl http://localhost:10255/stats/
-    # curl http://localhost:10255/stats/summary
+    # curl http://localhost:10255/stats/            # output format: json
+    # curl http://localhost:10255/stats/summary     # output format: json
     #
     # ABOUT spec/ pods/, metrics/, /metrics/cadvisor
     # * https://medium.com/jorgeacetozi/kubernetes-node-components-service-proxy-kubelet-and-cadvisor-dcc6928ef58c
