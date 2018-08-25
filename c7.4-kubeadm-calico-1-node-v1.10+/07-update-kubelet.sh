@@ -13,15 +13,21 @@ function open_10255() {
     
     # ABOUT PORT 10255
     # The read-only port for the Kubelet to serve on with no authentication/authorization (set to 0 to disable)
+    # server source code https://github.com/kubernetes/kubernetes/blob/master/pkg/kubelet/server/server.go
     
     # USAGE
     # curl http://localhost:10255/healthz
     # curl http://localhost:10255/metrics/
+    # curl http://localhost:10255/metrics/probes
     # curl http://localhost:10255/metrics/cadvisor
     # curl http://localhost:10255/spec/
     # curl http://localhost:10255/pods/
+    # curl http://localhost:10255/logs/
     # curl http://localhost:10255/stats/
     # curl http://localhost:10255/stats/summary
+    #
+    # ABOUT spec/ pods/, metrics/, /metrics/cadvisor
+    # * https://medium.com/jorgeacetozi/kubernetes-node-components-service-proxy-kubelet-and-cadvisor-dcc6928ef58c
     #
     # ABOUT spec/ pods/
     # * http://cizixs.com/2016/10/25/kubernetes-intro-kubelet
