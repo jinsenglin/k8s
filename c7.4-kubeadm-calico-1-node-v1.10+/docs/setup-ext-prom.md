@@ -45,6 +45,10 @@ scrape_configs:
     metrics_path: /metrics/cadvisor
 ```
 
+Explain
+
+* Relabeling is a powerful tool to dynamically rewrite the label set of a target **before** it gets scraped.
+
 # Enable kubernetes_sd_config
 
 prepare admin.crt and admin.key files
