@@ -100,3 +100,4 @@ Explain
   * https://www.slideshare.net/inwinstack/prometheus-kubernetes-cluster
 * pod filesystem
   * https://www.slideshare.net/inwinstack/prometheus-kubernetes-cluster
+  * https://groups.google.com/forum/#!topic/prometheus-users/yQxNzwHrc8o
