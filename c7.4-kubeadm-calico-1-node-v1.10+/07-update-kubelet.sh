@@ -42,6 +42,7 @@ function open_10255() {
     # ABOUT metric 'container_memory_usage_bytes'
     #
     # curl http://localhost:10255/metrics/cadvisor | grep container_memory_usage_bytes
+    # prometheus query language :: container_memory_usage_bytes{job="cadvisor",namespace="add-on"}
     #
     # * https://prometheus.io/docs/guides/cadvisor/
     # * https://blog.outlyer.com/top-kubernetes-metrics-to-monitor
