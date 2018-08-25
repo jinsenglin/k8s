@@ -31,6 +31,8 @@ container metrics pipeline starts from kubelet (cadvisor)
 
 node metrics pipeline starts from node-exporter
 
+k8s objects pipeline starts from etcd
+
 # v1.11.1 (b. coredns)
 
 Node Taints
