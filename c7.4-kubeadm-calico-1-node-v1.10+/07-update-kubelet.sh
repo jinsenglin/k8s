@@ -86,9 +86,9 @@ function open_10255() {
     # curl http://localhost:10255/metrics/cadvisor | grep container_fs_writes_bytes_total
     # prometheus query language
     # * container_fs_writes_bytes_total{job="cadvisor"}
-    #   * only list usage by namespace :: 
-    #   * only list usage by pod in a given ns ::
-    #   * only list usage by container in a given ns ::
+    #   * only list usage by namespace :: sum(rate(container_fs_writes_bytes_total{job="cadvisor",namespace=~".+",container_name!~".+"}[1m])) by (namespace)
+    #   * only list usage by pod in a given ns :: rate(container_fs_writes_bytes_total{job="cadvisor",namespace="add-on",container_name!~".+"}[1m])
+    #   * only list usage by container in a given ns :: rate(container_fs_writes_bytes_total{job="cadvisor",namespace="add-on",container_name=~".+"}[1m])
     #   * only list usage by pod in a given deploy :: NOT AVAILABLE
     #
     # * https://blog.outlyer.com/top-kubernetes-metrics-to-monitor
