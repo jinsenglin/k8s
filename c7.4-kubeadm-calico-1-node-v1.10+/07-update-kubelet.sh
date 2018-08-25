@@ -43,7 +43,7 @@ function open_10255() {
     #
     # curl http://localhost:10255/metrics/cadvisor | grep container_memory_usage_bytes
     # prometheus query language
-    # * container_memory_usage_bytes{job="cadvisor",namespace="add-on"}
+    # * container_memory_usage_bytes{job="cadvisor"}
     #   * only list usage by namespace :: sum(container_memory_usage_bytes{job="cadvisor",namespace=~".+",container_name!~".+"}) by (namespace)  
     #   * only list usage by pod in a given ns :: container_memory_usage_bytes{job="cadvisor",namespace="add-on",container_name!~".+"}
     #   * only list usage by container in a given ns :: container_memory_usage_bytes{job="cadvisor",namespace="add-on",container_name=~".+"}
