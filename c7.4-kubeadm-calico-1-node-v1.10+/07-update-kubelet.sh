@@ -24,7 +24,7 @@ function open_10255() {
     # curl http://localhost:10255/pods/             # output format: json
     # curl http://localhost:10255/logs/
     # curl http://localhost:10255/stats/            # output format: json
-    # curl http://localhost:10255/stats/summary     # output format: json
+    # curl http://localhost:10255/stats/summary     # output format: json (includes pod volume capacity and usage)
     #
     # ABOUT spec/ pods/, metrics/, /metrics/cadvisor
     # * https://medium.com/jorgeacetozi/kubernetes-node-components-service-proxy-kubelet-and-cadvisor-dcc6928ef58c
