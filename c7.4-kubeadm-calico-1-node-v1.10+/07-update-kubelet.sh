@@ -73,8 +73,8 @@ function open_10255() {
     # curl http://localhost:10255/metrics/cadvisor | grep container_network_transmit_bytes_total
     # prometheus query language
     # * container_network_transmit_bytes_total{job="cadvisor"}
-    #   * only list usage by namespace :: sum(rate(container_network_transmit_bytes_total{job="cadvisor",namespace=~".+",container_name!~".+"}[1m])) by (namespace)  
-    #   * only list usage by pod in a given ns :: rate(container_network_transmit_bytes_total{job="cadvisor",namespace="add-on",container_name!~".+"}[1m])
+    #   * only list usage by namespace :: sum(rate(container_network_transmit_bytes_total{job="cadvisor",namespace=~".+",container_name=~".+"}[1m])) by (namespace)  
+    #   * only list usage by pod in a given ns :: sum(rate(container_network_transmit_bytes_total{job="cadvisor",namespace="add-on",container_name=~".+"}[1m])) by (pod_name)
     #   * only list usage by container in a given ns :: rate(container_network_transmit_bytes_total{job="cadvisor",namespace="add-on",container_name=~".+"}[1m])
     #   * only list usage by pod in a given deploy :: NOT AVAILABLE
     #
