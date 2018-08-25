@@ -11,9 +11,13 @@ function open_10255() {
     # TO-BE ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS --read-only-port=10255
     #
     
+    # ABOUT PORT 10255
+    # The read-only port for the Kubelet to serve on with no authentication/authorization (set to 0 to disable)
+    
     # USAGE
     # curl http://localhost:10255/metrics/
     # curl http://localhost:10255/metrics/cadvisor
+    # curl http://localhost:10255/spec/
     # curl http://localhost:10255/pods/
     # curl http://localhost:10255/stats/
     # curl http://localhost:10255/stats/summary
