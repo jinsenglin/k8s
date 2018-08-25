@@ -27,11 +27,11 @@ haproxy (http/https) * ingress (http/https) * svc (http/https) = 8 combinations
 
 container logs pipeline starts from docker
 
-container metrics pipeline starts from kubelet (cadvisor) [[metrics list](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md)] [[metrics dimensions](https://docs.signalfx.com/en/latest/integrations/agent/monitors/cadvisor.html)]
+container metrics pipeline starts from kubelet (cadvisor) (metric prefix: container_) [[metrics list](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md)] [[metrics dimensions](https://docs.signalfx.com/en/latest/integrations/agent/monitors/cadvisor.html)]
 
-node metrics pipeline starts from node-exporter
+node metrics pipeline starts from node-exporter (metric prefix: node_)
 
-k8s objects pipeline starts from etcd
+k8s objects pipeline starts from etcd (metric prefix: kube_)
 
 # v1.11.1 (b. coredns)
 
