@@ -96,3 +96,5 @@ Explain
       * kubernetes_sd_config :: role: ingress
   * job_name: 'kubernetes-pods'
       * kubernetes_sd_config :: role: pod
+* others
+  * https://www.slideshare.net/inwinstack/prometheus-kubernetes-cluster
