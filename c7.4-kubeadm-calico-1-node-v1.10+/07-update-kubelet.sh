@@ -90,6 +90,7 @@ function open_10255() {
     #   * only list usage by pod in a given ns :: sum(rate(container_fs_writes_bytes_total{job="cadvisor",namespace="add-on",pod_name=~".+",container_name=~".+"}[1m])) by (pod_name)
     #   * only list usage by container in a given ns :: rate(container_fs_writes_bytes_total{job="cadvisor",namespace="add-on",container_name=~".+"}[1m])
     #   * only list usage by pod in a given deploy :: NOT AVAILABLE
+    # ONLY etcd pod has non-zero value. (my case)
     #
     # * https://blog.outlyer.com/top-kubernetes-metrics-to-monitor
     # * https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-3-container-resource-metrics-361c5ee46e66
