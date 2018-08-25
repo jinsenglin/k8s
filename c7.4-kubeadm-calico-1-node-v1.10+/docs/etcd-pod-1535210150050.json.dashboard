@@ -178,6 +178,24 @@
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
+        },
+        {
+          "expr": "node_filesystem_size{device=\"rootfs\",mountpoint=\"/\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "B"
+        },
+        {
+          "expr": "node_filesystem_avail{device=\"rootfs\",mountpoint=\"/\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "C"
+        },
+        {
+          "expr": "node_filesystem_free{device=\"rootfs\",mountpoint=\"/\"}",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "D"
         }
       ],
       "thresholds": [],
@@ -514,5 +532,5 @@
   "timezone": "",
   "title": "etcd-pod",
   "uid": "VdgzJupmz",
-  "version": 10
+  "version": 14
 }
