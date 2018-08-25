@@ -66,6 +66,8 @@ function open_10255() {
     #   * only list usage by pod in a given deploy :: NOT AVAILABLE
     #
     # * https://prometheus.io/docs/guides/cadvisor/
+    # * https://blog.outlyer.com/top-kubernetes-metrics-to-monitor
+    # * https://blog.freshtracks.io/a-deep-dive-into-kubernetes-metrics-part-3-container-resource-metrics-361c5ee46e66
 
     systemctl daemon-reload
     systemctl restart kubelet
