@@ -83,9 +83,16 @@ scrape_configs:
   * role: ingress
 * [examples/prometheus-kubernetes.yml](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)
   * job_name: 'kubernetes-apiservers'
+      * kubernetes_sd_config :: role: endpoints
   * job_name: 'kubernetes-nodes'
+      * kubernetes_sd_config :: role: node
   * job_name: 'kubernetes-cadvisor'
+      * kubernetes_sd_config :: role: node
   * job_name: 'kubernetes-service-endpoints'
+      * kubernetes_sd_config :: role: endpoints
   * job_name: 'kubernetes-services'
+      * kubernetes_sd_config :: role: service
   * job_name: 'kubernetes-ingresses'
+      * kubernetes_sd_config :: role: ingress
   * job_name: 'kubernetes-pods'
+      * kubernetes_sd_config :: role: pod
