@@ -1,16 +1,16 @@
 Demo
 
 ```
-cat <<YAML | kubectl apply -f -
+cat <<YAML | kubectl create -f -
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: block-pvc
+  name: fs-pvc
 spec:
   accessModes:
     - ReadWriteOnce
-  volumeMode: Block
+  volumeMode: Filesystem
   resources:
     requests:
       storage: 1Gi
@@ -20,20 +20,20 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: pod-with-block-volume
+  name: pod-with-fs-volume
 spec:
   containers:
     - name: fc-container
       image: fedora:26
       command: ["/bin/sh", "-c"]
       args: [ "tail -f /dev/null" ]
-      volumeDevices:
-        - name: data
-          devicePath: /dev/xvda
+      volumeMounts:
+      - mountPath: "/data"
+        name: data
   volumes:
     - name: data
       persistentVolumeClaim:
-        claimName: block-pvc
+        claimName: fs-pvc
 
 YAML
 ```
