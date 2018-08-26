@@ -43,6 +43,16 @@ scrape_configs:
       - targets: ['10.112.0.10:10255']
 
     metrics_path: /metrics/cadvisor
+
+  - job_name: 'kubelet'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['10.112.0.10:10255']
+
+    metrics_path: /metrics
 ```
 
 # Enable kubernetes_sd_config
