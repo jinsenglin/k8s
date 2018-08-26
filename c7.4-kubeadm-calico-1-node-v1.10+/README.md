@@ -29,6 +29,8 @@ container logs pipeline starts from docker
 
 container metrics pipeline starts from kubelet (cadvisor) (metric prefix: container_) [[metrics list](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md)] [[metrics dimensions](https://docs.signalfx.com/en/latest/integrations/agent/monitors/cadvisor.html)]
 
+volume metrics pipeline starts from kubelet (metric prefix: kubelet_volume_)
+
 node metrics pipeline starts from node-exporter (metric prefix: node_) [[metrics list](http://yjph83.iteye.com/blog/2394093)]
 
 k8s objects pipeline starts from etcd (metric prefix: kube_)
