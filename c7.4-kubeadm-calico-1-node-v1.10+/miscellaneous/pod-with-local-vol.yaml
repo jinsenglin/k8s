@@ -1,0 +1,67 @@
+# https://kubernetes.io/docs/concepts/storage/volumes/#local
+# https://github.com/kubernetes-incubator/external-storage/tree/master/local-volume
+#
+# [ Prerequisites ]
+# kubectl create -f https://raw.githubusercontent.com/kubernetes-incubator/external-storage/master/local-volume/provisioner/deployment/kubernetes/example/default_example_storageclass.yaml
+# for vol in vol1 vol2 vol3; do mkdir /mnt/disks/$vol; mount -t tmpfs $vol /mnt/disks/$vol; done
+# 
+# [ Cleanup ]
+# # for vol in vol1 vol2 vol3; do umount -t /mnt/disks/$vol; rm -rf /mnt/disks/$vol; done
+# for vol in vol1 vol2 vol3; do umount -t /mnt/disks/$vol; rmdir /mnt/disks/$vol; done
+# kubectl delete -f https://raw.githubusercontent.com/kubernetes-incubator/external-storage/master/local-volume/provisioner/deployment/kubernetes/example/default_example_storageclass.yaml
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: local-pv
+spec:
+  capacity:
+    storage: 1Gi
+  # volumeMode field requires BlockVolume Alpha feature gate to be enabled.
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: fast-disks
+  local:
+    path: /mnt/disks/vol1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - k8s
+
+---
+
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: local-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: fast-disks
+
+---
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod-with-local-vol
+spec:
+  containers:
+  - image: nginx:stable
+    name: nginx
+    volumeMounts:
+    - mountPath: /cache
+      name: cache
+  volumes:
+  - name: cache
+    persistentVolumeClaim:
+      claimName: local-pvc
