@@ -33,6 +33,7 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
       # targets: ['localhost:9090', 'prometheus-node-exporter.add-on.k8s.local:80', 'kube-state-metrics.add-on.k8s.local:80']
+      # targets: ['localhost:9090', '10.112.0.10:9100', 'kube-state-metrics.add-on.k8s.local:80']
 
   - job_name: 'cadvisor'
 
