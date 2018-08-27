@@ -33,7 +33,22 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
       # targets: ['localhost:9090', 'prometheus-node-exporter.add-on.k8s.local:80', 'kube-state-metrics.add-on.k8s.local:80']
-      # targets: ['localhost:9090', '10.112.0.10:9100', 'kube-state-metrics.add-on.k8s.local:80']
+
+  - job_name: 'node'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['10.112.0.10:9100']
+
+  - job_name: 'kubelet'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['10.112.0.10:10255']
 
   - job_name: 'cadvisor'
 
@@ -44,16 +59,6 @@ scrape_configs:
       - targets: ['10.112.0.10:10255']
 
     metrics_path: /metrics/cadvisor
-
-  - job_name: 'kubelet'
-
-    # Override the global default and scrape targets from this job every 5 seconds.
-    scrape_interval: 5s
-
-    static_configs:
-      - targets: ['10.112.0.10:10255']
-
-    metrics_path: /metrics
 ```
 
 # Enable kubernetes_sd_config
