@@ -31,8 +31,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['localhost:9090']
-      # targets: ['localhost:9090', 'prometheus-node-exporter.add-on.k8s.local:80', 'kube-state-metrics.add-on.k8s.local:80']
+      - targets: ['localhost:9090', 'kube-state-metrics.add-on.k8s.local:80']
 
   - job_name: 'node'
 
