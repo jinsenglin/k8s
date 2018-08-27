@@ -7,7 +7,7 @@
 # 
 # [ Cleanup ]
 # # for vol in vol1 vol2 vol3; do umount -t /mnt/disks/$vol; rm -rf /mnt/disks/$vol; done
-# for vol in vol1 vol2 vol3; do umount -t /mnt/disks/$vol; rmdir /mnt/disks/$vol; done
+# for vol in vol1 vol2 vol3; do umount /mnt/disks/$vol; rmdir /mnt/disks/$vol; done
 # kubectl delete -f https://raw.githubusercontent.com/kubernetes-incubator/external-storage/master/local-volume/provisioner/deployment/kubernetes/example/default_example_storageclass.yaml
 
 kind: PersistentVolume
