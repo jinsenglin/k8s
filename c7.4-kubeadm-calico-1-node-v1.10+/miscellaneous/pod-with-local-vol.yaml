@@ -3,7 +3,7 @@
 #
 # [ Prerequisites ]
 # kubectl create -f https://raw.githubusercontent.com/kubernetes-incubator/external-storage/master/local-volume/provisioner/deployment/kubernetes/example/default_example_storageclass.yaml
-# for vol in vol1 vol2 vol3; do mkdir /mnt/disks/$vol; mount -t tmpfs $vol /mnt/disks/$vol; done
+# for vol in vol1 vol2 vol3; do mkdir -p /mnt/disks/$vol; mount -t tmpfs $vol /mnt/disks/$vol; done
 # 
 # [ Cleanup ]
 # # for vol in vol1 vol2 vol3; do umount -t /mnt/disks/$vol; rm -rf /mnt/disks/$vol; done
