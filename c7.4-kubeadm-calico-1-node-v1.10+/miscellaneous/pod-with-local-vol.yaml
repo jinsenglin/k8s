@@ -46,6 +46,7 @@ spec:
   resources:
     requests:
       storage: 1Gi
+  volumeMode: Filesystem
   storageClassName: fast-disks
 
 ---
